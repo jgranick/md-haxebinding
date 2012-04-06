@@ -1,0 +1,157 @@
+<SyntaxMode name="Haxe" mimeTypes="text/x-haxe">
+	
+	<Property name="LineComment">//</Property>
+	<Property name="BlockCommentStart">/*</Property>
+	<Property name="BlockCommentEnd">*/</Property>
+	<Property name="StringQuote">"</Property>
+	<Property name="StringQuote">'</Property>
+	
+	<EolSpan color = "text.preprocessor" rule="text.preprocessor">#</EolSpan>
+	<EolSpan color = "comment.line" rule="Comment" tagColor="comment.tag.line">//</EolSpan>
+	
+	<Span color = "comment" rule="Comment">
+		<Begin>/*</Begin>
+		<End>*/</End>
+	</Span>
+
+	<Span color = "string.double" rule="String" stopateol = "true" escape='\'>
+		<Begin>"</Begin>
+		<End>"</End>
+	</Span>
+
+	<Span color = "string.single" rule="String" stopateol = "true" escape="\">
+		<Begin>&apos;</Begin>
+		<End>&apos;</End>
+	</Span>
+	
+	<Match color = "constant.digit">CSharpNumber</Match>
+	
+	<Keywords color = "keyword.access">
+		<Word>this</Word>
+		<Word>super</Word>
+	</Keywords>
+	
+	<Keywords color = "keyword.operator">
+		<Word>new</Word>
+	</Keywords>
+	
+	<Keywords color = "keyword.selection">
+		<Word>else</Word>
+		<Word>if</Word>
+		<Word>switch</Word>
+		<Word>case</Word>
+		<Word>default</Word>
+	</Keywords>
+	
+	<Keywords color = "keyword.iteration">
+		<Word>do</Word>
+		<Word>for</Word>
+		<Word>in</Word>
+		<Word>while</Word>
+	</Keywords>
+	
+	<Keywords color = "keyword.jump">
+		<Word>break</Word>
+		<Word>continue</Word>
+		<Word>return</Word>
+	</Keywords>
+	
+	<Keywords color = "keyword.exceptions">
+		<Word>try</Word>
+		<Word>throw</Word>
+		<Word>catch</Word>
+	</Keywords>
+	
+	<Keywords color = "constant.language">
+		<Word>true</Word>
+		<Word>false</Word>
+		<Word>null</Word>
+	</Keywords>
+
+	<Keywords color = "constant.language.void">
+		<Word>void</Word>
+	</Keywords>
+		
+	<Keywords color = "keyword.type">
+		<Word>Bool</Word>
+		<Word>Enum</Word>
+		<Word>Int</Word>
+		<Word>Float</Word>
+		<Word>Dynamic</Word>
+		<Word>String</Word>
+		<Word>Hash</Word>
+		<Word>IntHash</Word>
+		<Word>List</Word>
+		<Word>FastList</Word>
+		<Word>Date</Word>
+		<Word>Xml</Word>
+		<Word>Void</Word>
+		<Word>var</Word>
+	</Keywords>
+	
+	<Keywords color = "keyword.declaration">
+		<Word>function</Word>
+		<Word>class</Word>
+		<Word>interface</Word>
+		<Word>enum</Word>
+		<Word>typedef</Word>
+	</Keywords>
+
+	<Keywords color = "keyword.modifier">
+		<Word>public</Word>
+		<Word>private</Word>
+		<Word>extern</Word>
+		<Word>inline</Word>
+		<Word>static</Word>
+		<Word>dynamic</Word>
+		<Word>override</Word>
+		<Word>extends</Word>
+		<Word>implements</Word>
+	</Keywords>
+
+	<Keywords color = "keyword.namespace">
+		<Word>package</Word>
+		<Word>import</Word>
+		<Word>using</Word>
+	</Keywords>
+	
+	<Rule name = "text.preprocessor">
+		<Keywords color="text.preprocessor.keyword">
+			<Word>if</Word>
+			<Word>else</Word>
+			<Word>elseif</Word>
+			<Word>end</Word>
+			<Word>error</Word>
+		</Keywords>
+	</Rule>
+	
+	<Rule name = "Comment">
+		<Keywords color="comment.keyword.todo" ignorecase="True">
+			<Word>TODO</Word>
+			<Word>FIXME</Word>
+			<Word>BUG</Word>
+			<Word>HACK</Word>
+		</Keywords>
+		<Keywords color="comment.keyword" ignorecase="True">
+			<Word>@author</Word>
+			<Word>@deprecated</Word>
+			<Word>@version</Word>
+			<Word>@copy</Word>
+			<Word>@default</Word>
+			<Word>@eventType</Word>
+			<Word>@example</Word>
+			<Word>@exampleText</Word>
+			<Word>@includeExample</Word>
+			<Word>@inheritDoc</Word>
+			<Word>@internal</Word>
+			<Word>@param</Word>
+			<Word>@private</Word>
+			<Word>@return</Word>
+			<Word>@see</Word>
+			<Word>@since</Word>
+			<Word>@throws</Word>
+			<Word>@usage</Word>
+		</Keywords>
+	</Rule>
+	
+</SyntaxMode>

@@ -1,0 +1,124 @@
+<Addin  id            = "HaxeBinding"  
+        namespace     = "MonoDevelop"  
+        name          = "Haxe Language Binding"  
+        author        = "Joshua Granick"  
+        copyright     = "MIT X11"  
+        description   = "Haxe Language Binding"  
+        category      = "Language bindings"  
+        version       = "1.0.0" >
+	
+	
+	<!-- Dependencies -->
+	
+	<Dependencies>
+		<Addin id="Core" version="2.8" />
+		<Addin id="Ide" version="2.8" />
+		<Addin id="SourceEditor2" version="2.8" />
+	</Dependencies>
+	
+	
+	
+	<!-- Icons -->
+	
+	<Extension path="/MonoDevelop/Core/StockIcons">
+		<StockIcon stockid="fd-icon" resource="flashdevelop-icon-16.png" size="Menu" />
+		<StockIcon stockid="fd-icon" resource="flashdevelop-icon-24.png" size="Dnd" />
+		<StockIcon stockid="fd-icon" resource="flashdevelop-icon-32.png" size="Dialog" />
+		<StockIcon stockid="fd-project" icon="md-project|res:flashdevelop-overlay-16.png" size="Menu" />
+		<StockIcon stockid="fd-project" icon="md-project|res:flashdevelop-overlay-32.png" size="Dnd" />
+		<StockIcon stockid="fd-project" icon="md-project|res:flashdevelop-overlay-32.png" size="Dialog" />
+		<StockIcon stockid="fd-file" icon="md-text-file-icon|res:flashdevelop-overlay-16.png" size="Menu" />
+		<StockIcon stockid="fd-file" icon="md-text-file-icon|res:flashdevelop-overlay-32.png" size="Dnd" />
+		<StockIcon stockid="fd-file" icon="md-text-file-icon|res:flashdevelop-overlay-32.png" size="Dialog" />
+	</Extension>
+	
+	
+	
+	<!-- Syntax Modes -->
+	
+	<Extension path="/MonoDevelop/SourceEditor2/SyntaxModes">
+		<Templates resource="HaxeSyntaxMode.xml" />
+	</Extension>
+	
+	
+	
+	<!-- Templates -->
+	
+	<Extension path="/MonoDevelop/Ide/FileTemplates">
+		<FileTemplate id="EmptyHaxeSourceFile" resource="EmptyHaxeSourceFile.xft.xml" />
+	</Extension>
+	
+	<Extension path="/MonoDevelop/Ide/ProjectTemplates">
+		<ProjectTemplate id="Haxe Project" resource="EmptyHaxeProject.xpt.xml" />
+	</Extension>
+	
+	
+	
+	<!-- File Types -->
+	
+	<Extension path="/MonoDevelop/Core/MimeTypes">
+		<MimeType id="text/x-haxe" icon="fd-file" isText="true"><File pattern="*.hx" /></MimeType>
+		<MimeType id="text/xml" icon="fd-file" isText="true"><File pattern="*.nmml" /></MimeType>
+	</Extension>
+	
+	<Extension path="/MonoDevelop/Ide/FileFilters">
+		<FileFilter id="Haxe" insertbefore="AllFiles" _label="Haxe Files" extensions="*.hx" />
+		<FileFilter id="NMML" insertbefore="AllFiles" _label="NMML Project Files" extensions="*.nmml" />
+	</Extension>
+	
+	
+	
+	<!-- Languages -->
+	
+	<Extension path="/MonoDevelop/ProjectModel/LanguageBindings">
+		<LanguageBinding id="Haxe" supportedextensions=".hx" class="MonoDevelop.HaxeBinding.Languages.HaxeLanguageBinding" />
+		<LanguageBinding id="NMML" supportedextensions=".nmml" class="MonoDevelop.HaxeBinding.Languages.NMMLLanguageBinding" />
+	</Extension>
+	
+	<Extension path="/MonoDevelop/Ide/GlobalOptionsDialog/Other">
+		<Section id="HaxeBindingOptions" _label="Haxe" icon="fd-icon" class="MonoDevelop.HaxeBinding.Languages.Gui.HaxeOptionsPanel" />
+	</Extension>
+	
+	
+	
+	<!-- Projects -->
+	
+	<Extension path="/MonoDevelop/ProjectModel/ProjectBindings">
+		<ProjectBinding id="HaxeProject" class="MonoDevelop.HaxeBinding.Projects.HaxeProjectBinding" />
+		<ProjectBinding id="NMEProject" class="MonoDevelop.HaxeBinding.Projects.NMEProjectBinding" />
+	</Extension>
+	
+	<Extension path="/MonoDevelop/ProjectModel/Gui/ItemOptionPanels/Build">
+		<Condition id="ItemType" value="MonoDevelop.HaxeBinding.Projects.HaxeProject">
+			<Section id="HaxeProjectOptionsPanel" _label="General" class="MonoDevelop.HaxeBinding.Projects.Gui.HaxeProjectOptionsPanel" />
+			<Section id="HaxeOutputOptionsPanel" _label="Output" class="MonoDevelop.HaxeBinding.Projects.Gui.HaxeOutputOptionsPanel" />
+		</Condition>
+		<Condition id="ItemType" value="MonoDevelop.HaxeBinding.Projects.NMEProject">
+			<Section id="NMEProjectOptionsPanel" _label="General" class="MonoDevelop.HaxeBinding.Projects.Gui.NMEProjectOptionsPanel"/>
+			<Section id="NMEOutputOptionsPanel" _label="Output" class="MonoDevelop.HaxeBinding.Projects.Gui.NMEOutputOptionsPanel"/>
+		</Condition>
+	</Extension>
+	
+	<Extension path="/MonoDevelop/ProjectModel/SerializableClasses">
+		<DataType class="MonoDevelop.HaxeBinding.Projects.HaxeProject" />
+		<DataType class="MonoDevelop.HaxeBinding.Projects.HaxeProjectConfiguration" />
+		<DataType class="MonoDevelop.HaxeBinding.Projects.NMEProject" />
+		<DataType class="MonoDevelop.HaxeBinding.Projects.NMEProjectConfiguration" />
+	</Extension>
+	
+	<Extension path="/MonoDevelop/ProjectModel/MSBuildItemTypes">
+		<SolutionItem type="MonoDevelop.HaxeBinding.Projects.HaxeProject" extension="hxproj" guid="{73443E56-3503-11DE-B03D-001DBA02A2FC}"/>
+		<SolutionItem type="MonoDevelop.HaxeBinding.Projects.NMEProject" extension="nmeproj" guid="{319CB2C6-23BD-43E1-85B5-2AAFA3577041}"/>
+	</Extension>
+	
+	
+	
+	<!-- Code Completion -->
+	
+	<!--<Extension path="/MonoDevelop/Ide/TextEditorExtensions">
+		 Class class="FlexBinding.Gui.As3TextEditorCompletion" /
+		<Class class="MonoDevelop.FD.HaxeContext.Gui.HaxeTextEditorIndentation" />
+	</Extension> -->
+	
+	
+</Addin>

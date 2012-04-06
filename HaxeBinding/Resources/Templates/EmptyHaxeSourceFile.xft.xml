@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<Template Originator   = "Joshua Granick"
+          Language     = "Haxe"
+          Created      = "04/04/2012"
+          LastModified = "04/04/2012">
+
+    <TemplateConfiguration>
+        <_Name>Empty Class</_Name>
+        <Icon>fd-file</Icon>
+        <_Category>General</_Category>
+        <LanguageName>Haxe</LanguageName>
+        <_Description>Creates an empty class.</_Description>
+    </TemplateConfiguration>
+	
+	<TemplateFiles>
+        <File DefaultExtension=".hx" DefaultName="EmptyHaxeSourceFile" AddStandardHeader="True">
+<![CDATA[package ;
+
+/**
+ * ...
+ * @author ${AuthorName}
+ */
+class ${Name} {
+	
+	public function new () {
+		
+		
+		
+	}		
+
+}]]></File>
+    </TemplateFiles>
+	
+	<!-- <TemplateFiles>
+		<CodeDomFile DefaultName="EmptyClass">
+			<CompileUnit>
+				<Namespaces>
+					<Namespace Name="">
+						<Imports>
+							<NamespaceImport Namespace="System" />
+						</Imports>
+					</Namespace>
+					<Namespace Name="${Namespace}">
+						<Types>
+							<TypeDeclaration Name="${Name}" IsClass="true" Attributes="Public">
+								<Members>
+									<Constructor Attributes="Public" />
+								</Members>
+							</TypeDeclaration>
+						</Types>
+					</Namespace>
+				</Namespaces>
+			</CompileUnit>
+		</CodeDomFile>
+	</TemplateFiles> -->
+    
+    <FileOptions/>
+
+</Template>
