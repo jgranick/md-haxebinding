@@ -1,0 +1,21 @@
+I'm sorry I don't have time to write more thorough directions, but here are some pointers if you are interested in working on the HaxeBinding add-in or would like to put it to use.
+
+I have been running MonoDevelop 2.8, which is available from the website, or I used "sudo apt-get install monodevelop" on my install of Ubuntu 12.04.
+
+Every platform is a little different for installing add-ins locally. I believe there is a package format for distribution that I haven't done yet.
+
+On my machine, the directory is ~/.local/share/MonoDevelop-2.8/LocalInstall/Addins, and you will want the "MonoDevelop.HaxeBinding.dll" file that is located in the /HaxeBinding/bin/Debug directory.
+
+If you are working on improving the add-in you can use a symlink between your bin/Debug directory and the LocalInstall/Addins directory, so the current version of the add-in will be loaded whenever you start MonoDevelop.
+
+All of the code is C#, and I've been using MonoDevelop to write it.
+
+You should be able to create a new solution, under "Haxe/NME" called "Empty NME Project". Once it is created, you can change your target using the configuration drop-down. There's an option for each platform, Debug and Release. Choose your current platform and press Ctrl+F5 to build and run. It should be wired up for you.
+
+There are couple small options you can configure for your project right now. If you go to Options for your project you will see "Target NMML File" for the "General" options, and both the "General" and "Output" options allow custom arguments which are passed to the NME command-line tools. The difference is that "General" is applied to all targets, and "Output" allows you to select a specific target and specify which flags are used.
+
+To make things simpler, the iOS target uses the "-simulator" flag right now, but this can be changed in the "Output" options for that target. I did this because the iOS simulator supports build and run, but we can't run the iOS device target automatically right now. You can build using the -simulator flag, then open the XCode project to install on a device you own.
+
+I hope this all helps. I am available on Twitter at @singmajesty if you have any questions, or just want to share how you feel about the project.
+
+Have a great day!
