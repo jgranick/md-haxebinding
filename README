@@ -1,3 +1,9 @@
+===Introduction===
+
+This is an addition to MonoDevelop that provides Haxe language bindings. This is the first step in a process of bringing functionality over from FlashDevelop, in order to provide a compariab
+
+
+
 I'm sorry I don't have time to write more thorough directions, but here are some pointers if you are interested in working on the HaxeBinding add-in or would like to put it to use.
 
 I have been running MonoDevelop 2.8, which is available from the website, or I used "sudo apt-get install monodevelop" on my install of Ubuntu 12.04.

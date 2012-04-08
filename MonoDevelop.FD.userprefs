@@ -1,0 +1,28 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="HaxeBinding/Languages/Gui/HaxeTextEditorCompletion.cs">
+    <Files>
+      <File FileName="HaxeBinding/Tools/NMECommandLineToolsManager.cs" Line="1" Column="1" />
+      <File FileName="HaxeBinding/Languages/Gui/HaxeParameterDataProvider.cs" Line="1" Column="1" />
+      <File FileName="HaxeBinding/Languages/Gui/HaxeTextEditorCompletion.cs" Line="247" Column="5" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="HaxeBinding" expanded="True">
+            <Node name="Languages" expanded="True">
+              <Node name="Gui" expanded="True">
+                <Node name="HaxeTextEditorCompletion.cs" selected="True" />
+              </Node>
+            </Node>
+            <Node name="Tools" expanded="True" />
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
