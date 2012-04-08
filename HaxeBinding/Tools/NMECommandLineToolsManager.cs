@@ -45,7 +45,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 			
 			int exitCode = DoCompilation ("haxelib", args, project.BaseDirectory, monitor, ref error);
 			
-			BuildResult result = ParseOutput (error);
+			BuildResult result = ParseOutput (error, project.BaseDirectory);
 			if (result.CompilerOutput.Trim ().Length != 0)
 				monitor.Log.WriteLine (result.CompilerOutput);
 
@@ -205,7 +205,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 			}
 		}
 
-		static void ParserOutputFile (BuildResult result, StringBuilder output, string filename)
+		static void ParserOutputFile (BuildResult result, StringBuilder output, string filename, string working_directory)
 		{
 			StreamReader reader = File.OpenText (filename);
 
@@ -219,20 +219,24 @@ namespace MonoDevelop.HaxeBinding.Tools
 
 				BuildError error = CreateErrorFromString (line);
 				if (error != null)
+				{
+					if (error.FileName.Length>0)
+						error.FileName = working_directory + "/" + error.FileName;
 					result.Append (error);
+				}
 			}
 
 			reader.Close ();
 		}
 
-		static BuildResult ParseOutput (string stderr)
+		static BuildResult ParseOutput (string stderr, string working_directory)
 		{
 			BuildResult result = new BuildResult ();
 
 			StringBuilder output = new StringBuilder ();
 
 			//ParserOutputFile(result, output, stdout);
-			ParserOutputFile (result, output, stderr);
+			ParserOutputFile (result, output, stderr, working_directory);
 
 			result.CompilerOutput = output.ToString ();
 
