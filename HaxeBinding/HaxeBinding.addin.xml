@@ -5,7 +5,7 @@
         copyright     = "MIT X11"  
         description   = "Haxe Language Binding"  
         category      = "Language bindings"  
-        version       = "1.0.0" >
+        version       = "0.1" >
 	
 	
 	<!-- Dependencies -->
