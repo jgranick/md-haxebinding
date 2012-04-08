@@ -1,7 +1,12 @@
 <AddinProject appVersion="0.1">
-	<Project platforms="Mac Linux Win32">
+	<Project platforms="Mac Linux">
 		<AddinFile>HaxeBinding/bin/Debug/MonoDevelop.HaxeBinding.dll</AddinFile>
 		<BuildFile>HaxeBinding/HaxeBinding.csproj</BuildFile>
 		<BuildConfiguration>Debug</BuildConfiguration>
+	</Project>
+	<Project platforms="Win32">
+		<AddinFile>HaxeBinding/bin/DebugWin32/MonoDevelop.HaxeBinding.dll</AddinFile>
+		<BuildFile>HaxeBinding/HaxeBinding.csproj</BuildFile>
+		<BuildConfiguration>DebugWin32</BuildConfiguration>
 	</Project>
 </AddinProject>
