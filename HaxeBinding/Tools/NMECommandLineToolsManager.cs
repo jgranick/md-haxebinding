@@ -267,7 +267,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 
 		static Regex mErrorFull = new Regex (@"^(?<file>.+)\((?<line>\d+)\):\s(col:\s)?(?<column>\d*)\s?(?<level>\w+):\s(?<message>.*)\.?$",
                                             RegexOptions.Compiled | RegexOptions.ExplicitCapture);
-		static Regex mErrorFile = new Regex (@"^(?<file>.+):\s(?<level>\w+):\s(?<message>.*)\.?$",
+		static Regex mErrorFile = new Regex (@"^(?<file>.+):(?<line>\d+):\s(?<message>.*)\.?$",
                                             RegexOptions.Compiled | RegexOptions.ExplicitCapture);
 		static Regex mErrorCmdLine = new Regex (@"^command line: (?<level>\w+):\s(?<message>.*)\.?$",
                                               RegexOptions.Compiled | RegexOptions.ExplicitCapture);
