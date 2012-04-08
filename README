@@ -25,3 +25,18 @@ To make things simpler, the iOS target uses the "-simulator" flag right now, but
 I hope this all helps. I am available on Twitter at @singmajesty if you have any questions, or just want to share how you feel about the project.
 
 Have a great day!
+
+=== Creating a new Project ===
+
+1. File -> New -> Solution. Select "Empty NME Project" (not the haxe project)
+2. Important: your project name needs to start with a capital letter!
+3. under mac you have to run the following command in your project directory: nme display <projectname>.nmml mac > <projectname>.hxml
+   under linux the command is: nme display <projectname>.nmml linux > <projectname>.hxml
+4. close and reopen the project
+
+=== Installation under Ubuntu 11.10 ===
+
+1. Download the source from http://monodevelop.com/Download, tar xf, ./configure, make, make install. Note that ./configure will complain about missing packages. Just install them using apt-get (for example libmono-addins-cil-dev libmono-addins-gui-cil-dev gnome-sharp2).
+2. clone the md-haxebinding repository, open the solution and compile.
+3. copy bin/Debug/MonoDevelop.HaxeBinding.dll to ~/.local/share/MonoDevelop-2.8/LocalInstall/Addins
+
