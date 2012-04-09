@@ -51,7 +51,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 			
 			int exitCode = DoCompilation ("haxelib", args, project.BaseDirectory, monitor, ref error);
 			
-			BuildResult result = ParseOutput (error);
+			BuildResult result = ParseOutput (project, error);
 			if (result.CompilerOutput.Trim ().Length != 0)
 				monitor.Log.WriteLine (result.CompilerOutput);
 
@@ -258,7 +258,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 			}
 		}
 
-		static void ParserOutputFile (BuildResult result, StringBuilder output, string filename)
+		static void ParserOutputFile (NMEProject project, BuildResult result, StringBuilder output, string filename)
 		{
 			StreamReader reader = File.OpenText (filename);
 
@@ -270,7 +270,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 				if (line.Length == 0 || line.StartsWith ("\t"))
 					continue;
 
-				BuildError error = CreateErrorFromString (line);
+				BuildError error = CreateErrorFromString (project, line);
 				if (error != null)
 					result.Append (error);
 			}
@@ -278,14 +278,14 @@ namespace MonoDevelop.HaxeBinding.Tools
 			reader.Close ();
 		}
 
-		static BuildResult ParseOutput (string stderr)
+		static BuildResult ParseOutput (NMEProject project, string stderr)
 		{
 			BuildResult result = new BuildResult ();
 
 			StringBuilder output = new StringBuilder ();
 
 			//ParserOutputFile(result, output, stdout);
-			ParserOutputFile (result, output, stderr);
+			ParserOutputFile (project, result, output, stderr);
 
 			result.CompilerOutput = output.ToString ();
 
@@ -320,7 +320,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 
 		static Regex mErrorFull = new Regex (@"^(?<file>.+)\((?<line>\d+)\):\s(col:\s)?(?<column>\d*)\s?(?<level>\w+):\s(?<message>.*)\.?$",
                                             RegexOptions.Compiled | RegexOptions.ExplicitCapture);
-		static Regex mErrorFile = new Regex (@"^(?<file>.+):\s(?<level>\w+):\s(?<message>.*)\.?$",
+		static Regex mErrorFile = new Regex (@"^(?<file>.+):(?<line>\d+):\s(?<message>.*)\.?$",
                                             RegexOptions.Compiled | RegexOptions.ExplicitCapture);
 		static Regex mErrorCmdLine = new Regex (@"^command line: (?<level>\w+):\s(?<message>.*)\.?$",
                                               RegexOptions.Compiled | RegexOptions.ExplicitCapture);
@@ -329,7 +329,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 		static Regex mErrorIgnore = new Regex (@"^(Updated|Recompile|Reason|Files changed):.*",
                                               RegexOptions.Compiled);
 
-		static BuildError CreateErrorFromString (string text)
+		static BuildError CreateErrorFromString (NMEProject project, string text)
 		{
 			Match match = mErrorIgnore.Match (text);
 			if (match.Success)
@@ -351,9 +351,28 @@ namespace MonoDevelop.HaxeBinding.Tools
 			error.FileName = match.Result ("${file}") ?? "";
 			error.IsWarning = match.Result ("${level}").ToLower () == "warning";
 			error.ErrorText = match.Result ("${message}");
-
-			if (error.FileName == "${file}")
+			
+			if (error.FileName == "${file}") {
+				
 				error.FileName = "";
+				
+			} else {
+				
+				if (!File.Exists (error.FileName)) {
+					
+					if (File.Exists (Path.GetFullPath (error.FileName))) {
+						
+						error.FileName = Path.GetFullPath (error.FileName);
+						
+					} else {
+						
+						error.FileName = Path.Combine (project.BaseDirectory, error.FileName);
+						
+					}
+					
+				}
+				
+			}
 
 			if (Int32.TryParse (match.Result ("${line}"), out n))
 				error.Line = n;
