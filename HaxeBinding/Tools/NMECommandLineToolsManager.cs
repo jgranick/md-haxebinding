@@ -200,6 +200,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 			info.RedirectStandardOutput = true;
 			info.RedirectStandardError = true;
 			info.WorkingDirectory = project.BaseDirectory;
+			info.WindowStyle = ProcessWindowStyle.Hidden;
 			info.CreateNoWindow = true;
 			
 			using (Process process = Process.Start (info))
