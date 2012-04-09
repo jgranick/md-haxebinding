@@ -184,6 +184,8 @@ namespace MonoDevelop.HaxeBinding.Tools
 			
 			p.WaitForExit ();
 			
+			//MonoDevelop.Ide.MessageService.ShowMessage (args);
+			
 			return data;
 		}
 		
@@ -191,6 +193,16 @@ namespace MonoDevelop.HaxeBinding.Tools
 		private static string GetHXMLData (NMEProject project, NMEProjectConfiguration configuration)
 		{
 			Process p = new Process ();
+			p.StartInfo.FileName = "haxelib";
+			p.StartInfo.Arguments = "run nme update \"" + project.TargetNMMLFile + "\" " + configuration.Platform.ToLower () + " " + project.AdditionalArguments + " " + configuration.AdditionalArguments;
+			p.StartInfo.UseShellExecute = false;
+			p.StartInfo.RedirectStandardOutput = true;
+			p.StartInfo.RedirectStandardError = true;
+			p.StartInfo.WorkingDirectory = project.BaseDirectory;
+			p.Start ();
+			p.WaitForExit ();
+			
+			p = new Process ();
 			p.StartInfo.FileName = "haxelib";
 			p.StartInfo.Arguments = "run nme display \"" + project.TargetNMMLFile + "\" " + configuration.Platform.ToLower () + " " + project.AdditionalArguments + " " + configuration.AdditionalArguments;
 			p.StartInfo.UseShellExecute = false;
