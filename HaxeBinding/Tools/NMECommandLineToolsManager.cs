@@ -171,22 +171,23 @@ namespace MonoDevelop.HaxeBinding.Tools
 			
 			string args = cacheHXML + " -cp \"" + classPath + "\" --display \"" + fileName + "\"@" + position + " -D use_rtti_doc";
 			
-			Process p = new Process ();
-			p.StartInfo.FileName = "haxe";
-			p.StartInfo.Arguments = args;
-			p.StartInfo.UseShellExecute = false;
-			p.StartInfo.RedirectStandardOutput = true;
-			p.StartInfo.RedirectStandardError = true;
-			p.StartInfo.WorkingDirectory = project.BaseDirectory;
-			p.Start ();
+			ProcessStartInfo info = new ProcessStartInfo ();
 			
-			string data = p.StandardError.ReadToEnd ();
+			info.FileName = "haxe";
+			info.Arguments = args;
+			info.UseShellExecute = false;
+			info.RedirectStandardOutput = true;
+			info.RedirectStandardError = true;
+			info.WorkingDirectory = project.BaseDirectory;
+			info.WindowStyle = ProcessWindowStyle.Hidden;
+			info.CreateNoWindow = false;
 			
-			p.WaitForExit ();
-			
-			//MonoDevelop.Ide.MessageService.ShowMessage (args);
-			
-			return data;
+			using (Process process = Process.Start (info))
+			{
+				string data = process.StandardError.ReadToEnd ();
+				process.WaitForExit ();
+				return data;
+			}
 		}
 		
 		
