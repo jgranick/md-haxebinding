@@ -139,9 +139,4 @@
     <Folder Include="Tools\" />
     <Folder Include="Helpers\" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\Haxe\nme\nme\Assets.hx">
-      <Link>Assets.hx</Link>
-    </None>
-  </ItemGroup>
 </Project>

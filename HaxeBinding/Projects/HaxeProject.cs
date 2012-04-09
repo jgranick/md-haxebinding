@@ -16,6 +16,10 @@ using MonoDevelop.Projects;
 
 using MonoDevelop.HaxeBinding.Tools;
 
+
+// This file was taken from the old "FlexBinding" add-in and has not been adapted yet
+
+
 namespace MonoDevelop.HaxeBinding.Projects
 {
     public enum Language { Haxe }
