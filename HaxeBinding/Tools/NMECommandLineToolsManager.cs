@@ -199,7 +199,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 			p.StartInfo.RedirectStandardOutput = true;
 			p.StartInfo.RedirectStandardError = true;
 			p.StartInfo.WorkingDirectory = project.BaseDirectory;
-			p.StartInfo.CreateNoWindow = true;
+			p.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
 			p.Start ();
 			p.WaitForExit ();
 			
@@ -210,7 +210,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 			p.StartInfo.RedirectStandardOutput = true;
 			p.StartInfo.RedirectStandardError = true;
 			p.StartInfo.WorkingDirectory = project.BaseDirectory;
-			p.StartInfo.CreateNoWindow = true;
+			p.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
 			p.Start ();
 			
 			string data = p.StandardOutput.ReadToEnd ();
