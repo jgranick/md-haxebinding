@@ -124,7 +124,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 			
 			p.WaitForExit();
 			
-			MonoDevelop.Ide.MessageService.ShowMessage ("haxe " + "run nme display \"" + project.TargetNMMLFile + "\" " + configuration.Platform.ToLower ());
+			//MonoDevelop.Ide.MessageService.ShowMessage ("haxe " + "run nme display \"" + project.TargetNMMLFile + "\" " + configuration.Platform.ToLower ());
 			//MonoDevelop.Ide.MessageService.ShowMessage ("Data: " + data.Length);
 			
 			return data.Replace (Environment.NewLine, " ");
