@@ -182,12 +182,6 @@ namespace MonoDevelop.HaxeBinding.Tools
 			info.WindowStyle = ProcessWindowStyle.Hidden;
 			info.CreateNoWindow = false;
 			
-			if (Environment.OSVersion.Platform == PlatformID.Win32Windows)
-			{
-				info.FileName = "cmd.exe";
-				info.Arguments = "haxe " + args;
-			}
-			
 			using (Process process = Process.Start (info))
 			{
 				string data = process.StandardError.ReadToEnd ();
