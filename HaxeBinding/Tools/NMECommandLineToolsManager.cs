@@ -203,23 +203,12 @@ namespace MonoDevelop.HaxeBinding.Tools
 			info.WindowStyle = ProcessWindowStyle.Hidden;
 			info.CreateNoWindow = true;
 			
-			if (Environment.OSVersion.Platform == PlatformID.Win32Windows)
-			{
-				info.FileName = "cmd.exe";
-				info.Arguments = "haxelib " + info.Arguments;
-			}
-			
 			using (Process process = Process.Start (info))
 			{
 				process.WaitForExit ();
 			}
 			
 			info.Arguments = "run nme display \"" + project.TargetNMMLFile + "\" " + configuration.Platform.ToLower () + " " + project.AdditionalArguments + " " + configuration.AdditionalArguments;
-			
-			if (Environment.OSVersion.Platform == PlatformID.Win32Windows)
-			{
-				info.Arguments = "haxelib " + info.Arguments;
-			}
 			
 			using (Process process = Process.Start (info))
 			{
