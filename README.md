@@ -6,6 +6,7 @@ There are technical reasons why the code editor and windowing for FlashDevelop w
 
 The "Haxe Language Binding" is a step on the road to bringing the functionality we love from FlashDevelop and making it available on Unix platforms. MonoDevelop is very much like FlashDevelop in a lot of ways, especially when it is successfully extended for languages and features we love from FlashDevelop.
 
+
 # Installation
 
 First you will need MonoDevelop:
@@ -23,7 +24,14 @@ If you would like to help improve the addin, you may want to use a symlink to co
 
 # Supported Features
 
- * NME project generation
- * Haxe syntax highlighting
- * Code completion
- * Build and run NME projects
+* NME project generation
+* Haxe syntax highlighting
+* Code completion
+* Build and run NME projects
+
+
+# Roadmap
+
+The first priority is to continue to support and improve NME projects. However, the natural step (moving forward) is to extend the add-in to include generic haxe project support.
+
+Since FlashDevelop and MonoDevelop are written in C#, there is a path to migrate code from FlashDevelop into this add-in or more new add-ins to extend MonoDevelop using FlashDevelop's functionality. This may lead to improve the behavior or quality of the current features, or to expand the feature-set.
