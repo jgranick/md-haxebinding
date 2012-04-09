@@ -18,6 +18,12 @@ namespace MonoDevelop.HaxeBinding.Tools
 {
 	static class NMECommandLineToolsManager
 	{
+		
+		private static string cacheHXML;
+		private static string cachePlatform;
+		private static DateTime cacheNMMLTime;
+		
+		
 		public static BuildResult Compile (NMEProject project, NMEProjectConfiguration configuration, IProgressMonitor monitor)
 		{
 			string args = "run nme build " + project.TargetNMMLFile + " " + configuration.Platform.ToLower ();
@@ -103,11 +109,58 @@ namespace MonoDevelop.HaxeBinding.Tools
             return result;*/
 		}
 		
+		private static string GetHXMLData (NMEProject project, NMEProjectConfiguration configuration)
+		{
+			Process p = new Process ();
+			p.StartInfo.FileName = "haxelib";
+			p.StartInfo.Arguments = "run nme display \"" + project.TargetNMMLFile + "\" " + configuration.Platform.ToLower () + " " + project.AdditionalArguments + " " + configuration.AdditionalArguments;
+			p.StartInfo.UseShellExecute = false;
+			p.StartInfo.RedirectStandardOutput = true;
+			p.StartInfo.RedirectStandardError = true;
+			p.StartInfo.WorkingDirectory = project.BaseDirectory;
+			p.Start();
+			
+			string data = p.StandardOutput.ReadToEnd ();
+			
+			p.WaitForExit();
+			
+			MonoDevelop.Ide.MessageService.ShowMessage ("haxe " + "run nme display \"" + project.TargetNMMLFile + "\" " + configuration.Platform.ToLower ());
+			//MonoDevelop.Ide.MessageService.ShowMessage ("Data: " + data.Length);
+			
+			return data.Replace (Environment.NewLine, " ");
+			
+		}
+		
 		public static string GetCompletionData (NMEProject project, string classPath, string fileName, int position)
 		{
-			string hxml = GetHXMLPath (project);
+			NMEProjectConfiguration configuration = project.GetConfiguration (MonoDevelop.Ide.IdeApp.Workspace.ActiveConfiguration) as NMEProjectConfiguration;
 			
-			string args = "\"" + hxml + "\" -cp \"" + classPath + "\" --display \"" + fileName + "\"@" + position + " -D use_rtti_doc";
+			string platform = configuration.Platform.ToLower ();
+			string path = project.TargetNMMLFile;
+			
+			if (!File.Exists (path)) {
+				
+				path = Path.Combine (project.BaseDirectory, path);
+				
+			}
+			
+			DateTime time = File.GetLastWriteTime (Path.GetFullPath (path));
+			
+			//TODO: Get this to update properly when the NMML has been changed
+			//TODO: Invalidate when the target has changed or the params have changed
+			
+			if (!time.Equals (cacheNMMLTime) || platform != cachePlatform) {
+				
+				cacheHXML = GetHXMLData (project, configuration);
+				cacheNMMLTime = time;
+				cachePlatform = platform;
+				
+			}
+			
+			
+			//string hxml = GetHXMLPath (project);
+			
+			string args = cacheHXML + " -cp \"" + classPath + "\" --display \"" + fileName + "\"@" + position + " -D use_rtti_doc";
 			
 			Process p = new Process ();
 			p.StartInfo.FileName = "haxe";

@@ -51,7 +51,7 @@
 	</Extension>
 	
 	<Extension path="/MonoDevelop/Ide/ProjectTemplates">
-		<ProjectTemplate id="EmptyHaxeProject" resource="EmptyHaxeProject.xpt.xml" />
+		<!-- <ProjectTemplate id="EmptyHaxeProject" resource="EmptyHaxeProject.xpt.xml" /> -->
 		<ProjectTemplate id="EmptyNMEProject" resource="EmptyNMEProject.xpt.xml" />
 	</Extension>
 	
