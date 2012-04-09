@@ -169,25 +169,22 @@ namespace MonoDevelop.HaxeBinding.Tools
 				cachePlatform = platform;
 			}
 			
+			string exe = "haxe";
 			string args = cacheHXML + " -cp \"" + classPath + "\" --display \"" + fileName + "\"@" + position + " -D use_rtti_doc";
 			
-			ProcessStartInfo info = new ProcessStartInfo ();
+			Process process = new Process ();
+			process.StartInfo.FileName = exe;
+			process.StartInfo.Arguments = args;
+			process.StartInfo.UseShellExecute = false;
+			process.StartInfo.CreateNoWindow = true;
+			process.StartInfo.RedirectStandardError = true;
+			process.Start ();
 			
-			info.FileName = "haxe";
-			info.Arguments = args;
-			info.UseShellExecute = false;
-			info.RedirectStandardOutput = true;
-			info.RedirectStandardError = true;
-			info.WorkingDirectory = project.BaseDirectory;
-			info.WindowStyle = ProcessWindowStyle.Hidden;
-			info.CreateNoWindow = false;
+			string result = process.StandardError.ReadToEnd ();
 			
-			using (Process process = Process.Start (info))
-			{
-				string data = process.StandardError.ReadToEnd ();
-				process.WaitForExit ();
-				return data;
-			}
+			process.WaitForExit ();
+			
+			return result;
 		}
 		
 		
@@ -201,7 +198,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 			info.RedirectStandardOutput = true;
 			info.RedirectStandardError = true;
 			info.WorkingDirectory = project.BaseDirectory;
-			info.WindowStyle = ProcessWindowStyle.Hidden;
+			//info.WindowStyle = ProcessWindowStyle.Hidden;
 			info.CreateNoWindow = true;
 			
 			using (Process process = Process.Start (info))
