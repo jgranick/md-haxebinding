@@ -1,4 +1,4 @@
-=== Introduction ===
+# Introduction
 
 FlashDevelop is an excellent code editor for Actionscript 3 and Haxe projects, but (unfortunately) it is only available for Windows.
 
@@ -6,7 +6,7 @@ There are technical reasons why the code editor and windowing for FlashDevelop w
 
 The "Haxe Language Binding" is a step on the road to bringing the functionality we love from FlashDevelop and making it available on Unix platforms. MonoDevelop is very much like FlashDevelop in a lot of ways, especially when it is successfully extended for languages and features we love from FlashDevelop.
 
-=== Installation ===
+# Installation
 
 First you will need MonoDevelop:
 
@@ -20,9 +20,10 @@ Until then, you can copy the "MonoDevelop.HaxeBinding.dll" file from this reposi
 
 If you would like to help improve the addin, you may want to use a symlink to connect the DLL under /bin/Debug with the local install directory, so that the latest version is used whenever MonoDevelop is started. 
 
-=== Supported Features ===
 
-* NME project generation
-* Haxe syntax highlighting
-* Code completion
-* Build and run NME projects
+# Supported Features
+
+ * NME project generation
+ * Haxe syntax highlighting
+ * Code completion
+ * Build and run NME projects
