@@ -142,6 +142,9 @@
     <EmbeddedResource Include="Resources\Templates\EmptyHaxePHPProject.xpt.xml">
       <LogicalName>EmptyHaxePHPProject.xpt.xml</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SyntaxModes\NMMLSyntaxMode.xml">
+      <LogicalName>NMMLSyntaxMode.xml</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Projects\" />

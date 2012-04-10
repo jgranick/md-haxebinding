@@ -158,7 +158,7 @@ namespace MonoDevelop.HaxeBinding.Projects
 		
 
 		public override string[] SupportedLanguages {
-			get { return new string[] { "", "Haxe" }; }
+			get { return new string[] { "", "Haxe", "NMML" }; }
 		}
 		
 	}
