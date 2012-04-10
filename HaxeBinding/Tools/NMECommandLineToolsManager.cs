@@ -26,7 +26,14 @@ namespace MonoDevelop.HaxeBinding.Tools
 		private static DateTime cacheNMMLTime;
 		
 		private static Regex mErrorFull = new Regex (@"^(?<file>.+)\((?<line>\d+)\):\s(col:\s)?(?<column>\d*)\s?(?<level>\w+):\s(?<message>.*)\.?$", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
+
+		// example: test.hx:11: character 7 : Unterminated string
+		private static Regex mErrorFileChar = new Regex (@"^(?<file>.+):(?<line>\d+):\s(character\s)(?<column>\d*)\s:\s(?<message>.*)\.?$", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
+		// example: test.hx:11: characters 0-5 : Unexpected class
+		private static Regex mErrorFileChars = new Regex (@"^(?<file>.+):(?<line>\d+):\s(characters\s)(?<column>\d+)-(\d+)\s:\s(?<message>.*)\.?$", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
+		// example: test.hx:10: lines 10-28 : Class not found : Sprit
 		private static Regex mErrorFile = new Regex (@"^(?<file>.+):(?<line>\d+):\s(?<message>.*)\.?$", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
+		
 		private static Regex mErrorCmdLine = new Regex (@"^command line: (?<level>\w+):\s(?<message>.*)\.?$", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
 		private static Regex mErrorSimple = new Regex (@"^(?<level>\w+):\s(?<message>.*)\.?$", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
 		private static Regex mErrorIgnore = new Regex (@"^(Updated|Recompile|Reason|Files changed):.*", RegexOptions.Compiled);
@@ -81,7 +88,12 @@ namespace MonoDevelop.HaxeBinding.Tools
 			if (!match.Success)
 				match = mErrorCmdLine.Match (text);
 			if (!match.Success)
+				match = mErrorFileChar.Match (text);
+			if (!match.Success)
+				match = mErrorFileChars.Match (text);
+			if (!match.Success)
 				match = mErrorFile.Match (text);
+			    
 			if (!match.Success)
 				match = mErrorSimple.Match (text);
 			if (!match.Success)
@@ -119,7 +131,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 				error.Line = 0;
 
 			if (Int32.TryParse (match.Result ("${column}"), out n))
-				error.Column = n;
+				error.Column = n+1; //haxe counts zero based
 			else
 				error.Column = -1;
 
