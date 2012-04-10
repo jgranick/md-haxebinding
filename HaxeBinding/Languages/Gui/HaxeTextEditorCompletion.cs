@@ -59,46 +59,35 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		
 		private void FetchCompletionData (CodeCompletionContext completionContext)
 		{
-			
 			if (completionContext.TriggerOffset != mCacheTriggerOffset)
 			{
-				
 				mCacheTriggerOffset = completionContext.TriggerOffset;
-				
 				File.WriteAllText (mTempFileName, Document.Editor.Text);
 				
-				string data = NMECommandLineToolsManager.GetCompletionData ((NMEProject)Document.Project, mTempDirectory, mTempFileName, mCacheTriggerOffset);
+				string data = NMECommandLineToolsManager.GetCompletionData ((NMEProject)Document.Project, mTempBaseDirectory, mTempFileName, mCacheTriggerOffset);
 				
 				try
 				{
-					
 					var xml = new XmlDocument ();
 					xml.LoadXml (data);
 					
 					if (xml.HasChildNodes)
 					{
-						
 						if (xml.FirstChild.Name == "type")
 						{
-							
 							mCacheIsObject = false;
-							
 						}
 						else
 						{
-							
 							mCacheIsObject = true;
-							
 						}
 						
 						mCacheXML = xml;
 						mCacheXMLCurrent = true;
 						mCacheTriggerLine = completionContext.TriggerLine;
-						
 					}
 					
 					return;
-					
 				}
 				catch (Exception ex)
 				{
@@ -107,9 +96,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 				mCacheXMLCurrent = false;
 				//mCacheXML = null;
 				return;
-				
 			}
-			
 		}
 		
 		

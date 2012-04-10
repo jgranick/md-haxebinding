@@ -176,15 +176,20 @@ namespace MonoDevelop.HaxeBinding.Tools
 			string exe = "haxe";
 			string args = cacheHXML + " -cp \"" + classPath + "\" --display \"" + fileName + "\"@" + position + " -D use_rtti_doc";
 			
+			//MonoDevelop.Ide.MessageService.ShowMessage ("haxe " + args);
+			
 			Process process = new Process ();
 			process.StartInfo.FileName = exe;
 			process.StartInfo.Arguments = args;
 			process.StartInfo.UseShellExecute = false;
 			process.StartInfo.CreateNoWindow = true;
 			process.StartInfo.RedirectStandardError = true;
+			process.StartInfo.WorkingDirectory = project.BaseDirectory;
 			process.Start ();
 			
 			string result = process.StandardError.ReadToEnd ();
+			
+			//MonoDevelop.Ide.MessageService.ShowMessage (result);
 			
 			process.WaitForExit ();
 			
