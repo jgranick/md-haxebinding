@@ -41,7 +41,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 		
 		public static BuildResult Compile (NMEProject project, NMEProjectConfiguration configuration, IProgressMonitor monitor)
 		{
-			string args = "run nme build " + project.TargetNMMLFile + " " + configuration.Platform.ToLower ();
+			string args = "run nme build \"" + project.TargetNMMLFile + "\" " + configuration.Platform.ToLower ();
 			
 			if (configuration.DebugMode)
 			{
@@ -289,7 +289,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 		public static void Run (NMEProject project, NMEProjectConfiguration configuration, IProgressMonitor monitor, ExecutionContext context)
 		{
 			string exe = "haxelib";
-			string args = "run nme run " + project.TargetNMMLFile + " " + configuration.Platform.ToLower ();
+			string args = "run nme run \"" + project.TargetNMMLFile + "\" " + configuration.Platform.ToLower ();
 			
 			if (configuration.DebugMode)
 			{
