@@ -299,60 +299,183 @@ namespace MonoDevelop.HaxeBinding.Tools
 
 		public static void Run (HaxeProject project, HaxeProjectConfiguration configuration, IProgressMonitor monitor, ExecutionContext context)
 		{
-			/*string exe = "haxelib";
-			string args = "run nme run \"" + project.TargetNMMLFile + "\" " + configuration.Platform.ToLower ();
+			string hxmlPath = Path.GetFullPath (project.TargetHXMLFile);
 			
-			if (configuration.DebugMode)
+			if (!File.Exists (hxmlPath))
 			{
-				args += " -debug";
+				hxmlPath = Path.Combine (project.BaseDirectory, project.TargetHXMLFile);
 			}
 			
-			if (project.AdditionalArguments != "")
-			{
-				args += " " + project.AdditionalArguments;
-			}
+			string hxml = File.ReadAllText (hxmlPath);
+			hxml = hxml.Replace (Environment.NewLine, " ");
+			string[] hxmlArgs = hxml.Split (' ');
 			
-			if (configuration.AdditionalArguments != "")
+			List<string> platforms = new List<string> ();
+			List<string> platformOutputs = new List<string> ();
+			
+			bool addNext = false;
+			bool nextIsMain = false;
+			string main = "";
+			
+			foreach (string hxmlArg in hxmlArgs)
 			{
-				args += " " + configuration.AdditionalArguments;
-			}
-
-			IConsole console;
-			if (configuration.ExternalConsole)
-				console = context.ExternalConsoleFactory.CreateConsole (false);
-			else
-				console = context.ConsoleFactory.CreateConsole (false);
-
-			AggregatedOperationMonitor operationMonitor = new AggregatedOperationMonitor (monitor);
-
-			try
-			{
-				NativeExecutionCommand cmd = new NativeExecutionCommand (exe);
-				cmd.Arguments = args;
-				cmd.WorkingDirectory = project.BaseDirectory.FullPath;
-
-				if (!context.ExecutionHandler.CanExecute (cmd))
+				if (addNext)
 				{
-					monitor.ReportError (String.Format ("Cannot execute '{0} {1}'.", exe, args), null);
-					return;
+					if (!hxmlArg.StartsWith ("-"))
+					{
+						if (nextIsMain)
+						{
+							main = hxmlArg;
+							nextIsMain = false;
+						}
+						else
+						{
+							platformOutputs.Add (hxmlArg);
+						}
+					}
+					else
+					{
+						if (!nextIsMain)
+						{
+							platforms.RemoveAt (platforms.Count - 1);
+						}
+					}
 				}
 				
-				IProcessAsyncOperation operation = context.ExecutionHandler.Execute (cmd, console);
+				addNext = true;
 				
-				operationMonitor.AddOperation (operation);
-				operation.WaitForCompleted ();
-
-				monitor.Log.WriteLine ("Player exited with code {0}.", operation.ExitCode);
+				switch (hxmlArg)
+				{
+					case "-cpp":
+						platforms.Add ("cpp");
+						break;
+						
+					case "-swf":
+					case "-swf9":
+						platforms.Add ("flash");
+						break;
+					
+					case "-js":
+						platforms.Add ("js");
+						break;
+					
+					case "-neko":
+						platforms.Add ("neko");
+						break;
+						
+					case "-php":
+						platforms.Add ("php");
+						break;
+					
+					case "-main":
+						nextIsMain = true;
+						break;
+						
+					default:
+						addNext = false;
+						break;
+				}
 			}
-			catch (Exception)
+			
+			for (int i = 0; i < platforms.Count; i++)
 			{
-				monitor.ReportError (String.Format ("Error while executing '{0} {1}'.", exe, args), null);
+				string platform = platforms[i];
+				string output = platformOutputs[i];
+				
+				if (platform == "cpp" || platform == "neko")
+				{
+					if (platform == "cpp")
+					{
+						output = Path.Combine (output, main);
+						if (configuration.DebugMode)
+						{
+							output += "-debug";
+						}
+					}
+					
+					if (!File.Exists (Path.GetFullPath (output)))
+					{
+						output = Path.Combine (project.BaseDirectory, output);
+					}
+					
+					string exe = "";
+					string args = "";
+					
+					if (platform == "cpp")
+					{
+						exe = output;
+					}
+					else
+					{
+						exe = "neko";
+						args = "\"" + output + "\"";
+					}
+					
+					IConsole console;
+					if (configuration.ExternalConsole)
+						console = context.ExternalConsoleFactory.CreateConsole (false);
+					else
+						console = context.ConsoleFactory.CreateConsole (false);
+		
+					AggregatedOperationMonitor operationMonitor = new AggregatedOperationMonitor (monitor);
+		
+					try
+					{
+						NativeExecutionCommand cmd = new NativeExecutionCommand (exe);
+						cmd.Arguments = args;
+						cmd.WorkingDirectory = project.BaseDirectory.FullPath;
+		
+						if (!context.ExecutionHandler.CanExecute (cmd))
+						{
+							monitor.ReportError (String.Format ("Cannot execute '{0} {1}'.", exe, args), null);
+							return;
+						}
+						
+						IProcessAsyncOperation operation = context.ExecutionHandler.Execute (cmd, console);
+						
+						operationMonitor.AddOperation (operation);
+						operation.WaitForCompleted ();
+		
+						monitor.Log.WriteLine ("Player exited with code {0}.", operation.ExitCode);
+					}
+					catch (Exception)
+					{
+						monitor.ReportError (String.Format ("Error while executing '{0} {1}'.", exe, args), null);
+					}
+					finally
+					{
+						operationMonitor.Dispose ();
+						console.Dispose ();
+					}
+				}
+				else if (platform == "flash" || platform == "js")
+				{
+					if (!File.Exists (Path.GetFullPath (output)))
+					{
+						output = Path.Combine (project.BaseDirectory, output);
+					}
+					
+					if (platform == "js")
+					{
+						output = Path.Combine (Path.GetDirectoryName (output), "index.html");
+					}
+					
+					string target = output;
+					
+					switch (Environment.OSVersion.Platform)
+					{
+						case PlatformID.MacOSX:
+							//target = "open \"" + output + "\"";
+							break;
+						
+						case PlatformID.Unix:
+							//target = "xdg-open \"" + output + "\"";
+							break;
+					}
+					
+					Process.Start (target);
+				}
 			}
-			finally
-			{
-				operationMonitor.Dispose ();
-				console.Dispose ();
-			}*/
 		}
 		
 	}
