@@ -91,6 +91,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 				}
 				catch (Exception ex)
 				{
+					ex.ToString ();
 				}
 				
 				mCacheXMLCurrent = false;
@@ -147,6 +148,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 				}
 				catch (Exception ex)
 				{
+					ex.ToString ();
 				}
 			}
 			
