@@ -24,7 +24,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
         }
     }
 
-    [System.ComponentModel.Category("HaxeContext")]
+    [System.ComponentModel.Category("HaxeBinding")]
     [System.ComponentModel.ToolboxItem(true)]
     public partial class HaxeOptionsWidget : Gtk.Bin
     {
@@ -32,21 +32,21 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
         {
             this.Build();
 
-            wSdkPathEntry.Text = PropertyService.Get<string>("CBinding.FlexSdkPath");
+            /*wSdkPathEntry.Text = PropertyService.Get<string>("CBinding.FlexSdkPath");
             wPlayerPathEntry.Text = PropertyService.Get<string>("CBinding.FlexPlayerPath");
-            wBrowserPathEntry.Text = PropertyService.Get<string>("CBinding.FlexBrowserPath");
+            wBrowserPathEntry.Text = PropertyService.Get<string>("CBinding.FlexBrowserPath");*/
         }
 
         public bool Store()
         {
-            PropertyService.Set("CBinding.FlexSdkPath", wSdkPathEntry.Text);
+            /*PropertyService.Set("CBinding.FlexSdkPath", wSdkPathEntry.Text);
             PropertyService.Set("CBinding.FlexPlayerPath", wPlayerPathEntry.Text);
             PropertyService.Set("CBinding.FlexBrowserPath", wBrowserPathEntry.Text);
-            PropertyService.SaveProperties();
+            PropertyService.SaveProperties();*/
             return true;
         }
 
-        protected virtual void OnWSdkPathButtonClicked (object sender, System.EventArgs e)
+        /*protected virtual void OnWSdkPathButtonClicked (object sender, System.EventArgs e)
         {
             Gtk.FileChooserDialog fc =
                 new Gtk.FileChooserDialog("Flex SDK Path", this.Toplevel as Gtk.Window, FileChooserAction.SelectFolder,
@@ -92,6 +92,6 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
             }
 
             fc.Destroy();
-        }
+        }*/
     }
 }

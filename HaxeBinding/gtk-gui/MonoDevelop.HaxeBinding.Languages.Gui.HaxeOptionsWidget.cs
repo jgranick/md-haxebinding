@@ -9,22 +9,12 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		private global::Gtk.Alignment GtkAlignment;
 		private global::Gtk.Table table1;
 		private global::Gtk.HBox hbox1;
-		private global::Gtk.Entry wPlayerPathEntry;
-		private global::Gtk.Button wPlayerPathButton;
 		private global::Gtk.HBox hbox2;
-		private global::Gtk.Entry wSdkPathEntry;
-		private global::Gtk.Button wSdkPathButton;
-		private global::Gtk.Label label1;
-		private global::Gtk.Label label2;
 		private global::Gtk.Label GtkLabel2;
 		private global::Gtk.Frame frame2;
 		private global::Gtk.Alignment GtkAlignment1;
 		private global::Gtk.Table table2;
 		private global::Gtk.HBox hbox3;
-		private global::Gtk.Entry wBrowserPathEntry;
-		private global::Gtk.Button wBrowserPathButton;
-		private global::Gtk.Label label3;
-		private global::Gtk.Label GtkLabel3;
 		
 		protected virtual void Build ()
 		{
@@ -54,92 +44,30 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 			this.hbox1 = new global::Gtk.HBox ();
 			this.hbox1.Name = "hbox1";
 			this.hbox1.Spacing = 6;
-			// Container child hbox1.Gtk.Box+BoxChild
-			this.wPlayerPathEntry = new global::Gtk.Entry ();
-			this.wPlayerPathEntry.CanFocus = true;
-			this.wPlayerPathEntry.Name = "wPlayerPathEntry";
-			this.wPlayerPathEntry.IsEditable = true;
-			this.wPlayerPathEntry.InvisibleChar = '•';
-			this.hbox1.Add (this.wPlayerPathEntry);
-			global::Gtk.Box.BoxChild w1 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.wPlayerPathEntry]));
-			w1.Position = 0;
-			// Container child hbox1.Gtk.Box+BoxChild
-			this.wPlayerPathButton = new global::Gtk.Button ();
-			this.wPlayerPathButton.CanFocus = true;
-			this.wPlayerPathButton.Name = "wPlayerPathButton";
-			this.wPlayerPathButton.Label = global::Mono.Unix.Catalog.GetString ("Choose...");
-			this.hbox1.Add (this.wPlayerPathButton);
-			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.wPlayerPathButton]));
-			w2.Position = 1;
-			w2.Expand = false;
-			w2.Fill = false;
 			this.table1.Add (this.hbox1);
-			global::Gtk.Table.TableChild w3 = ((global::Gtk.Table.TableChild)(this.table1 [this.hbox1]));
-			w3.TopAttach = ((uint)(1));
-			w3.BottomAttach = ((uint)(2));
-			w3.LeftAttach = ((uint)(1));
-			w3.RightAttach = ((uint)(2));
-			w3.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w1 = ((global::Gtk.Table.TableChild)(this.table1 [this.hbox1]));
+			w1.TopAttach = ((uint)(1));
+			w1.BottomAttach = ((uint)(2));
+			w1.LeftAttach = ((uint)(1));
+			w1.RightAttach = ((uint)(2));
 			// Container child table1.Gtk.Table+TableChild
 			this.hbox2 = new global::Gtk.HBox ();
 			this.hbox2.Name = "hbox2";
 			this.hbox2.Spacing = 6;
-			// Container child hbox2.Gtk.Box+BoxChild
-			this.wSdkPathEntry = new global::Gtk.Entry ();
-			this.wSdkPathEntry.CanFocus = true;
-			this.wSdkPathEntry.Name = "wSdkPathEntry";
-			this.wSdkPathEntry.IsEditable = true;
-			this.wSdkPathEntry.InvisibleChar = '•';
-			this.hbox2.Add (this.wSdkPathEntry);
-			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.wSdkPathEntry]));
-			w4.Position = 0;
-			// Container child hbox2.Gtk.Box+BoxChild
-			this.wSdkPathButton = new global::Gtk.Button ();
-			this.wSdkPathButton.CanFocus = true;
-			this.wSdkPathButton.Name = "wSdkPathButton";
-			this.wSdkPathButton.Label = global::Mono.Unix.Catalog.GetString ("Choose...");
-			this.hbox2.Add (this.wSdkPathButton);
-			global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.wSdkPathButton]));
-			w5.Position = 1;
-			w5.Expand = false;
-			w5.Fill = false;
 			this.table1.Add (this.hbox2);
-			global::Gtk.Table.TableChild w6 = ((global::Gtk.Table.TableChild)(this.table1 [this.hbox2]));
-			w6.LeftAttach = ((uint)(1));
-			w6.RightAttach = ((uint)(2));
-			w6.YOptions = ((global::Gtk.AttachOptions)(4));
-			// Container child table1.Gtk.Table+TableChild
-			this.label1 = new global::Gtk.Label ();
-			this.label1.Name = "label1";
-			this.label1.Xalign = 0F;
-			this.label1.LabelProp = global::Mono.Unix.Catalog.GetString ("Standalone Player Path");
-			this.table1.Add (this.label1);
-			global::Gtk.Table.TableChild w7 = ((global::Gtk.Table.TableChild)(this.table1 [this.label1]));
-			w7.TopAttach = ((uint)(1));
-			w7.BottomAttach = ((uint)(2));
-			w7.XOptions = ((global::Gtk.AttachOptions)(4));
-			w7.YOptions = ((global::Gtk.AttachOptions)(4));
-			// Container child table1.Gtk.Table+TableChild
-			this.label2 = new global::Gtk.Label ();
-			this.label2.Name = "label2";
-			this.label2.Xalign = 0F;
-			this.label2.LabelProp = global::Mono.Unix.Catalog.GetString ("Flex SDK Path");
-			this.table1.Add (this.label2);
-			global::Gtk.Table.TableChild w8 = ((global::Gtk.Table.TableChild)(this.table1 [this.label2]));
-			w8.XOptions = ((global::Gtk.AttachOptions)(4));
-			w8.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w2 = ((global::Gtk.Table.TableChild)(this.table1 [this.hbox2]));
+			w2.LeftAttach = ((uint)(1));
+			w2.RightAttach = ((uint)(2));
 			this.GtkAlignment.Add (this.table1);
 			this.frame1.Add (this.GtkAlignment);
 			this.GtkLabel2 = new global::Gtk.Label ();
 			this.GtkLabel2.Name = "GtkLabel2";
-			this.GtkLabel2.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Flex SDK</b>");
+			this.GtkLabel2.LabelProp = global::Mono.Unix.Catalog.GetString ("<i>This space reserved for future use</i>");
 			this.GtkLabel2.UseMarkup = true;
 			this.frame1.LabelWidget = this.GtkLabel2;
 			this.vbox1.Add (this.frame1);
-			global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frame1]));
-			w11.Position = 0;
-			w11.Expand = false;
-			w11.Fill = false;
+			global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frame1]));
+			w5.Position = 0;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.frame2 = new global::Gtk.Frame ();
 			this.frame2.Name = "frame2";
@@ -158,59 +86,20 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 			this.hbox3 = new global::Gtk.HBox ();
 			this.hbox3.Name = "hbox3";
 			this.hbox3.Spacing = 6;
-			// Container child hbox3.Gtk.Box+BoxChild
-			this.wBrowserPathEntry = new global::Gtk.Entry ();
-			this.wBrowserPathEntry.CanFocus = true;
-			this.wBrowserPathEntry.Name = "wBrowserPathEntry";
-			this.wBrowserPathEntry.IsEditable = true;
-			this.wBrowserPathEntry.InvisibleChar = '•';
-			this.hbox3.Add (this.wBrowserPathEntry);
-			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.hbox3 [this.wBrowserPathEntry]));
-			w12.Position = 0;
-			// Container child hbox3.Gtk.Box+BoxChild
-			this.wBrowserPathButton = new global::Gtk.Button ();
-			this.wBrowserPathButton.CanFocus = true;
-			this.wBrowserPathButton.Name = "wBrowserPathButton";
-			this.wBrowserPathButton.Label = global::Mono.Unix.Catalog.GetString ("Choose...");
-			this.hbox3.Add (this.wBrowserPathButton);
-			global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.hbox3 [this.wBrowserPathButton]));
-			w13.Position = 1;
-			w13.Expand = false;
-			w13.Fill = false;
 			this.table2.Add (this.hbox3);
-			global::Gtk.Table.TableChild w14 = ((global::Gtk.Table.TableChild)(this.table2 [this.hbox3]));
-			w14.LeftAttach = ((uint)(1));
-			w14.RightAttach = ((uint)(2));
-			w14.YOptions = ((global::Gtk.AttachOptions)(4));
-			// Container child table2.Gtk.Table+TableChild
-			this.label3 = new global::Gtk.Label ();
-			this.label3.Name = "label3";
-			this.label3.Xalign = 0F;
-			this.label3.LabelProp = global::Mono.Unix.Catalog.GetString ("Browser Path");
-			this.table2.Add (this.label3);
-			global::Gtk.Table.TableChild w15 = ((global::Gtk.Table.TableChild)(this.table2 [this.label3]));
-			w15.XOptions = ((global::Gtk.AttachOptions)(4));
-			w15.YOptions = ((global::Gtk.AttachOptions)(4));
+			global::Gtk.Table.TableChild w6 = ((global::Gtk.Table.TableChild)(this.table2 [this.hbox3]));
+			w6.LeftAttach = ((uint)(1));
+			w6.RightAttach = ((uint)(2));
 			this.GtkAlignment1.Add (this.table2);
 			this.frame2.Add (this.GtkAlignment1);
-			this.GtkLabel3 = new global::Gtk.Label ();
-			this.GtkLabel3.Name = "GtkLabel3";
-			this.GtkLabel3.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Browser</b>");
-			this.GtkLabel3.UseMarkup = true;
-			this.frame2.LabelWidget = this.GtkLabel3;
 			this.vbox1.Add (this.frame2);
-			global::Gtk.Box.BoxChild w18 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frame2]));
-			w18.Position = 1;
-			w18.Expand = false;
-			w18.Fill = false;
+			global::Gtk.Box.BoxChild w9 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frame2]));
+			w9.Position = 1;
 			this.Add (this.vbox1);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
 			this.Hide ();
-			this.wSdkPathButton.Clicked += new global::System.EventHandler (this.OnWSdkPathButtonClicked);
-			this.wPlayerPathButton.Clicked += new global::System.EventHandler (this.OnWPlayerPathButtonClicked);
-			this.wBrowserPathButton.Clicked += new global::System.EventHandler (this.OnWBrowserPathButtonClicked);
 		}
 	}
 }

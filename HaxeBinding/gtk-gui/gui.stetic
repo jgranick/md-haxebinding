@@ -347,35 +347,20 @@
                     <property name="RowSpacing">6</property>
                     <property name="ColumnSpacing">12</property>
                     <child>
+                      <placeholder />
+                    </child>
+                    <child>
+                      <placeholder />
+                    </child>
+                    <child>
                       <widget class="Gtk.HBox" id="hbox1">
                         <property name="MemberName" />
                         <property name="Spacing">6</property>
                         <child>
-                          <widget class="Gtk.Entry" id="wPlayerPathEntry">
-                            <property name="MemberName" />
-                            <property name="CanFocus">True</property>
-                            <property name="IsEditable">True</property>
-                            <property name="InvisibleChar">•</property>
-                          </widget>
-                          <packing>
-                            <property name="Position">0</property>
-                            <property name="AutoSize">True</property>
-                          </packing>
+                          <placeholder />
                         </child>
                         <child>
-                          <widget class="Gtk.Button" id="wPlayerPathButton">
-                            <property name="MemberName" />
-                            <property name="CanFocus">True</property>
-                            <property name="Type">TextOnly</property>
-                            <property name="Label" translatable="yes">Choose...</property>
-                            <signal name="Clicked" handler="OnWPlayerPathButtonClicked" />
-                          </widget>
-                          <packing>
-                            <property name="Position">1</property>
-                            <property name="AutoSize">True</property>
-                            <property name="Expand">False</property>
-                            <property name="Fill">False</property>
-                          </packing>
+                          <placeholder />
                         </child>
                       </widget>
                       <packing>
@@ -384,11 +369,10 @@
                         <property name="LeftAttach">1</property>
                         <property name="RightAttach">2</property>
                         <property name="AutoSize">True</property>
-                        <property name="YOptions">Fill</property>
                         <property name="XExpand">True</property>
                         <property name="XFill">True</property>
                         <property name="XShrink">False</property>
-                        <property name="YExpand">False</property>
+                        <property name="YExpand">True</property>
                         <property name="YFill">True</property>
                         <property name="YShrink">False</property>
                       </packing>
@@ -398,80 +382,20 @@
                         <property name="MemberName" />
                         <property name="Spacing">6</property>
                         <child>
-                          <widget class="Gtk.Entry" id="wSdkPathEntry">
-                            <property name="MemberName" />
-                            <property name="CanFocus">True</property>
-                            <property name="IsEditable">True</property>
-                            <property name="InvisibleChar">•</property>
-                          </widget>
-                          <packing>
-                            <property name="Position">0</property>
-                            <property name="AutoSize">True</property>
-                          </packing>
+                          <placeholder />
                         </child>
                         <child>
-                          <widget class="Gtk.Button" id="wSdkPathButton">
-                            <property name="MemberName" />
-                            <property name="CanFocus">True</property>
-                            <property name="Type">TextOnly</property>
-                            <property name="Label" translatable="yes">Choose...</property>
-                            <signal name="Clicked" handler="OnWSdkPathButtonClicked" />
-                          </widget>
-                          <packing>
-                            <property name="Position">1</property>
-                            <property name="AutoSize">True</property>
-                            <property name="Expand">False</property>
-                            <property name="Fill">False</property>
-                          </packing>
+                          <placeholder />
                         </child>
                       </widget>
                       <packing>
                         <property name="LeftAttach">1</property>
                         <property name="RightAttach">2</property>
                         <property name="AutoSize">True</property>
-                        <property name="YOptions">Fill</property>
                         <property name="XExpand">True</property>
                         <property name="XFill">True</property>
                         <property name="XShrink">False</property>
-                        <property name="YExpand">False</property>
-                        <property name="YFill">True</property>
-                        <property name="YShrink">False</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="Gtk.Label" id="label1">
-                        <property name="MemberName" />
-                        <property name="Xalign">0</property>
-                        <property name="LabelProp" translatable="yes">Standalone Player Path</property>
-                      </widget>
-                      <packing>
-                        <property name="TopAttach">1</property>
-                        <property name="BottomAttach">2</property>
-                        <property name="AutoSize">True</property>
-                        <property name="XOptions">Fill</property>
-                        <property name="YOptions">Fill</property>
-                        <property name="XExpand">False</property>
-                        <property name="XFill">True</property>
-                        <property name="XShrink">False</property>
-                        <property name="YExpand">False</property>
-                        <property name="YFill">True</property>
-                        <property name="YShrink">False</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="Gtk.Label" id="label2">
-                        <property name="MemberName" />
-                        <property name="Xalign">0</property>
-                        <property name="LabelProp" translatable="yes">Flex SDK Path</property>
-                      </widget>
-                      <packing>
-                        <property name="AutoSize">True</property>
-                        <property name="XOptions">Fill</property>
-                        <property name="YOptions">Fill</property>
-                        <property name="XExpand">False</property>
-                        <property name="XFill">True</property>
-                        <property name="XShrink">False</property>
-                        <property name="YExpand">False</property>
+                        <property name="YExpand">True</property>
                         <property name="YFill">True</property>
                         <property name="YShrink">False</property>
                       </packing>
@@ -483,7 +407,7 @@
             <child>
               <widget class="Gtk.Label" id="GtkLabel2">
                 <property name="MemberName" />
-                <property name="LabelProp" translatable="yes">&lt;b&gt;Flex SDK&lt;/b&gt;</property>
+                <property name="LabelProp" translatable="yes">&lt;i&gt;This space reserved for future use&lt;/i&gt;</property>
                 <property name="UseMarkup">True</property>
               </widget>
               <packing>
@@ -494,8 +418,6 @@
           <packing>
             <property name="Position">0</property>
             <property name="AutoSize">True</property>
-            <property name="Expand">False</property>
-            <property name="Fill">False</property>
           </packing>
         </child>
         <child>
@@ -516,64 +438,27 @@
                     <property name="RowSpacing">6</property>
                     <property name="ColumnSpacing">6</property>
                     <child>
+                      <placeholder />
+                    </child>
+                    <child>
                       <widget class="Gtk.HBox" id="hbox3">
                         <property name="MemberName" />
                         <property name="Spacing">6</property>
                         <child>
-                          <widget class="Gtk.Entry" id="wBrowserPathEntry">
-                            <property name="MemberName" />
-                            <property name="CanFocus">True</property>
-                            <property name="IsEditable">True</property>
-                            <property name="InvisibleChar">•</property>
-                          </widget>
-                          <packing>
-                            <property name="Position">0</property>
-                            <property name="AutoSize">True</property>
-                          </packing>
+                          <placeholder />
                         </child>
                         <child>
-                          <widget class="Gtk.Button" id="wBrowserPathButton">
-                            <property name="MemberName" />
-                            <property name="CanFocus">True</property>
-                            <property name="Type">TextOnly</property>
-                            <property name="Label" translatable="yes">Choose...</property>
-                            <signal name="Clicked" handler="OnWBrowserPathButtonClicked" />
-                          </widget>
-                          <packing>
-                            <property name="Position">1</property>
-                            <property name="AutoSize">True</property>
-                            <property name="Expand">False</property>
-                            <property name="Fill">False</property>
-                          </packing>
+                          <placeholder />
                         </child>
                       </widget>
                       <packing>
                         <property name="LeftAttach">1</property>
                         <property name="RightAttach">2</property>
                         <property name="AutoSize">True</property>
-                        <property name="YOptions">Fill</property>
                         <property name="XExpand">True</property>
                         <property name="XFill">True</property>
                         <property name="XShrink">False</property>
-                        <property name="YExpand">False</property>
-                        <property name="YFill">True</property>
-                        <property name="YShrink">False</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="Gtk.Label" id="label3">
-                        <property name="MemberName" />
-                        <property name="Xalign">0</property>
-                        <property name="LabelProp" translatable="yes">Browser Path</property>
-                      </widget>
-                      <packing>
-                        <property name="AutoSize">True</property>
-                        <property name="XOptions">Fill</property>
-                        <property name="YOptions">Fill</property>
-                        <property name="XExpand">False</property>
-                        <property name="XFill">True</property>
-                        <property name="XShrink">False</property>
-                        <property name="YExpand">False</property>
+                        <property name="YExpand">True</property>
                         <property name="YFill">True</property>
                         <property name="YShrink">False</property>
                       </packing>
@@ -583,21 +468,12 @@
               </widget>
             </child>
             <child>
-              <widget class="Gtk.Label" id="GtkLabel3">
-                <property name="MemberName" />
-                <property name="LabelProp" translatable="yes">&lt;b&gt;Browser&lt;/b&gt;</property>
-                <property name="UseMarkup">True</property>
-              </widget>
-              <packing>
-                <property name="type">label_item</property>
-              </packing>
+              <placeholder />
             </child>
           </widget>
           <packing>
             <property name="Position">1</property>
             <property name="AutoSize">True</property>
-            <property name="Expand">False</property>
-            <property name="Fill">False</property>
           </packing>
         </child>
       </widget>
