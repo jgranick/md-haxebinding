@@ -126,6 +126,9 @@
     <EmbeddedResource Include="Resources\Templates\EmptyNMMLFile.xft.xml">
       <LogicalName>EmptyNMMLFile.xft.xml</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SyntaxModes\FlashDevelopStyle.xml">
+      <LogicalName>FlashDevelopStyle.xml</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Projects\" />

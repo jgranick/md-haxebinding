@@ -86,7 +86,6 @@
 		<Word>Date</Word>
 		<Word>Xml</Word>
 		<Word>Void</Word>
-		<Word>var</Word>
 	</Keywords>
 	
 	<Keywords color = "keyword.declaration">
@@ -95,6 +94,7 @@
 		<Word>interface</Word>
 		<Word>enum</Word>
 		<Word>typedef</Word>
+		<Word>var</Word>
 	</Keywords>
 
 	<Keywords color = "keyword.modifier">

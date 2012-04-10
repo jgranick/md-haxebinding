@@ -40,6 +40,10 @@
 		<Templates resource="HaxeSyntaxMode.xml" />
 	</Extension>
 	
+	<Extension path="/MonoDevelop/SourceEditor2/Styles">
+		<Templates resource="FlashDevelopStyle.xml" />
+	</Extension>
+	
 	
 	
 	<!-- Templates -->
