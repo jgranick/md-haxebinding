@@ -134,7 +134,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 										//md-literal
 									}
 								
-									if (type.IndexOf ("* @private") == -1)
+									if (type.IndexOf ("@private") == -1)
 									{
 										list.Add (new CompletionData (name, icon, type));
 									}
