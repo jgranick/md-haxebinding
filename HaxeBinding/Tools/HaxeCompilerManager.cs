@@ -16,8 +16,14 @@ using MonoDevelop.HaxeBinding.Projects;
 namespace MonoDevelop.HaxeBinding.Tools
 {
 
-	static class NMECommandLineToolsManager
+	static class HaxeCompilerManager
 	{
+		
+		private static string cacheArgumentsGlobal;
+		private static string cacheArgumentsPlatform;
+		private static string cacheHXML;
+		private static string cachePlatform;
+		private static DateTime cacheNMMLTime;
 		
 		private static Regex mErrorFull = new Regex (@"^(?<file>.+)\((?<line>\d+)\):\s(col:\s)?(?<column>\d*)\s?(?<level>\w+):\s(?<message>.*)\.?$", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
 
@@ -33,9 +39,9 @@ namespace MonoDevelop.HaxeBinding.Tools
 		private static Regex mErrorIgnore = new Regex (@"^(Updated|Recompile|Reason|Files changed):.*", RegexOptions.Compiled);
 
 		
-		public static BuildResult Compile (NMEProject project, NMEProjectConfiguration configuration, IProgressMonitor monitor)
+		public static BuildResult Compile (HaxeProject project, HaxeProjectConfiguration configuration, IProgressMonitor monitor)
 		{
-			string args = "run nme build \"" + project.TargetNMMLFile + "\" " + configuration.Platform.ToLower ();
+			/*string args = "run nme build \"" + project.TargetNMMLFile + "\" " + configuration.Platform.ToLower ();
 			
 			if (configuration.DebugMode)
 			{
@@ -68,11 +74,12 @@ namespace MonoDevelop.HaxeBinding.Tools
 			}
 			
 			FileService.DeleteFile (error);
-			return result;
+			return result;*/
+			return null;
 		}
 		
 		
-		private static BuildError CreateErrorFromString (NMEProject project, string text)
+		private static BuildError CreateErrorFromString (HaxeProject project, string text)
 		{
 			Match match = mErrorIgnore.Match (text);
 			if (match.Success)
@@ -156,36 +163,66 @@ namespace MonoDevelop.HaxeBinding.Tools
 		}
 		
 		
-		public static string GetHXMLData (NMEProject project, NMEProjectConfiguration configuration)
+		public static string GetCompletionData (Project project, string classPath, string fileName, int position)
 		{
-			ProcessStartInfo info = new ProcessStartInfo ();
+			string exe = "haxe";
+			string args = "";
 			
-			info.FileName = "haxelib";
-			info.Arguments = "run nme update \"" + project.TargetNMMLFile + "\" " + configuration.Platform.ToLower () + " " + project.AdditionalArguments + " " + configuration.AdditionalArguments;
-			info.UseShellExecute = false;
-			info.RedirectStandardOutput = true;
-			info.RedirectStandardError = true;
-			info.WorkingDirectory = project.BaseDirectory;
-			//info.WindowStyle = ProcessWindowStyle.Hidden;
-			info.CreateNoWindow = true;
-			
-			using (Process process = Process.Start (info))
-			{
-				process.WaitForExit ();
+			if (project is NMEProject) {
+				
+				NMEProjectConfiguration configuration = project.GetConfiguration (MonoDevelop.Ide.IdeApp.Workspace.ActiveConfiguration) as NMEProjectConfiguration;
+				
+				string platform = configuration.Platform.ToLower ();
+				string path = ((NMEProject)project).TargetNMMLFile;
+				
+				if (!File.Exists (path))
+				{
+					path = Path.Combine (project.BaseDirectory, path);
+				}
+				
+				DateTime time = File.GetLastWriteTime (Path.GetFullPath (path));
+				
+				if (!time.Equals (cacheNMMLTime) || platform != cachePlatform || configuration.AdditionalArguments != cacheArgumentsPlatform || ((NMEProject)project).AdditionalArguments != cacheArgumentsGlobal)
+				{
+					cacheHXML = NMECommandLineToolsManager.GetHXMLData ((NMEProject)project, configuration);
+					cacheNMMLTime = time;
+					cachePlatform = platform;
+					cacheArgumentsGlobal = ((NMEProject)project).AdditionalArguments;
+					cacheArgumentsPlatform = configuration.AdditionalArguments;
+				}
+				
+				args = cacheHXML + " " + ((NMEProject)project).AdditionalArguments + " " + configuration.AdditionalArguments;
+				
+			} else if (project is HaxeProject) {
+				
+				HaxeProjectConfiguration configuration = project.GetConfiguration (MonoDevelop.Ide.IdeApp.Workspace.ActiveConfiguration) as HaxeProjectConfiguration;
+				
+				args = "\"" + ((HaxeProject)project).TargetHXMLFile + "\" " + ((HaxeProject)project).AdditionalArguments + " " + configuration.AdditionalArguments;
+				
+			} else {
+				
+				return "";
+				
 			}
 			
-			info.Arguments = "run nme display \"" + project.TargetNMMLFile + "\" " + configuration.Platform.ToLower () + " " + project.AdditionalArguments + " " + configuration.AdditionalArguments;
+			args += " -cp \"" + classPath + "\" --display \"" + fileName + "\"@" + position + " -D use_rtti_doc";
 			
-			using (Process process = Process.Start (info))
-			{
-				string data = process.StandardOutput.ReadToEnd ();
-				process.WaitForExit ();
-				return data.Replace (Environment.NewLine, " ");
-			}
+			Process process = new Process ();
+			process.StartInfo.FileName = exe;
+			process.StartInfo.Arguments = args;
+			process.StartInfo.UseShellExecute = false;
+			process.StartInfo.CreateNoWindow = true;
+			process.StartInfo.RedirectStandardError = true;
+			process.StartInfo.WorkingDirectory = project.BaseDirectory;
+			process.Start ();
+			
+			string result = process.StandardError.ReadToEnd ();
+			process.WaitForExit ();
+			return result;
 		}
 
 
-		static BuildResult ParseOutput (NMEProject project, string stderr)
+		static BuildResult ParseOutput (HaxeProject project, string stderr)
 		{
 			BuildResult result = new BuildResult ();
 
@@ -198,7 +235,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 		}
 		
 		
-		static void ParserOutputFile (NMEProject project, BuildResult result, StringBuilder output, string filename)
+		static void ParserOutputFile (HaxeProject project, BuildResult result, StringBuilder output, string filename)
 		{
 			StreamReader reader = File.OpenText (filename);
 
@@ -220,9 +257,9 @@ namespace MonoDevelop.HaxeBinding.Tools
 		}
 
 
-		public static void Run (NMEProject project, NMEProjectConfiguration configuration, IProgressMonitor monitor, ExecutionContext context)
+		public static void Run (HaxeProject project, HaxeProjectConfiguration configuration, IProgressMonitor monitor, ExecutionContext context)
 		{
-			string exe = "haxelib";
+			/*string exe = "haxelib";
 			string args = "run nme run \"" + project.TargetNMMLFile + "\" " + configuration.Platform.ToLower ();
 			
 			if (configuration.DebugMode)
@@ -275,7 +312,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 			{
 				operationMonitor.Dispose ();
 				console.Dispose ();
-			}
+			}*/
 		}
 		
 	}

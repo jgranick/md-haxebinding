@@ -64,7 +64,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 				mCacheTriggerOffset = completionContext.TriggerOffset;
 				File.WriteAllText (mTempFileName, Document.Editor.Text);
 				
-				string data = NMECommandLineToolsManager.GetCompletionData ((NMEProject)Document.Project, mTempBaseDirectory, mTempFileName, mCacheTriggerOffset);
+				string data = HaxeCompilerManager.GetCompletionData ((NMEProject)Document.Project, mTempBaseDirectory, mTempFileName, mCacheTriggerOffset);
 				
 				try
 				{
@@ -178,7 +178,10 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		{
 			if (mCompletionEnabled && completionContext.TriggerOffset != mCacheTriggerOffset)
 			{
-				return GetCompletionList (completionContext);
+				if (completionChar == '.' || completionChar == '[' || completionChar == '(')
+				{
+					return GetCompletionList (completionContext);
+				}
 			}
 			
 			return null;
@@ -189,7 +192,10 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		{
 			if (mCompletionEnabled && completionContext.TriggerOffset != mCacheTriggerOffset)
 			{
-				return GetCompletionList (completionContext);
+				if (completionChar == '.' || completionChar == '[' || completionChar == '(')
+				{
+					return GetCompletionList (completionContext);
+				}
 			}
 			
 			return null;

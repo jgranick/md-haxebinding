@@ -88,8 +88,7 @@ namespace MonoDevelop.HaxeBinding.Projects
 		protected override BuildResult DoBuild (IProgressMonitor monitor, ConfigurationSelector configurationSelector)
 		{
 			HaxeProjectConfiguration haxeConfig = (HaxeProjectConfiguration)GetConfiguration (configurationSelector);
-			return null;
-			//return HaxeCommandLineToolsManager.Compile (this, haxeConfig, monitor);
+			return HaxeCompilerManager.Compile (this, haxeConfig, monitor);
 		}
 		
 		
@@ -102,7 +101,7 @@ namespace MonoDevelop.HaxeBinding.Projects
 		protected override void DoExecute (IProgressMonitor monitor, ExecutionContext context, ConfigurationSelector configurationSelector)
 		{
 			HaxeProjectConfiguration haxeConfig = (HaxeProjectConfiguration)GetConfiguration (configurationSelector);
-			//HaxeCommandLineToolsManager.Run (this, haxeConfig, monitor, context);
+			HaxeCompilerManager.Run (this, haxeConfig, monitor, context);
 		}
 		
 		

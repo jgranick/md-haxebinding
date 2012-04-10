@@ -86,6 +86,7 @@
     <Compile Include="Languages\Gui\HaxeParameterDataProvider.cs" />
     <Compile Include="Languages\HXMLLanguageBinding.cs" />
     <Compile Include="gtk-gui\MonoDevelop.HaxeBinding.Projects.Gui.HaxeProjectOptionsWidget.cs" />
+    <Compile Include="Tools\HaxeCompilerManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
