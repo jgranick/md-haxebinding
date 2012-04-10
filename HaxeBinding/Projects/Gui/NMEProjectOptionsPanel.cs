@@ -66,10 +66,16 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
                     "Cancel", ResponseType.Cancel,
                     "Select", ResponseType.Accept);
 			
-			Gtk.FileFilter filter = new Gtk.FileFilter ();
-			filter.Name = "NMML files";
-			filter.AddPattern ("*.nmml");
-			fc.AddFilter (filter);
+			Gtk.FileFilter filterNMML = new Gtk.FileFilter ();
+			filterNMML.Name = "NMML Files";
+			filterNMML.AddPattern ("*.nmml");
+			
+			Gtk.FileFilter filterAll = new Gtk.FileFilter ();
+			filterAll.Name = "All Files";
+			filterAll.AddPattern ("*");
+			
+			fc.AddFilter (filterNMML);
+			fc.AddFilter (filterAll);
 			
 			if (mProject.TargetNMMLFile != "")
 			{
