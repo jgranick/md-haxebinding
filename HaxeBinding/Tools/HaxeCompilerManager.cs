@@ -41,7 +41,48 @@ namespace MonoDevelop.HaxeBinding.Tools
 		
 		public static BuildResult Compile (HaxeProject project, HaxeProjectConfiguration configuration, IProgressMonitor monitor)
 		{
-			/*string args = "run nme build \"" + project.TargetNMMLFile + "\" " + configuration.Platform.ToLower ();
+			string exe = "haxe";
+			//string args = project.TargetHXMLFile;
+			
+			string hxmlPath = Path.GetFullPath (project.TargetHXMLFile);
+			
+			if (!File.Exists (hxmlPath))
+			{
+				hxmlPath = Path.Combine (project.BaseDirectory, project.TargetHXMLFile);
+			}
+			
+			string hxml = File.ReadAllText (hxmlPath);
+			hxml = hxml.Replace (Environment.NewLine, " ");
+			string[] hxmlArgs = hxml.Split (' ');
+			
+			bool createNext = false;
+			
+			foreach (string hxmlArg in hxmlArgs)
+			{
+				if (createNext)
+				{
+					if (!hxmlArg.StartsWith ("-"))
+					{
+						string path = Path.GetFullPath (Path.GetDirectoryName (hxmlArg));
+						if (!Directory.Exists (path))
+						{
+							path = Path.Combine (project.BaseDirectory, hxmlArg);
+							if (!Directory.Exists (Path.GetDirectoryName (path)))
+							{
+								Directory.CreateDirectory (Path.GetDirectoryName (path));
+							}
+						}
+					}
+					createNext = false;
+				}
+				
+				if (hxmlArg == "-js" || hxmlArg == "-swf" || hxmlArg == "-swf9" || hxmlArg == "-neko")
+				{
+					createNext = true;
+				}
+			}
+			
+			string args = String.Join (" ", hxmlArgs);
 			
 			if (configuration.DebugMode)
 			{
@@ -59,7 +100,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 			}
 			
 			string error = "";
-			int exitCode = DoCompilation ("haxelib", args, project.BaseDirectory, monitor, ref error);
+			int exitCode = DoCompilation (exe, args, project.BaseDirectory, monitor, ref error);
 			
 			BuildResult result = ParseOutput (project, error);
 			if (result.CompilerOutput.Trim ().Length != 0)
@@ -74,8 +115,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 			}
 			
 			FileService.DeleteFile (error);
-			return result;*/
-			return null;
+			return result;
 		}
 		
 		
