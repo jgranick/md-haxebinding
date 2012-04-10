@@ -19,6 +19,8 @@ namespace MonoDevelop.HaxeBinding.Tools
 	static class NMECommandLineToolsManager
 	{
 		
+		private static string cacheArgumentsGlobal;
+		private static string cacheArgumentsPlatform;
 		private static string cacheHXML;
 		private static string cachePlatform;
 		private static DateTime cacheNMMLTime;
@@ -162,11 +164,13 @@ namespace MonoDevelop.HaxeBinding.Tools
 			
 			DateTime time = File.GetLastWriteTime (Path.GetFullPath (path));
 			
-			if (!time.Equals (cacheNMMLTime) || platform != cachePlatform)
+			if (!time.Equals (cacheNMMLTime) || platform != cachePlatform || configuration.AdditionalArguments != cacheArgumentsPlatform || project.AdditionalArguments != cacheArgumentsGlobal)
 			{
 				cacheHXML = GetHXMLData (project, configuration);
 				cacheNMMLTime = time;
 				cachePlatform = platform;
+				cacheArgumentsGlobal = project.AdditionalArguments;
+				cacheArgumentsPlatform = configuration.AdditionalArguments;
 			}
 			
 			string exe = "haxe";
