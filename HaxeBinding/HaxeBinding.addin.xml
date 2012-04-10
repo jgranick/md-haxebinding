@@ -51,11 +51,14 @@
 	<Extension path="/MonoDevelop/Ide/FileTemplates">
 		<FileTemplate id="EmptyHaxeSourceFile" resource="EmptyHaxeSourceFile.xft.xml" />
 		<FileTemplate id="EmptyNMMLSourceFile" resource="EmptyNMMLFile.xft.xml" />
-		<FileTemplate id="EmptyNMEProject_HaxeSourceFile" resource="EmptyNMEProject_HaxeSourceFile.xft.xml" />
 	</Extension>
 	
 	<Extension path="/MonoDevelop/Ide/ProjectTemplates">
-		<!-- <ProjectTemplate id="EmptyHaxeProject" resource="EmptyHaxeProject.xpt.xml" /> -->
+		<ProjectTemplate id="EmptyHaxeCPPProject" resource="EmptyHaxeCPPProject.xpt.xml" />
+		<ProjectTemplate id="EmptyHaxeFlashProject" resource="EmptyHaxeFlashProject.xpt.xml" />
+		<ProjectTemplate id="EmptyHaxeJSProject" resource="EmptyHaxeJSProject.xpt.xml" />
+		<ProjectTemplate id="EmptyHaxeNekoProject" resource="EmptyHaxeNekoProject.xpt.xml" />
+		<ProjectTemplate id="EmptyHaxePHPProject" resource="EmptyHaxePHPProject.xpt.xml" />
 		<ProjectTemplate id="EmptyNMEProject" resource="EmptyNMEProject.xpt.xml" />
 	</Extension>
 	
@@ -65,11 +68,13 @@
 	
 	<Extension path="/MonoDevelop/Core/MimeTypes">
 		<MimeType id="text/x-haxe" _description="Haxe source code" icon="fd-file" isText="true"><File pattern="*.hx" /></MimeType>
+		<MimeType id="text/x-hxml" _description="HXML document" icon="fd-file" isText="true"><File pattern="*.hxml" /></MimeType>
 		<MimeType id="text/xml" _description="NMML document" icon="fd-file" isText="true"><File pattern="*.nmml" /></MimeType>
 	</Extension>
 	
 	<Extension path="/MonoDevelop/Ide/FileFilters">
 		<FileFilter id="Haxe" insertbefore="AllFiles" _label="Haxe Files" extensions="*.hx" />
+		<FileFilter id="HXML" insertbefore="AllFiles" _label="HXML Files" extensions="*.hxml" />
 		<FileFilter id="NMML" insertbefore="AllFiles" _label="NMML Files" extensions="*.nmml" />
 	</Extension>
 	
@@ -79,6 +84,7 @@
 	
 	<Extension path="/MonoDevelop/ProjectModel/LanguageBindings">
 		<LanguageBinding id="Haxe" supportedextensions=".hx" class="MonoDevelop.HaxeBinding.Languages.HaxeLanguageBinding" />
+		<LanguageBinding id="HXML" supportedextensions=".hxml" class="MonoDevelop.HaxeBinding.Languages.HXMLLanguageBinding" />
 		<LanguageBinding id="NMML" supportedextensions=".nmml" class="MonoDevelop.HaxeBinding.Languages.NMMLLanguageBinding" />
 	</Extension>
 	
@@ -124,7 +130,6 @@
 	
 	<Extension path="/MonoDevelop/Ide/TextEditorExtensions">
 		<Class fileExtensions=".hx" class="MonoDevelop.HaxeBinding.Languages.Gui.HaxeTextEditorCompletion" />
-		<!-- <Class class="MonoDevelop.FD.HaxeContext.Gui.HaxeTextEditorIndentation" /> -->
 	</Extension>
 	
 	

@@ -35,8 +35,8 @@
 <![CDATA[package;
 
 import nme.display.Sprite;
-import nme.Lib;			
-			
+import nme.Lib;
+
 /**
  * ...
  * @author ${AuthorName}

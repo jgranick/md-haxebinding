@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<Template Originator="Joshua Granick">
+        
+    <TemplateConfiguration>
+        <_Name>Empty Haxe/PHP Project</_Name>
+        <_Category>Haxe</_Category>
+        <Icon>fd-project</Icon>
+        <LanguageName>Haxe</LanguageName>
+        <_Description>Creates an empty Haxe/PHP project</_Description>
+    </TemplateConfiguration>
+
+    <Combine name="${ProjectName}" directory=".">
+        <Project name="${ProjectName}" directory="." type="Haxe">
+            <Options TargetHXMLFile="${ProjectName}.hxml" />
+            <Files>
+                <File name="Source/${ProjectName}.hx" AddStandardHeader="True">
+<![CDATA[package;
+
+/**
+ * ...
+ * @author ${AuthorName}
+ */
+class ${SafeProjectName} {
+	
+	public function new () {
+		
+		
+		
+	}
+	
+	static function main () {
+		
+		new ${SafeProjectName} ();
+		
+	}
+
+}]]></File>
+				<File name="${ProjectName}.hxml" AddStandardHeader="True">
+<![CDATA[-cp Source
+-main ${SafeProjectName}
+-php Export]]></File>
+            </Files>
+        </Project>
+    </Combine>
+</Template>

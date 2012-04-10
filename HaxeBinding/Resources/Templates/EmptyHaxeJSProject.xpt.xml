@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<Template Originator="Joshua Granick">
+        
+    <TemplateConfiguration>
+        <_Name>Empty Haxe/JS Project</_Name>
+        <_Category>Haxe</_Category>
+        <Icon>fd-project</Icon>
+        <LanguageName>Haxe</LanguageName>
+        <_Description>Creates an empty Haxe/JS project</_Description>
+    </TemplateConfiguration>
+
+    <Combine name="${ProjectName}" directory=".">
+        <Project name="${ProjectName}" directory="." type="Haxe">
+            <Options TargetHXMLFile="${ProjectName}.hxml" />
+            <Files>
+                <File name="Source/${ProjectName}.hx" AddStandardHeader="True">
+<![CDATA[package;
+
+/**
+ * ...
+ * @author ${AuthorName}
+ */
+class ${SafeProjectName} {
+	
+	public function new () {
+		
+		
+		
+	}
+	
+	static function main () {
+		
+		new ${SafeProjectName} ();
+		
+	}
+
+}]]></File>
+				<File name="${ProjectName}.hxml" AddStandardHeader="True">
+<![CDATA[-cp Source
+-main ${SafeProjectName}
+-js Export/${ProjectName}.js]]></File>
+				<File name="Export/index.html" AddStandardHeader="True">
+<![CDATA[<!doctype html>
+<html>
+<head><title>${ProjectName}</title></head>
+<body>
+	
+	<div id="haxe:trace"></div>
+	<script type="text/javascript" src="${ProjectName}.js"></script>
+	
+</body>
+</html>]]></File>				
+            </Files>
+        </Project>
+    </Combine>
+</Template>

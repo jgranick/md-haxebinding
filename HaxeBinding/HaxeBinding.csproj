@@ -77,15 +77,15 @@
     <Compile Include="Languages\NMMLLanguageBinding.cs" />
     <Compile Include="Languages\Gui\HaxeOptionsPanel.cs" />
     <Compile Include="Languages\Gui\HaxeTextEditorCompletion.cs" />
-    <Compile Include="Tools\HaxeCompilerManager.cs" />
     <Compile Include="gtk-gui\MonoDevelop.HaxeBinding.Languages.Gui.HaxeOptionsWidget.cs" />
     <Compile Include="gtk-gui\MonoDevelop.HaxeBinding.Projects.Gui.NMEOutputOptionsWidget.cs" />
     <Compile Include="gtk-gui\MonoDevelop.HaxeBinding.Projects.Gui.NMEProjectOptionsWidget.cs" />
     <Compile Include="gtk-gui\MonoDevelop.HaxeBinding.Projects.Gui.HaxeOutputOptionsWidget.cs" />
-    <Compile Include="gtk-gui\MonoDevelop.HaxeBinding.Projects.Gui.HaxeProjectOptionsWidget.cs" />
     <Compile Include="Tools\NMECommandLineToolsManager.cs" />
     <Compile Include="Helpers\PathHelper.cs" />
     <Compile Include="Languages\Gui\HaxeParameterDataProvider.cs" />
+    <Compile Include="Languages\HXMLLanguageBinding.cs" />
+    <Compile Include="gtk-gui\MonoDevelop.HaxeBinding.Projects.Gui.HaxeProjectOptionsWidget.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -95,9 +95,6 @@
     <EmbeddedResource Include="HaxeBinding.addin.xml" />
     <EmbeddedResource Include="Resources\SyntaxModes\HaxeSyntaxMode.xml">
       <LogicalName>HaxeSyntaxMode.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Templates\EmptyHaxeProject.xpt.xml">
-      <LogicalName>EmptyHaxeProject.xpt.xml</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Templates\EmptyHaxeSourceFile.xft.xml">
       <LogicalName>EmptyHaxeSourceFile.xft.xml</LogicalName>
@@ -128,6 +125,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\SyntaxModes\FlashDevelopStyle.xml">
       <LogicalName>FlashDevelopStyle.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Templates\EmptyHaxeFlashProject.xpt.xml">
+      <LogicalName>EmptyHaxeFlashProject.xpt.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Templates\EmptyHaxeCPPProject.xpt.xml">
+      <LogicalName>EmptyHaxeCPPProject.xpt.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Templates\EmptyHaxeJSProject.xpt.xml">
+      <LogicalName>EmptyHaxeJSProject.xpt.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Templates\EmptyHaxeNekoProject.xpt.xml">
+      <LogicalName>EmptyHaxeNekoProject.xpt.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Templates\EmptyHaxePHPProject.xpt.xml">
+      <LogicalName>EmptyHaxePHPProject.xpt.xml</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
