@@ -64,8 +64,8 @@
 	<!-- File Types -->
 	
 	<Extension path="/MonoDevelop/Core/MimeTypes">
-		<MimeType id="text/x-haxe" icon="fd-file" isText="true"><File pattern="*.hx" /></MimeType>
-		<MimeType id="text/xml" icon="fd-file" isText="true"><File pattern="*.nmml" /></MimeType>
+		<MimeType id="text/x-haxe" _description="Haxe source code" icon="fd-file" isText="true"><File pattern="*.hx" /></MimeType>
+		<MimeType id="text/xml" _description="NMML document" icon="fd-file" isText="true"><File pattern="*.nmml" /></MimeType>
 	</Extension>
 	
 	<Extension path="/MonoDevelop/Ide/FileFilters">
