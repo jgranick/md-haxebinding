@@ -24,14 +24,13 @@ If you would like to help improve the addin, you may want to use a symlink to co
 
 # Supported Features
 
-* NME project generation
-* Haxe syntax highlighting
+* Project creation for C++, Flash, JS, Neko, PHP and NME
+* Haxe language highlighting
 * Code completion
-* Build and run NME projects
+* Build and run support for most projects
 
 
-# Roadmap
+# Feedback
 
-The first priority is to continue to support and improve NME projects. However, the natural step (moving forward) is to extend the add-in to include generic haxe project support.
+Please feel free to contact me on Twitter (@singmajesty) with any feedback.
 
-Since FlashDevelop and MonoDevelop are written in C#, there is a path to migrate code from FlashDevelop into this add-in or more new add-ins to extend MonoDevelop using FlashDevelop's functionality. This may lead to improve the behavior or quality of the current features, or to expand the feature-set.
