@@ -176,7 +176,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		
 		public override ICompletionDataList HandleCodeCompletion (CodeCompletionContext completionContext, char completionChar)
 		{
-			if (mCompletionEnabled && completionContext.TriggerOffset != mCacheTriggerOffset)
+			if (mCompletionEnabled)
 			{
 				if (completionChar == '.' || completionChar == '[' || completionChar == '(')
 				{
@@ -190,7 +190,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		
 		public override ICompletionDataList HandleCodeCompletion (CodeCompletionContext completionContext, char completionChar, ref int triggerWordLength)
 		{
-			if (mCompletionEnabled && completionContext.TriggerOffset != mCacheTriggerOffset)
+			if (mCompletionEnabled)
 			{
 				if (completionChar == '.' || completionChar == '[' || completionChar == '(')
 				{
@@ -211,7 +211,14 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 				if (completionChar == ')' || completionContext.TriggerLine != mCacheTriggerLine)
 				{
 					// invalidate cached completion
-					mCacheXML = null;
+					//mCacheXML = null;
+					mCacheIsObject = true;
+					if (parameterDataProvider != null)
+					{
+						parameterDataProvider.Clear ();
+						parameterDataProvider = null;
+					}
+					return null;
 				}
 				
 				if (!mCacheIsObject && mCacheXML != null)
