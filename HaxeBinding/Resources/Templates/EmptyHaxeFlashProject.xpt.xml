@@ -17,6 +17,7 @@
 <![CDATA[package;
 
 import flash.display.Sprite;
+import flash.Lib;
 
 /**
  * ...
@@ -34,7 +35,7 @@ class ${SafeProjectName} extends Sprite {
 	
 	static function main () {
 		
-		new ${SafeProjectName} ();
+		Lib.current.addChild (new ${SafeProjectName} ());
 		
 	}
 
