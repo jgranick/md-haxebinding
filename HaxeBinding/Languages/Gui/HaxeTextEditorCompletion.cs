@@ -98,6 +98,17 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 				//mCacheXML = null;
 				return;
 			}
+			else 
+			{
+				if (mCacheXML.FirstChild.Name == "type")
+				{
+					mCacheIsObject = false;
+				}
+				else
+				{
+					mCacheIsObject = true;
+				}
+			}
 		}
 		
 		
@@ -221,7 +232,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 				{
 					// invalidate cached completion
 					//mCacheXML = null;
-					//mCacheIsObject = true;
+					mCacheIsObject = true;
 					if (parameterDataProvider != null)
 					{
 						parameterDataProvider.Clear ();
