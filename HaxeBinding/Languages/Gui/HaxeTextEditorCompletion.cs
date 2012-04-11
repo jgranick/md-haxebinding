@@ -204,15 +204,24 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		
 		public override IParameterDataProvider HandleParameterCompletion (CodeCompletionContext completionContext, char completionChar)
 		{
+			if (completionContext.TriggerOffset < mCacheTriggerOffset || completionContext.TriggerLine != mCacheTriggerLine)
+			{
+				if (parameterDataProvider != null)
+				{
+					parameterDataProvider.Clear ();
+					parameterDataProvider = null;
+				}
+			}
+			
 			if (mCompletionEnabled)
 			{
 				// HandleCodeCompletion is always called first, so we don't need to fetch completion data
 				
-				if (completionChar == ')' || completionContext.TriggerLine != mCacheTriggerLine)
+				if (completionChar == ')')
 				{
 					// invalidate cached completion
 					//mCacheXML = null;
-					mCacheIsObject = true;
+					//mCacheIsObject = true;
 					if (parameterDataProvider != null)
 					{
 						parameterDataProvider.Clear ();
@@ -221,7 +230,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 					return null;
 				}
 				
-				if (!mCacheIsObject && mCacheXML != null)
+				if (!mCacheIsObject && mCacheXML != null && completionContext.TriggerLine == mCacheTriggerLine)
 				{
 					if (parameterDataProvider == null)
 					{
@@ -265,7 +274,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		{
 			if (key == Gdk.Key.BackSpace)
 			{
-				mCompletionEnabled = false;	
+				mCompletionEnabled = false;
 			}
 			else
 			{
