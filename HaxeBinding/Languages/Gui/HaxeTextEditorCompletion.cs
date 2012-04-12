@@ -100,6 +100,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 			}
 			else 
 			{
+				// temp hack to reset the cacheIsObject value for method completion
 				if (mCacheXML.FirstChild.Name == "type")
 				{
 					mCacheIsObject = false;
@@ -215,7 +216,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		
 		public override IParameterDataProvider HandleParameterCompletion (CodeCompletionContext completionContext, char completionChar)
 		{
-			if (completionContext.TriggerOffset < mCacheTriggerOffset || completionContext.TriggerLine != mCacheTriggerLine)
+			if (mCacheIsObject || completionContext.TriggerOffset < mCacheTriggerOffset || completionContext.TriggerLine != mCacheTriggerLine)
 			{
 				if (parameterDataProvider != null)
 				{
