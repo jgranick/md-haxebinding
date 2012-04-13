@@ -9,7 +9,12 @@
 	<EolSpan color = "text.preprocessor" rule="text.preprocessor">#</EolSpan>
 	<EolSpan color = "comment.line" rule="Comment" tagColor="comment.tag.line">//</EolSpan>
 	
-	<Span color = "comment" rule="Comment">
+	<Span color = "comment.block" rule="Documentation" tagColor="comment.tag.block">
+		<Begin>/**</Begin>
+		<End>*/</End>
+	</Span>
+	
+	<Span color = "comment.block" rule="Comment" tagColor="comment.tag.block">
 		<Begin>/*</Begin>
 		<End>*/</End>
 	</Span>
@@ -132,6 +137,9 @@
 			<Word>BUG</Word>
 			<Word>HACK</Word>
 		</Keywords>
+	</Rule>
+	
+	<Rule name = "Documentation">
 		<Keywords color="comment.keyword" ignorecase="True">
 			<Word>@author</Word>
 			<Word>@deprecated</Word>

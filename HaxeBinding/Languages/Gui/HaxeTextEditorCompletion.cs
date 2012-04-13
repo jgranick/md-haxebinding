@@ -59,7 +59,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		
 		private void FetchCompletionData (CodeCompletionContext completionContext)
 		{
-			if (completionContext.TriggerOffset != mCacheTriggerOffset)
+			if (completionContext != null && completionContext.TriggerOffset != mCacheTriggerOffset)
 			{
 				mCacheTriggerOffset = completionContext.TriggerOffset;
 				File.WriteAllText (mTempFileName, Document.Editor.Text);
@@ -101,7 +101,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 			else 
 			{
 				// temp hack to reset the cacheIsObject value for method completion
-				if (mCacheXML.FirstChild.Name == "type")
+				if (mCacheXML != null && mCacheXML.FirstChild.Name == "type")
 				{
 					mCacheIsObject = false;
 				}
@@ -188,7 +188,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		
 		public override ICompletionDataList HandleCodeCompletion (CodeCompletionContext completionContext, char completionChar)
 		{
-			if (mCompletionEnabled)
+			if (mCanRunCompletion && mCompletionEnabled)
 			{
 				if (completionChar == '.' || completionChar == '[' || completionChar == '(')
 				{
@@ -202,7 +202,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		
 		public override ICompletionDataList HandleCodeCompletion (CodeCompletionContext completionContext, char completionChar, ref int triggerWordLength)
 		{
-			if (mCompletionEnabled)
+			if (mCanRunCompletion && mCompletionEnabled)
 			{
 				if (completionChar == '.' || completionChar == '[' || completionChar == '(')
 				{
@@ -216,47 +216,50 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		
 		public override IParameterDataProvider HandleParameterCompletion (CodeCompletionContext completionContext, char completionChar)
 		{
-			if (mCacheIsObject || completionContext.TriggerOffset < mCacheTriggerOffset || completionContext.TriggerLine != mCacheTriggerLine)
+			if (mCanRunCompletion)
 			{
-				if (parameterDataProvider != null)
+				if (mCacheIsObject || completionContext.TriggerOffset < mCacheTriggerOffset || completionContext.TriggerLine != mCacheTriggerLine)
 				{
-					parameterDataProvider.Clear ();
-					parameterDataProvider = null;
-				}
-			}
-			
-			if (mCompletionEnabled)
-			{
-				// HandleCodeCompletion is always called first, so we don't need to fetch completion data
-				
-				if (completionChar == ')')
-				{
-					// invalidate cached completion
-					//mCacheXML = null;
-					mCacheIsObject = true;
 					if (parameterDataProvider != null)
 					{
 						parameterDataProvider.Clear ();
 						parameterDataProvider = null;
 					}
-					return null;
 				}
 				
-				if (!mCacheIsObject && mCacheXML != null && completionContext.TriggerLine == mCacheTriggerLine)
+				if (mCompletionEnabled)
 				{
-					if (parameterDataProvider == null)
+					// HandleCodeCompletion is always called first, so we don't need to fetch completion data
+					
+					if (completionChar == ')')
 					{
-						parameterDataProvider = new HaxeParameterDataProvider ();
-						parameterDataProvider.Update (completionContext, mCacheXML);
-						return parameterDataProvider;
+						// invalidate cached completion
+						//mCacheXML = null;
+						mCacheIsObject = true;
+						if (parameterDataProvider != null)
+						{
+							parameterDataProvider.Clear ();
+							parameterDataProvider = null;
+						}
+						return null;
 					}
-				}
-				else
-				{
-					if (parameterDataProvider != null)
+					
+					if (!mCacheIsObject && mCacheXML != null && completionContext.TriggerLine == mCacheTriggerLine)
 					{
-						parameterDataProvider.Clear ();
-						parameterDataProvider = null;
+						if (parameterDataProvider == null)
+						{
+							parameterDataProvider = new HaxeParameterDataProvider ();
+							parameterDataProvider.Update (completionContext, mCacheXML);
+							return parameterDataProvider;
+						}
+					}
+					else
+					{
+						if (parameterDataProvider != null)
+						{
+							parameterDataProvider.Clear ();
+							parameterDataProvider = null;
+						}
 					}
 				}
 			}
