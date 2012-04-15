@@ -190,7 +190,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		{
 			if (mCanRunCompletion && mCompletionEnabled)
 			{
-				if (completionChar == '.' || completionChar == '[' || completionChar == '(')
+				if (completionChar == '.' || completionChar == '(')
 				{
 					return GetCompletionList (completionContext);
 				}
@@ -204,7 +204,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		{
 			if (mCanRunCompletion && mCompletionEnabled)
 			{
-				if (completionChar == '.' || completionChar == '[' || completionChar == '(')
+				if (completionChar == '.' || completionChar == '(')
 				{
 					return GetCompletionList (completionContext);
 				}
@@ -276,7 +276,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 			{
 				mCanRunCompletion = true;
 				
-				mTempBaseDirectory = Path.Combine (Path.GetTempPath (), Guid.NewGuid ().ToString ());
+				mTempBaseDirectory = Path.Combine (Path.GetTempPath (), Guid.NewGuid ().ToString ().Replace ("-", ""));
 				mTempDirectory = Path.Combine (mTempBaseDirectory, GetPackage ().Replace (".", "/"));
 				Directory.CreateDirectory (mTempDirectory);
 				
