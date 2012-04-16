@@ -44,6 +44,13 @@ namespace MonoDevelop.HaxeBinding.Projects
 		{
 			
 		}
+		
+		
+		public override void Dispose ()
+		{
+			HaxeCompilerManager.StopServer ();
+			base.Dispose ();
+		}
 
 
 		public NMEProject (ProjectCreateInformation info, XmlElement projectOptions) : base()

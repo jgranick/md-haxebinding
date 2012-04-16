@@ -21,6 +21,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 	{
 		
 		private static Process compilationServer;
+		private static bool compilationServerRunning;
 		
 		private static string cacheArgumentsGlobal;
 		private static string cacheArgumentsPlatform;
@@ -210,7 +211,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 		{
 			if (!PropertyService.HasValue ("HaxeBinding.EnableCompilationServer"))
 			{
-				PropertyService.Set ("HaxeBinding.EnableCompilationServer", true);
+				PropertyService.Set ("HaxeBinding.EnableCompilationServer", false);
 				PropertyService.Set ("HaxeBinding.CompilationServerPort", 6000);
 	            PropertyService.SaveProperties();
 			}
@@ -273,7 +274,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 					string[] argList = args.Split (' ');
 	                foreach (var arg in argList)
 	                    writer.WriteLine(arg);
-					writer.WriteLine ("--connect " + port.ToString ());
+					//writer.WriteLine("--connect " + port);
 	                writer.Write("\0");
 	                writer.Flush();
 	                var reader = new StreamReader(client.GetStream());
@@ -293,7 +294,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 				
 			}
 			
-			MonoDevelop.Ide.MessageService.ShowError ("Falling back to standard completion");
+			//MonoDevelop.Ide.MessageService.ShowError ("Falling back to standard completion");
 			
 			Process process = new Process ();
 			process.StartInfo.FileName = exe;
@@ -530,17 +531,34 @@ namespace MonoDevelop.HaxeBinding.Tools
 		
 		private static void StartServer ()
 		{
-			if (compilationServer != null)
-			{
-				compilationServer.Close ();
-			}
 			compilationServer = new Process ();
 			compilationServer.StartInfo.FileName = "haxe";
 			compilationServer.StartInfo.Arguments = "--wait " + PropertyService.Get<int>("HaxeBinding.CompilationServerPort");
 			compilationServer.StartInfo.UseShellExecute = false;
 			compilationServer.StartInfo.RedirectStandardOutput = true;
+			//MonoDevelop.Ide.MessageService.ShowMessage ("sldifj");
 			compilationServer.Start ();
-			compilationServer.StandardOutput.ReadLine ();
+			compilationServerRunning = true;
+			System.Threading.Thread.Sleep (100);
+			if (!compilationServer.HasExited)
+			{
+				compilationServerRunning = true;
+			}
+			//compilationServer.StandardOutput.ReadLine ();
+		}
+		
+		
+		public static void StopServer ()
+		{
+			try
+			{
+				if (compilationServer != null)
+				{
+					compilationServer.CloseMainWindow ();
+				}
+			} catch (Exception) {}
+			
+			compilationServerRunning = false;
 		}
 		
 	}

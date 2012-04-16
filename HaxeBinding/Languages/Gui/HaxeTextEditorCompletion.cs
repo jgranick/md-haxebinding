@@ -276,7 +276,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 			{
 				mCanRunCompletion = true;
 				
-				mTempBaseDirectory = Path.Combine (Path.GetTempPath (), Guid.NewGuid ().ToString ().Replace ("-", ""));
+				mTempBaseDirectory = Path.Combine (Path.GetTempPath (), "md" + Guid.NewGuid ().ToString ().Replace ("-", ""));
 				mTempDirectory = Path.Combine (mTempBaseDirectory, GetPackage ().Replace (".", "/"));
 				Directory.CreateDirectory (mTempDirectory);
 				
