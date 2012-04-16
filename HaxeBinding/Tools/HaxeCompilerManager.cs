@@ -350,9 +350,9 @@ namespace MonoDevelop.HaxeBinding.Tools
 
 			reader.Close ();
 		}
-
-
-		public static void Run (HaxeProject project, HaxeProjectConfiguration configuration, IProgressMonitor monitor, ExecutionContext context)
+		
+		
+		private static ExecutionCommand CreateExecutionCommand (HaxeProject project, HaxeProjectConfiguration configuration)
 		{
 			string hxmlPath = Path.GetFullPath (project.TargetHXMLFile);
 			
@@ -432,8 +432,11 @@ namespace MonoDevelop.HaxeBinding.Tools
 				}
 			}
 			
-			for (int i = 0; i < platforms.Count; i++)
-			{
+			
+			int i = 0;
+			
+			//for (int i = 0; i < platforms.Count; i++)
+			//{
 				string platform = platforms[i];
 				string output = platformOutputs[i];
 				
@@ -466,42 +469,12 @@ namespace MonoDevelop.HaxeBinding.Tools
 						args = "\"" + output + "\"";
 					}
 					
-					IConsole console;
-					if (configuration.ExternalConsole)
-						console = context.ExternalConsoleFactory.CreateConsole (false);
-					else
-						console = context.ConsoleFactory.CreateConsole (false);
-		
-					AggregatedOperationMonitor operationMonitor = new AggregatedOperationMonitor (monitor);
-		
-					try
-					{
-						NativeExecutionCommand cmd = new NativeExecutionCommand (exe);
-						cmd.Arguments = args;
-						cmd.WorkingDirectory = project.BaseDirectory.FullPath;
-		
-						if (!context.ExecutionHandler.CanExecute (cmd))
-						{
-							monitor.ReportError (String.Format ("Cannot execute '{0} {1}'.", exe, args), null);
-							return;
-						}
-						
-						IProcessAsyncOperation operation = context.ExecutionHandler.Execute (cmd, console);
-						
-						operationMonitor.AddOperation (operation);
-						operation.WaitForCompleted ();
-		
-						monitor.Log.WriteLine ("Player exited with code {0}.", operation.ExitCode);
-					}
-					catch (Exception)
-					{
-						monitor.ReportError (String.Format ("Error while executing '{0} {1}'.", exe, args), null);
-					}
-					finally
-					{
-						operationMonitor.Dispose ();
-						console.Dispose ();
-					}
+					NativeExecutionCommand cmd = new NativeExecutionCommand (exe);
+					cmd.Arguments = args;
+					cmd.WorkingDirectory = Path.GetDirectoryName (output);
+					//cmd.WorkingDirectory = project.BaseDirectory.FullPath;
+				
+					return cmd;
 				}
 				else if (platform == "flash" || platform == "js")
 				{
@@ -515,7 +488,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 						output = Path.Combine (Path.GetDirectoryName (output), "index.html");
 					}
 					
-					string target = output;
+					//string target = output;
 					
 					switch (Environment.OSVersion.Platform)
 					{
@@ -527,8 +500,78 @@ namespace MonoDevelop.HaxeBinding.Tools
 							//target = "xdg-open \"" + output + "\"";
 							break;
 					}
+				
+					ProcessExecutionCommand cmd = new ProcessExecutionCommand ();
+					cmd.Command = output;
+					return cmd;
+				}
+			//}
+			
+			return null;
+		}
+		
+		
+		public static bool CanRun (HaxeProject project, HaxeProjectConfiguration configuration, ExecutionContext context)
+		{
+			// need to optimize so this caches the result
+			
+			ExecutionCommand cmd = CreateExecutionCommand (project, configuration);
+			if (cmd == null)
+			{
+				return false;
+			}
+			else if (cmd is ProcessExecutionCommand)
+			{
+				return true;
+			}
+			else
+			{
+				return context.ExecutionHandler.CanExecute (cmd);
+			}
+		}
+		
+
+		public static void Run (HaxeProject project, HaxeProjectConfiguration configuration, IProgressMonitor monitor, ExecutionContext context)
+		{
+			ExecutionCommand cmd = CreateExecutionCommand (project, configuration);
+			
+			if (cmd is ProcessExecutionCommand)
+			{
+				Process.Start (cmd.CommandString);
+			}
+			else
+			{
+				IConsole console;
+				if (configuration.ExternalConsole)
+					console = context.ExternalConsoleFactory.CreateConsole (false);
+				else
+					console = context.ConsoleFactory.CreateConsole (false);
+	
+				AggregatedOperationMonitor operationMonitor = new AggregatedOperationMonitor (monitor);
+	
+				try
+				{
+					if (!context.ExecutionHandler.CanExecute (cmd))
+					{
+						monitor.ReportError (String.Format ("Cannot execute '{0}'.", cmd.CommandString), null);
+						return;
+					}
 					
-					Process.Start (target);
+					IProcessAsyncOperation operation = context.ExecutionHandler.Execute (cmd, console);
+					
+					operationMonitor.AddOperation (operation);
+					operation.WaitForCompleted ();
+	
+					monitor.Log.WriteLine ("Player exited with code {0}.", operation.ExitCode);
+				}
+				catch (Exception)
+				{
+					monitor.ReportError (String.Format ("Error while executing '{0}'.", cmd.CommandString), null);
+				}
+				finally
+				{
+					operationMonitor.Dispose ();
+					console.Dispose ();
 				}
 			}
 		}

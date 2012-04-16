@@ -223,9 +223,9 @@ namespace MonoDevelop.HaxeBinding.Tools
 
 			reader.Close ();
 		}
-
-
-		public static void Run (NMEProject project, NMEProjectConfiguration configuration, IProgressMonitor monitor, ExecutionContext context)
+		
+		
+		private static ExecutionCommand CreateExecutionCommand (NMEProject project, NMEProjectConfiguration configuration)
 		{
 			string exe = "haxelib";
 			string args = "run nme run \"" + project.TargetNMMLFile + "\" " + configuration.Platform.ToLower ();
@@ -245,6 +245,29 @@ namespace MonoDevelop.HaxeBinding.Tools
 				args += " " + configuration.AdditionalArguments;
 			}
 
+			NativeExecutionCommand cmd = new NativeExecutionCommand (exe);
+			cmd.Arguments = args;
+			cmd.WorkingDirectory = project.BaseDirectory.FullPath;
+			
+			return cmd;
+		}
+		
+		
+		public static bool CanRun (NMEProject project, NMEProjectConfiguration configuration, ExecutionContext context)
+		{
+			ExecutionCommand cmd = CreateExecutionCommand (project, configuration);
+			if (cmd == null)
+			{
+				return false;
+			}
+			return context.ExecutionHandler.CanExecute (cmd);
+		}
+
+
+		public static void Run (NMEProject project, NMEProjectConfiguration configuration, IProgressMonitor monitor, ExecutionContext context)
+		{
+			ExecutionCommand cmd = CreateExecutionCommand (project, configuration);
+
 			IConsole console;
 			if (configuration.ExternalConsole)
 				console = context.ExternalConsoleFactory.CreateConsole (false);
@@ -255,13 +278,9 @@ namespace MonoDevelop.HaxeBinding.Tools
 
 			try
 			{
-				NativeExecutionCommand cmd = new NativeExecutionCommand (exe);
-				cmd.Arguments = args;
-				cmd.WorkingDirectory = project.BaseDirectory.FullPath;
-
 				if (!context.ExecutionHandler.CanExecute (cmd))
 				{
-					monitor.ReportError (String.Format ("Cannot execute '{0} {1}'.", exe, args), null);
+					monitor.ReportError (String.Format ("Cannot execute '{0}'.", cmd.CommandString), null);
 					return;
 				}
 				
@@ -274,7 +293,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 			}
 			catch (Exception)
 			{
-				monitor.ReportError (String.Format ("Error while executing '{0} {1}'.", exe, args), null);
+				monitor.ReportError (String.Format ("Error while executing '{0}'.", cmd.CommandString), null);
 			}
 			finally
 			{

@@ -155,7 +155,8 @@ namespace MonoDevelop.HaxeBinding.Projects
 		
 		protected override bool OnGetCanExecute (ExecutionContext context, ConfigurationSelector configurationSelector)
 		{
-			return true;
+			NMEProjectConfiguration haxeConfig = (NMEProjectConfiguration)GetConfiguration (configurationSelector);
+			return NMECommandLineToolsManager.CanRun (this, haxeConfig, context);
 		}
 
 

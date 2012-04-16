@@ -128,7 +128,8 @@ namespace MonoDevelop.HaxeBinding.Projects
 		
 		protected override bool OnGetCanExecute (ExecutionContext context, ConfigurationSelector configurationSelector)
 		{
-			return true;
+			HaxeProjectConfiguration haxeConfig = (HaxeProjectConfiguration)GetConfiguration (configurationSelector);
+			return HaxeCompilerManager.CanRun (this, haxeConfig, context);
 		}
 
 
