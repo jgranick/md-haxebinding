@@ -545,6 +545,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 			compilationServer = new Process ();
 			compilationServer.StartInfo.FileName = "haxe";
 			compilationServer.StartInfo.Arguments = "--wait " + compilationServerPort;
+			compilationServer.StartInfo.CreateNoWindow = true;
 			compilationServer.StartInfo.UseShellExecute = false;
 			compilationServer.StartInfo.RedirectStandardOutput = true;
 			//MonoDevelop.Ide.MessageService.ShowMessage ("sldifj");
