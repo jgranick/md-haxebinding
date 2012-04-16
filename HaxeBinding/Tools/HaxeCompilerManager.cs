@@ -21,7 +21,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 	{
 		
 		private static Process compilationServer;
-		private static bool compilationServerRunning;
+		private static int compilationServerPort;
 		
 		private static string cacheArgumentsGlobal;
 		private static string cacheArgumentsPlatform;
@@ -211,7 +211,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 		{
 			if (!PropertyService.HasValue ("HaxeBinding.EnableCompilationServer"))
 			{
-				PropertyService.Set ("HaxeBinding.EnableCompilationServer", false);
+				PropertyService.Set ("HaxeBinding.EnableCompilationServer", true);
 				PropertyService.Set ("HaxeBinding.CompilationServerPort", 6000);
 	            PropertyService.SaveProperties();
 			}
@@ -260,31 +260,35 @@ namespace MonoDevelop.HaxeBinding.Tools
 			
 			if (PropertyService.Get<bool> ("HaxeBinding.EnableCompilationServer")) {
 				
-				if (compilationServer == null || compilationServer.HasExited)
+				var port = PropertyService.Get<int> ("HaxeBinding.CompilationServerPort");
+				
+				if (compilationServer == null || compilationServer.HasExited || port != compilationServerPort)
 				{
 					StartServer ();
 				}
 				
 				try
 	            {
-					var port = PropertyService.Get<int> ("HaxeBinding.CompilationServerPort");
-	                var client = new TcpClient("127.0.0.1", port);
-	                var writer = new StreamWriter(client.GetStream());
-	                writer.WriteLine("--cwd " + project.BaseDirectory);
-					string[] argList = args.Split (' ');
-	                foreach (var arg in argList)
-	                    writer.WriteLine(arg);
-					//writer.WriteLine("--connect " + port);
-	                writer.Write("\0");
-	                writer.Flush();
-	                var reader = new StreamReader(client.GetStream());
-	                var lines = reader.ReadToEnd().Split('\n');
-	                client.Close();
-	                return String.Join ("\n", lines);
+					if (!compilationServer.HasExited)
+					{
+		                var client = new TcpClient("127.0.0.1", port);
+		                var writer = new StreamWriter(client.GetStream());
+		                writer.WriteLine("--cwd " + project.BaseDirectory);
+						string[] argList = args.Split (' ');
+		                foreach (var arg in argList)
+		                    writer.WriteLine(arg);
+						//writer.WriteLine("--connect " + port);
+		                writer.Write("\0");
+		                writer.Flush();
+		                var reader = new StreamReader(client.GetStream());
+		                var lines = reader.ReadToEnd().Split('\n');
+		                client.Close();
+		                return String.Join ("\n", lines);
+					}
 	            }
-	            catch(Exception ex)
+	            catch(Exception)
 	            {
-					MonoDevelop.Ide.MessageService.ShowError (ex.ToString ());
+					//MonoDevelop.Ide.MessageService.ShowError (ex.ToString ());
 	                //TraceManager.AddAsync(ex.Message);
 	                //if (!failure && FallbackNeeded != null)
 	                   // FallbackNeeded(false);
@@ -531,19 +535,20 @@ namespace MonoDevelop.HaxeBinding.Tools
 		
 		private static void StartServer ()
 		{
+			if (compilationServer != null && !compilationServer.HasExited)
+			{
+				StopServer ();
+			}
+			
+			compilationServerPort = PropertyService.Get<int>("HaxeBinding.CompilationServerPort");
 			compilationServer = new Process ();
 			compilationServer.StartInfo.FileName = "haxe";
-			compilationServer.StartInfo.Arguments = "--wait " + PropertyService.Get<int>("HaxeBinding.CompilationServerPort");
+			compilationServer.StartInfo.Arguments = "--wait " + compilationServerPort;
 			compilationServer.StartInfo.UseShellExecute = false;
 			compilationServer.StartInfo.RedirectStandardOutput = true;
 			//MonoDevelop.Ide.MessageService.ShowMessage ("sldifj");
 			compilationServer.Start ();
-			compilationServerRunning = true;
-			System.Threading.Thread.Sleep (100);
-			if (!compilationServer.HasExited)
-			{
-				compilationServerRunning = true;
-			}
+			//System.Threading.Thread.Sleep (100);
 			//compilationServer.StandardOutput.ReadLine ();
 		}
 		
@@ -557,8 +562,6 @@ namespace MonoDevelop.HaxeBinding.Tools
 					compilationServer.CloseMainWindow ();
 				}
 			} catch (Exception) {}
-			
-			compilationServerRunning = false;
 		}
 		
 	}

@@ -34,7 +34,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 			
 			if (!PropertyService.HasValue ("HaxeBinding.EnableCompilationServer"))
 			{
-				EnableCompilationServerCheckBox.Active = false;
+				EnableCompilationServerCheckBox.Active = true;
 			}
 			else
 			{
