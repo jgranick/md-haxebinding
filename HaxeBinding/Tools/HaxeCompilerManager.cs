@@ -474,6 +474,10 @@ namespace MonoDevelop.HaxeBinding.Tools
 					cmd.WorkingDirectory = Path.GetDirectoryName (output);
 					//cmd.WorkingDirectory = project.BaseDirectory.FullPath;
 				
+					//MonoDevelop.Ide.MessageService.ShowMessage (cmd.Command);
+					//MonoDevelop.Ide.MessageService.ShowMessage (cmd.Arguments);
+					//MonoDevelop.Ide.MessageService.ShowMessage (cmd.WorkingDirectory);
+				
 					return cmd;
 				}
 				else if (platform == "flash" || platform == "js")
@@ -520,13 +524,13 @@ namespace MonoDevelop.HaxeBinding.Tools
 			{
 				return false;
 			}
-			else if (cmd is ProcessExecutionCommand)
+			else if (cmd is NativeExecutionCommand)
 			{
-				return true;
+				return context.ExecutionHandler.CanExecute (cmd);
 			}
 			else
 			{
-				return context.ExecutionHandler.CanExecute (cmd);
+				return false;
 			}
 		}
 		
@@ -535,11 +539,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 		{
 			ExecutionCommand cmd = CreateExecutionCommand (project, configuration);
 			
-			if (cmd is ProcessExecutionCommand)
-			{
-				Process.Start (cmd.CommandString);
-			}
-			else
+			if (cmd is NativeExecutionCommand)
 			{
 				IConsole console;
 				if (configuration.ExternalConsole)
@@ -573,6 +573,10 @@ namespace MonoDevelop.HaxeBinding.Tools
 					operationMonitor.Dispose ();
 					console.Dispose ();
 				}
+			}
+			else
+			{
+				Process.Start (cmd.CommandString);
 			}
 		}
 		
