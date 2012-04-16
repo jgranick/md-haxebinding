@@ -31,18 +31,31 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
         public HaxeOptionsWidget()
         {
             this.Build();
-
-            /*wSdkPathEntry.Text = PropertyService.Get<string>("CBinding.FlexSdkPath");
-            wPlayerPathEntry.Text = PropertyService.Get<string>("CBinding.FlexPlayerPath");
-            wBrowserPathEntry.Text = PropertyService.Get<string>("CBinding.FlexBrowserPath");*/
+			
+			if (!PropertyService.HasValue ("HaxeBinding.EnableCompilationServer"))
+			{
+				EnableCompilationServerCheckBox.Active = true;
+			}
+			else
+			{
+				EnableCompilationServerCheckBox.Active = PropertyService.Get<bool> ("HaxeBinding.EnableCompilationServer");
+			}
+			
+			if (!PropertyService.HasValue ("HaxeBinding.CompilationServerPort"))
+			{
+				PortNumberEntry.Text = "6000";
+			}
+			else
+			{
+				PortNumberEntry.Text = PropertyService.Get<int> ("HaxeBinding.CompilationServerPort").ToString ();
+			}
         }
 
         public bool Store()
         {
-            /*PropertyService.Set("CBinding.FlexSdkPath", wSdkPathEntry.Text);
-            PropertyService.Set("CBinding.FlexPlayerPath", wPlayerPathEntry.Text);
-            PropertyService.Set("CBinding.FlexBrowserPath", wBrowserPathEntry.Text);
-            PropertyService.SaveProperties();*/
+			PropertyService.Set ("HaxeBinding.EnableCompilationServer", EnableCompilationServerCheckBox.Active);
+			PropertyService.Set ("HaxeBinding.CompilationServerPort", Convert.ToInt32 (PortNumberEntry.Text));
+            PropertyService.SaveProperties();
             return true;
         }
 

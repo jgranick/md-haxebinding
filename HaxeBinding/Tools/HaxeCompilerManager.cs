@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Sockets;
 using System.Text.RegularExpressions;
 using System.Text;
 using MonoDevelop.Core;
@@ -18,6 +19,8 @@ namespace MonoDevelop.HaxeBinding.Tools
 
 	static class HaxeCompilerManager
 	{
+		
+		private static Process compilationServer;
 		
 		private static string cacheArgumentsGlobal;
 		private static string cacheArgumentsPlatform;
@@ -205,6 +208,13 @@ namespace MonoDevelop.HaxeBinding.Tools
 		
 		public static string GetCompletionData (Project project, string classPath, string fileName, int position)
 		{
+			if (!PropertyService.HasValue ("HaxeBinding.EnableCompilationServer"))
+			{
+				PropertyService.Set ("HaxeBinding.EnableCompilationServer", true);
+				PropertyService.Set ("HaxeBinding.CompilationServerPort", 6000);
+	            PropertyService.SaveProperties();
+			}
+			
 			string exe = "haxe";
 			string args = "";
 			
@@ -247,6 +257,44 @@ namespace MonoDevelop.HaxeBinding.Tools
 			
 			args += " -cp \"" + classPath + "\" --display \"" + fileName + "\"@" + position + " -D use_rtti_doc";
 			
+			if (PropertyService.Get<bool> ("HaxeBinding.EnableCompilationServer")) {
+				
+				if (compilationServer == null || compilationServer.HasExited)
+				{
+					StartServer ();
+				}
+				
+				try
+	            {
+					var port = PropertyService.Get<int> ("HaxeBinding.CompilationServerPort");
+	                var client = new TcpClient("127.0.0.1", port);
+	                var writer = new StreamWriter(client.GetStream());
+	                writer.WriteLine("--cwd " + project.BaseDirectory);
+					string[] argList = args.Split (' ');
+	                foreach (var arg in argList)
+	                    writer.WriteLine(arg);
+					writer.WriteLine ("--connect " + port.ToString ());
+	                writer.Write("\0");
+	                writer.Flush();
+	                var reader = new StreamReader(client.GetStream());
+	                var lines = reader.ReadToEnd().Split('\n');
+	                client.Close();
+	                return String.Join ("\n", lines);
+	            }
+	            catch(Exception ex)
+	            {
+					MonoDevelop.Ide.MessageService.ShowError (ex.ToString ());
+	                //TraceManager.AddAsync(ex.Message);
+	                //if (!failure && FallbackNeeded != null)
+	                   // FallbackNeeded(false);
+	                //failure = true;
+	                //return "";
+	            }
+				
+			}
+			
+			MonoDevelop.Ide.MessageService.ShowError ("Falling back to standard completion");
+			
 			Process process = new Process ();
 			process.StartInfo.FileName = exe;
 			process.StartInfo.Arguments = args;
@@ -258,6 +306,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 			
 			string result = process.StandardError.ReadToEnd ();
 			process.WaitForExit ();
+			
 			return result;
 		}
 
@@ -476,6 +525,22 @@ namespace MonoDevelop.HaxeBinding.Tools
 					Process.Start (target);
 				}
 			}
+		}
+		
+		
+		private static void StartServer ()
+		{
+			if (compilationServer != null)
+			{
+				compilationServer.Close ();
+			}
+			compilationServer = new Process ();
+			compilationServer.StartInfo.FileName = "haxe";
+			compilationServer.StartInfo.Arguments = "--wait " + PropertyService.Get<int>("HaxeBinding.CompilationServerPort");
+			compilationServer.StartInfo.UseShellExecute = false;
+			compilationServer.StartInfo.RedirectStandardOutput = true;
+			compilationServer.Start ();
+			compilationServer.StandardOutput.ReadLine ();
 		}
 		
 	}
