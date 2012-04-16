@@ -58,13 +58,18 @@ namespace MonoDevelop.HaxeBinding.Tools
 			BuildResult result = ParseOutput (project, error);
 			if (result.CompilerOutput.Trim ().Length != 0)
 				monitor.Log.WriteLine (result.CompilerOutput);
-
+			
 			if (result.ErrorCount == 0 && exitCode != 0)
 			{
-				if (!string.IsNullOrEmpty (error))
-					result.AddError (error);
+				string errorMessage = File.ReadAllText (error);
+				if (!string.IsNullOrEmpty (errorMessage))
+				{
+					result.AddError (errorMessage);
+				}
 				else
-					result.AddError ("The compiler appears to have crashed without any error output.");
+				{
+					result.AddError ("Build failed. Go to \"Build Output\" for more information");
+				}
 			}
 			
 			FileService.DeleteFile (error);
@@ -128,7 +133,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 				error.Column = n+1; //haxe counts zero based
 			else
 				error.Column = -1;
-
+			
 			return error;
 		}
 		
@@ -210,7 +215,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 				line = line.Trim ();
 				if (line.Length == 0 || line.StartsWith ("\t"))
 					continue;
-
+				
 				BuildError error = CreateErrorFromString (project, line);
 				if (error != null)
 					result.Append (error);

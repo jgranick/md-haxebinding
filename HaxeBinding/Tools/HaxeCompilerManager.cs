@@ -112,10 +112,11 @@ namespace MonoDevelop.HaxeBinding.Tools
 
 			if (result.ErrorCount == 0 && exitCode != 0)
 			{
-				if (!string.IsNullOrEmpty (error))
-					result.AddError (error);
+				string errorMessage = File.ReadAllText (error);
+				if (!string.IsNullOrEmpty (errorMessage))
+					result.AddError (errorMessage); 
 				else
-					result.AddError ("The compiler appears to have crashed without any error output.");
+					result.AddError ("Build failed. Go to \"Build Output\" for more information");
 			}
 			
 			FileService.DeleteFile (error);
