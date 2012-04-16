@@ -24,7 +24,7 @@ If you would like to help improve the addin, you may want to use a symlink to co
 
 # Supported Features
 
-* Project creation for C++, Flash, JS, Neko, PHP and NME
+* Project creation for C++, Flash, JS, Neko, PHP and NME (3.2+)
 * Haxe language highlighting
 * Code completion
 * Build and run support for most projects
