@@ -472,6 +472,12 @@ namespace MonoDevelop.HaxeBinding.Tools
 					NativeExecutionCommand cmd = new NativeExecutionCommand (exe);
 					cmd.Arguments = args;
 					cmd.WorkingDirectory = Path.GetDirectoryName (output);
+					
+					if (configuration.DebugMode)
+					{
+						cmd.EnvironmentVariables.Add ("HXCPP_DEBUG_HOST", "gdb");
+						cmd.EnvironmentVariables.Add ("HXCPP_DEBUG", "1");
+					}
 					//cmd.WorkingDirectory = project.BaseDirectory.FullPath;
 				
 					//MonoDevelop.Ide.MessageService.ShowMessage (cmd.Command);
@@ -530,7 +536,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 			}
 			else
 			{
-				return false;
+				return true;
 			}
 		}
 		
