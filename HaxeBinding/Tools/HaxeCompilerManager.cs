@@ -243,7 +243,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 					cacheArgumentsPlatform = configuration.AdditionalArguments;
 				}
 				
-				args = cacheHXML + " " + ((NMEProject)project).AdditionalArguments + " " + configuration.AdditionalArguments;
+				args = cacheHXML + " -D code_completion";
 				
 			} else if (project is HaxeProject) {
 				
