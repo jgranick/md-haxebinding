@@ -1,33 +1,41 @@
 # Introduction
 
-FlashDevelop is an excellent code editor for Actionscript 3 and Haxe projects, but (unfortunately) it is only available for Windows.
+This is the first step in efforts to bring the functionality we've enjoyed from FlashDevelop to a Mac/Linux environment.
 
-There are technical reasons why the code editor and windowing for FlashDevelop would need to be replaced in order to run on Mac or Linux. That is how the process of looking for replacements, considering a new GTK# front-end, and eventually moving to create "add-ins" for MonoDevelop began.
+For more details, please feel free to read this post:
 
-The "Haxe Language Binding" is a step on the road to bringing the functionality we love from FlashDevelop and making it available on Unix platforms. MonoDevelop is very much like FlashDevelop in a lot of ways, especially when it is successfully extended for languages and features we love from FlashDevelop.
+http://www.joshuagranick.com/blog/2012/04/06/flashdevelop-for-maclinux-part-1/
 
 
 # Installation
 
-First you will need MonoDevelop:
+You can install this add-in using the "Add-in Manager" from within MonoDevelop. If you are using Ubuntu 12.04, you can install MonoDevelop 2.8 using "sudo apt-get install monodevelop".
 
-http://www.monodevelop.com/Download
+You can find instructions for other Linux distributions or download MonoDevelop 2.8 for Mac or Windows, here:
 
-The add-in has been tested for MonoDevelop 2.8, but may work in newer versions. If you would like to use an older version, let me know and we can see if the add-in can be made compatible.
+http://www.monodevelop.com/download
 
-The add-in has been submitted to the MonoDevelop add-in repository. When it has been approved, you will be able to find "Haxe Language Binding" in the add-in manager.
+If you would like to help develop the add-in, you should clone this repository then add a symlink between the "MonoDevelop.HaxeBinding.dll" file under /HaxBinding/bin/Debug and the /LocalInstall/Addins directory.
 
-Until then, you can copy the "MonoDevelop.HaxeBinding.dll" file from this repository (under /HaxeBinding/bin/Debug) to the local install directory on your machine. In Linux, this should be "~/.local/share/MonoDevelop-2.8/LocalInstall/Addins" (create the directory) and on Mac it should be "~/Library/Application Support/MonoDevelop-2.8/LocalInstall/Addins"
-
-If you would like to help improve the addin, you may want to use a symlink to connect the DLL under /bin/Debug with the local install directory, so that the latest version is used whenever MonoDevelop is started. 
+On Linux this is located at ~/.local/share/MonoDevelop-2.8/LocalInstall/Addins. Create the directory if it does not exist. On Mac it is located at ~/Library/Application Support/MonoDevelop-2.8/LocalInstall/Addins and on Windows it is C:\Users\(your user name)\AppData\Local\MonoDevelop-2.8\LocalInstall\Addins 
 
 
 # Supported Features
 
 * Project creation for C++, Flash, JS, Neko, PHP and NME (3.2+)
 * Haxe language highlighting
-* Code completion
-* Build and run support for most projects
+* Haxe compiler-based code completion
+* Build and run support
+* Initial support for C++ debugging
+
+
+# Other Notes
+
+The add-in does support the "compilation server" feature in Haxe 2.09, which caches completion to improve response times. This is performed automatically.
+
+A known limitation of Haxe compiler-based code completion is that it will occur only on a period or a parenthesis. This covers the majority of cases but not all. This may be improved in the future.
+
+If you're interested in bringing features that exist in FlashDevelop but not this language binding, much of FlashDevelop's code is transferrable since both IDEs are written using C#, but since we are using a different text editor and GUI framework, adjustments will have to be made.
 
 
 # Feedback
