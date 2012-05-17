@@ -12,11 +12,12 @@ using MonoDevelop.Ide.CodeTemplates;
 using MonoDevelop.Ide.Gui;
 using MonoDevelop.Ide.Gui.Content;
 using MonoDevelop.Projects;
-using MonoDevelop.Projects.Dom;
-using MonoDevelop.Projects.Dom.Output;
-using MonoDevelop.Projects.Dom.Parser;
+//using MonoDevelop.Projects.Dom;
+//using MonoDevelop.Projects.Dom.Output;
+//using MonoDevelop.Projects.Dom.Parser;
 using MonoDevelop.HaxeBinding.Projects;
 using MonoDevelop.HaxeBinding.Tools;
+using ICSharpCode.NRefactory.Completion;
 
 
 namespace MonoDevelop.HaxeBinding.Languages.Gui
@@ -186,7 +187,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		}
 		
 		
-		public override ICompletionDataList HandleCodeCompletion (CodeCompletionContext completionContext, char completionChar)
+		/*public override ICompletionDataList HandleCodeCompletion (CodeCompletionContext completionContext, char completionChar)
 		{
 			if (mCanRunCompletion && mCompletionEnabled)
 			{
@@ -197,7 +198,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 			}
 			
 			return null;
-		}
+		}*/
 			
 		
 		public override ICompletionDataList HandleCodeCompletion (CodeCompletionContext completionContext, char completionChar, ref int triggerWordLength)
@@ -222,7 +223,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 				{
 					if (parameterDataProvider != null)
 					{
-						parameterDataProvider.Clear ();
+						//parameterDataProvider.Clear ();
 						parameterDataProvider = null;
 					}
 				}
@@ -238,7 +239,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 						mCacheIsObject = true;
 						if (parameterDataProvider != null)
 						{
-							parameterDataProvider.Clear ();
+							//parameterDataProvider.Clear ();
 							parameterDataProvider = null;
 						}
 						return null;
@@ -249,7 +250,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 						if (parameterDataProvider == null)
 						{
 							parameterDataProvider = new HaxeParameterDataProvider ();
-							parameterDataProvider.Update (completionContext, mCacheXML);
+							//parameterDataProvider.Update (completionContext, mCacheXML);
 							return parameterDataProvider;
 						}
 					}
@@ -257,7 +258,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 					{
 						if (parameterDataProvider != null)
 						{
-							parameterDataProvider.Clear ();
+							//parameterDataProvider.Clear ();
 							parameterDataProvider = null;
 						}
 					}

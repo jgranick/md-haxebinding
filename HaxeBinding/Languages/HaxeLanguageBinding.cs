@@ -2,9 +2,9 @@ using System;
 using System.IO;
 using MonoDevelop.Core;
 using MonoDevelop.Projects;
-using MonoDevelop.Projects.CodeGeneration;
-using MonoDevelop.Projects.Dom;
-using MonoDevelop.Projects.Dom.Parser;
+//using MonoDevelop.Projects.CodeGeneration;
+//using MonoDevelop.Projects.Dom;
+//using MonoDevelop.Projects.Dom.Parser;
 
 
 namespace MonoDevelop.HaxeBinding.Languages
@@ -20,26 +20,26 @@ namespace MonoDevelop.HaxeBinding.Languages
 		public string SingleLineCommentTag { get { return "//"; } }
 		
 		
-		public string GetFileName (string baseName)
+		public FilePath GetFileName (FilePath baseName)
 		{
-			return baseName + ".hx";
+			return new FilePath (baseName.FileNameWithoutExtension + ".hx");
 		}
 		
 		
-		public bool IsSourceCodeFile (string fileName)
+		public bool IsSourceCodeFile (FilePath fileName)
 		{
-			return fileName.EndsWith (".hx", StringComparison.OrdinalIgnoreCase);
+			return fileName.Extension == "hx";
 		}
 		
 		
-		public IParser Parser {
+		/*public IParser Parser {
 			get { return null; }
 		}
 		
 		
 		public IRefactorer Refactorer {
 			get { return null; }
-		}
+		}*/
 		
 	}
 	

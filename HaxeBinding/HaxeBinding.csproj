@@ -60,6 +60,10 @@
       <Package>monodevelop-core-addins</Package>
     </Reference>
     <Reference Include="Mono.Posix" />
+    <Reference Include="ICSharpCode.NRefactory, Version=0.0.0.0, Culture=neutral, PublicKeyToken=efe927acf176eea2">
+      <Private>False</Private>
+      <Package>monodevelop</Package>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />

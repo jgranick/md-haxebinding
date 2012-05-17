@@ -1,4 +1,4 @@
-<AddinProject appVersion="2.8">
+<AddinProject appVersion="3.0">
 	<Project platforms="Mac Linux Win32">
 		<AddinFile>HaxeBinding/bin/Debug/MonoDevelop.HaxeBinding.dll</AddinFile>
 		<BuildFile>HaxeBinding/HaxeBinding.csproj</BuildFile>

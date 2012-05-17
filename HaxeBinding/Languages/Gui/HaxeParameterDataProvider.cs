@@ -1,6 +1,7 @@
 using System;
 using System.Xml;
 using MonoDevelop.Ide.CodeCompletion;
+using ICSharpCode.NRefactory.Completion;
 
 
 namespace MonoDevelop.HaxeBinding.Languages.Gui
@@ -9,11 +10,11 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 	public class HaxeParameterDataProvider : IParameterDataProvider
 	{
 		
-		public int OverloadCount { get { return 1; } }
+		/*public int OverloadCount { get { return 1; } }
 		
 		private string[] parameters;
 		private bool showCompletion = false;
-		private string signature;
+		private string signature;*/
 
 		
 		public HaxeParameterDataProvider ()
@@ -22,7 +23,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		}
 		
 		
-		public void Clear ()
+		/*public void Clear ()
 		{
 			showCompletion = false;
 			parameters = new string[] {};
@@ -110,6 +111,98 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 			signature = signature.Replace (">", "&gt;");
 			
 			parameters = signature.Split (new string[] { "-&gt;" }, StringSplitOptions.None);
+		}*/
+		
+		
+		public int StartOffset {
+			get {
+				return 0;
+			}
+		}
+		
+		
+		public string GetHeading (int overload, string[] parameterMarkup, int currentParameter)
+		{
+			/*StringBuilder result = new StringBuilder ();
+//			int curLen = 0;
+			result.Append (ambience.GetString (indexers [overload].ReturnType, OutputFlags.ClassBrowserEntries));
+			result.Append (' ');
+			result.Append ("<b>");
+			result.Append (resolvedExpression);
+			result.Append ("</b>");
+			result.Append ('[');
+			int parameterCount = 0;
+			foreach (string parameter in parameterMarkup) {
+				if (parameterCount > 0)
+					result.Append (", ");
+				result.Append (parameter);
+				parameterCount++;
+			}
+			result.Append (']');
+			return result.ToString ();*/
+			return "";
+		}
+		
+		public string GetDescription (int overload, int currentParameter)
+		{
+			/*StringBuilder result = new StringBuilder ();
+			var curParameter = currentParameter >= 0 && currentParameter < indexers [overload].Parameters.Count ? indexers [overload].Parameters [currentParameter] : null;
+			if (curParameter != null) {
+				string docText = AmbienceService.GetDocumentation (indexers [overload]);
+				if (!string.IsNullOrEmpty (docText)) {
+					var paramRegex = new Regex ("(\\<param\\s+name\\s*=\\s*\"" + curParameter.Name + "\"\\s*\\>.*?\\</param\\>)", RegexOptions.Compiled);
+					var match = paramRegex.Match (docText);
+					if (match.Success) {
+						result.AppendLine ();
+						string text = match.Groups [1].Value;
+						text = "<summary>" + AmbienceService.GetDocumentationSummary (indexers [overload]) + "</summary>" + text;
+						result.Append (AmbienceService.GetDocumentationMarkup (text, new AmbienceService.DocumentationFormatOptions {
+							HighlightParameter = curParameter.Name,
+							MaxLineLength = 60
+						}));
+					}
+				}
+			}
+			
+			return result.ToString ();*/
+			return "";
+		}
+		
+		public string GetParameterDescription (int overload, int paramIndex)
+		{
+			/*var indexer = indexers[overload];
+			
+			if (paramIndex < 0 || paramIndex >= indexer.Parameters.Count)
+				return "";
+			
+			return ambience.GetString (indexer, indexer.Parameters [paramIndex], OutputFlags.AssemblyBrowserDescription | OutputFlags.HideExtensionsParameter | OutputFlags.IncludeGenerics | OutputFlags.IncludeModifiers | OutputFlags.IncludeParameterName | OutputFlags.HighlightName);*/
+			return "";
+		}
+
+		public int GetParameterCount (int overload)
+		{
+			/*if (overload >= Count)
+				return -1;
+			var indexer = indexers[overload];
+			return indexer != null && indexer.Parameters != null ? indexer.Parameters.Count : 0;*/
+			return 0;
+		}
+
+		public bool AllowParameterList (int overload)
+		{
+			/*if (overload >= Count)
+				return false;
+			var lastParam = indexers[overload].Parameters.LastOrDefault ();
+			return lastParam != null && lastParam.IsParams;
+			*/
+			return true;
+		}
+		
+		public int Count {
+			get {
+				//return indexers != null ? indexers.Count : 0;
+				return 0;
+			}
 		}
 
 	}
