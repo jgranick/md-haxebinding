@@ -58,6 +58,35 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		}
 		
 		
+		public override int GetCurrentParameterIndex (int startOffset)
+		{
+			int cursor = document.Editor.Caret.Offset;
+			int i = startOffset;
+			
+			if (i > cursor)
+				return -1;
+			else if (i == cursor)
+				return 1;
+			
+			int parameterIndex = 1;
+			
+			while (i++ < cursor) {
+				char ch = document.Editor.GetCharAt (i-1);
+				if (ch == ',')
+					parameterIndex++;
+				else if (ch == ')')
+					return -1;
+			}
+			
+			return parameterIndex;
+			
+			
+			//int index = 
+			//return 0;
+			//return base.GetCurrentParameterIndex (startOffset);
+		}
+		
+		
 		private void FetchCompletionData (CodeCompletionContext completionContext)
 		{
 			if (completionContext != null && completionContext.TriggerOffset != mCacheTriggerOffset)
@@ -242,7 +271,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 							//parameterDataProvider.Clear ();
 							parameterDataProvider = null;
 						}
-						return null;
+						//return null;
 					}
 					
 					if (!mCacheIsObject && mCacheXML != null && completionContext.TriggerLine == mCacheTriggerLine)
@@ -250,7 +279,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 						if (parameterDataProvider == null)
 						{
 							parameterDataProvider = new HaxeParameterDataProvider ();
-							//parameterDataProvider.Update (completionContext, mCacheXML);
+							parameterDataProvider.Update (completionContext, mCacheXML);
 							return parameterDataProvider;
 						}
 					}
@@ -259,13 +288,14 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 						if (parameterDataProvider != null)
 						{
 							//parameterDataProvider.Clear ();
-							parameterDataProvider = null;
+							//parameterDataProvider = null;
 						}
 					}
 				}
 			}
 			
-			return null;
+			return parameterDataProvider;
+			//return null;
 		}
 		
 		

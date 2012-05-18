@@ -15,11 +15,29 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		private string[] parameters;
 		private bool showCompletion = false;
 		private string signature;*/
+		
+		private int offset;
+		private string[] parameters;
+		private string signature;
 
 		
 		public HaxeParameterDataProvider ()
 		{
 			
+		}
+		
+		
+		public void Update (CodeCompletionContext completionContext, XmlDocument data)
+		{
+			//showCompletion = true;
+			offset = completionContext.TriggerOffset;
+			
+			signature = data.FirstChild.InnerText.Trim ();
+			signature = signature.Replace (" ", "");
+			signature = signature.Replace ("<", "&lt;");
+			signature = signature.Replace (">", "&gt;");
+			
+			parameters = signature.Split (new string[] { "-&gt;" }, StringSplitOptions.None);
 		}
 		
 		
@@ -116,12 +134,12 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		
 		public int StartOffset {
 			get {
-				return 0;
+				return offset;
 			}
 		}
 		
 		
-		public string GetHeading (int overload, string[] parameterMarkup, int currentParameter)
+		public string GetHeading (int overload, string[] parameterDescription, int currentParameter)
 		{
 			/*StringBuilder result = new StringBuilder ();
 //			int curLen = 0;
@@ -140,7 +158,36 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 			}
 			result.Append (']');
 			return result.ToString ();*/
-			return "";
+			//return parameterDescription[currentParameter];
+			//return parameterDescription[0] + ", " + parameterDescription[1];
+			string display = "(";
+				
+				for (int i = 0; i < parameters.Length - 1; i++)
+				{
+					string param = parameters [i];
+					int index = param.IndexOf (":");
+					
+					if (index > -1)
+					{	
+						if (i == currentParameter)
+						{
+							display += "<span foreground=\"#a0a0f7\"><b>" + param.Substring (0, index) + "</b>" + param.Substring (index) + "</span>";
+						}
+						else
+						{
+							display += "<b>" + param.Substring (0, index) + "</b>" + param.Substring (index);
+						}
+						
+						if (i < parameters.Length - 2)
+						{
+							display += ", ";
+						}
+					}
+				}
+				
+				display += "):" + parameters [parameters.Length - 1];
+				
+				return display;
 		}
 		
 		public string GetDescription (int overload, int currentParameter)
@@ -165,6 +212,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 			}
 			
 			return result.ToString ();*/
+			//return "desc";
 			return "";
 		}
 		
@@ -176,7 +224,8 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 				return "";
 			
 			return ambience.GetString (indexer, indexer.Parameters [paramIndex], OutputFlags.AssemblyBrowserDescription | OutputFlags.HideExtensionsParameter | OutputFlags.IncludeGenerics | OutputFlags.IncludeModifiers | OutputFlags.IncludeParameterName | OutputFlags.HighlightName);*/
-			return "";
+			//return "";
+			return parameters [paramIndex];
 		}
 
 		public int GetParameterCount (int overload)
@@ -185,7 +234,8 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 				return -1;
 			var indexer = indexers[overload];
 			return indexer != null && indexer.Parameters != null ? indexer.Parameters.Count : 0;*/
-			return 0;
+			//return 0;
+			return parameters.Length - 1;
 		}
 
 		public bool AllowParameterList (int overload)
@@ -201,7 +251,8 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		public int Count {
 			get {
 				//return indexers != null ? indexers.Count : 0;
-				return 0;
+				//return 0;
+				return 1;
 			}
 		}
 
