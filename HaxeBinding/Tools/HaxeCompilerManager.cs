@@ -54,7 +54,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 			{
 				hxmlPath = Path.Combine (project.BaseDirectory, project.TargetHXMLFile);
 			}
-			
+
 			string hxml = File.ReadAllText (hxmlPath);
 			hxml = hxml.Replace (Environment.NewLine, " ");
 			string[] hxmlArgs = hxml.Split (' ');

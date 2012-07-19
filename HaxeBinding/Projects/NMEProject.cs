@@ -42,7 +42,7 @@ namespace MonoDevelop.HaxeBinding.Projects
 
 		public NMEProject () : base()
 		{
-			
+
 		}
 		
 		

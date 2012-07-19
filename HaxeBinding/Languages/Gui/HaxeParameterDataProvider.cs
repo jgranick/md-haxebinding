@@ -137,6 +137,47 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 				return offset;
 			}
 		}
+
+
+		private string FormatShortType (string type)
+		{
+			string[] keywords = type.Split (' ');
+			type = "";
+
+			for (int i = 0; i < keywords.Length; i++) {
+
+				if (keywords[i].IndexOf (".") > -1) {
+
+					string[] segments = keywords[i].Split ('.');
+
+					if (keywords[0].IndexOf ("<") > -1) {
+
+						type += keywords[0].Substring (0, keywords[0].IndexOf ("<") + 1);
+
+					} else if (keywords[0].StartsWith (":")) {
+
+						type += ":";
+
+					}
+
+					type += segments[segments.Length - 1];
+					
+				} else {
+
+					type += keywords[i];
+
+				}
+
+				if (i < keywords.Length - 1) {
+
+					type += " ";
+
+				}
+
+			}
+
+			return type;
+		}
 		
 		
 		public string GetHeading (int overload, string[] parameterDescription, int currentParameter)
@@ -171,11 +212,11 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 					{	
 						if (i == currentParameter)
 						{
-							display += "<span foreground=\"#a0a0f7\"><b>" + param.Substring (0, index) + "</b>" + param.Substring (index) + "</span>";
+							display += "<span foreground=\"#a0a0f7\"><b>" + param.Substring (0, index) + "</b>" + FormatShortType (param.Substring (index)) + "</span>";
 						}
 						else
 						{
-							display += "<b>" + param.Substring (0, index) + "</b>" + param.Substring (index);
+							display += "<b>" + param.Substring (0, index) + "</b>" + FormatShortType (param.Substring (index));
 						}
 						
 						if (i < parameters.Length - 2)
@@ -185,7 +226,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 					}
 				}
 				
-				display += "):" + parameters [parameters.Length - 1];
+				display += ") : " + FormatShortType (parameters [parameters.Length - 1]) + " ...";
 				
 				return display;
 		}

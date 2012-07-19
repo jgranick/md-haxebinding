@@ -95,7 +95,9 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 				File.WriteAllText (mTempFileName, Document.Editor.Text);
 				
 				string data = HaxeCompilerManager.GetCompletionData (Document.Project, mTempBaseDirectory, mTempFileName, mCacheTriggerOffset);
-				
+
+				//MonoDevelop.Ide.MessageService.ShowMessage (data);
+
 				try
 				{
 					var xml = new XmlDocument ();
@@ -141,6 +143,129 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 				}
 			}
 		}
+
+
+		private string FormatDocumentation (string documentation)
+		{
+			string[] lines = documentation.Split ('\n');
+
+			documentation = "";
+			bool newline = true;
+
+			for (int i = 0; i < lines.Length; i++) {
+
+				string line = "\n" + lines[i].Trim ();
+				line = line.Replace ("\n* ", " ");
+				line = line.Replace ("\n*", " ");
+				line = line.Replace ("<p>", "");
+				line = line.Replace ("</p>", "");
+				line = line.Replace ("<code>", "");
+				line = line.Replace ("</code>", "");
+				line = line.Replace ("<b>", "");
+				line = line.Replace ("</b>", "");
+
+				if (newline) {
+
+					line = line.TrimStart ();
+					newline = false;
+
+				}
+
+				if (line.Trim () == "") {
+
+					line = "\n\n";
+					newline = true;
+
+				}
+
+				if (line.IndexOf ("@param") > -1 || line.IndexOf ("@throws") > -1 || line.IndexOf ("@return") > -1) {
+
+					break;
+
+				}
+
+				documentation += line;
+
+			}
+
+			return "\n" + documentation;
+		}
+
+
+		private string FormatShortType (string type)
+		{
+			string[] keywords = type.Split (' ');
+			type = "";
+
+			for (int i = 0; i < keywords.Length; i++) {
+
+				if (keywords[i].IndexOf (".") > -1) {
+
+					string[] segments = keywords[i].Split ('.');
+
+					if (keywords[0].IndexOf ("<") > -1) {
+
+						type += keywords[0].Substring (0, keywords[0].IndexOf ("<") + 1);
+
+					}
+
+					type += segments[segments.Length - 1];
+					
+				} else {
+
+					type += keywords[i];
+
+				}
+
+				if (i < keywords.Length - 1) {
+
+					type += " ";
+
+				}
+
+			}
+
+			return type;
+		}
+
+
+		private string FormatType (string name, string type)
+		{
+			if (type.IndexOf (":") > -1) {
+
+				type = type.Replace (" ", "");
+				
+				string[] parameters = type.Split (new string[] { "->" }, StringSplitOptions.None);
+
+				string display = "function " + name + " (";
+				
+				for (int i = 0; i < parameters.Length - 1; i++) {
+					string param = parameters [i];
+					int index = param.IndexOf (":");
+					
+					if (index > -1) {	
+						display += param.Substring (0, index + 1) + FormatShortType (param.Substring (index + 1));
+						
+						if (i < parameters.Length - 2) {
+							display += ", ";
+						}
+					}
+				}
+				
+				display += ") : " + FormatShortType (parameters [parameters.Length - 1]) + " ...";
+				
+				type = display;
+
+			} else {
+
+				type = "var " + name + " : " + FormatShortType (type) + " ...";
+
+			}
+
+			//type = type.Replace (" : ", ":");
+
+			return type;
+		}
 		
 		
 		private CompletionDataList GetCompletionList (CodeCompletionContext completionContext)
@@ -156,6 +281,8 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 					
 					if (xml.HasChildNodes && xml.FirstChild.HasChildNodes)
 					{
+						string documentation;
+						string[] lines;
 						string name;
 						string type;
 						string icon;
@@ -167,18 +294,38 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 								foreach (XmlElement node in xml.FirstChild.ChildNodes)
 								{
 									name = node.GetAttribute ("n");
-									type = node.InnerText;
 									icon = "md-property";
+									
+									lines = node.InnerText.Replace("\r","").Split('\n');
+
+									type = "";
+									documentation = "";
+
+									for (var i = 0; i < lines.Length; i++) {
+										
+										if (i == 0) {
+											
+											type = lines[0];
+											
+										} else {
+											
+											documentation += "\n" + lines[i];
+											
+										}
+										
+									}
+
+									//MonoDevelop.Ide.MessageService.ShowMessage (documentation);
 								
-									if (type.IndexOf ("->") > -1)
+									if (type.IndexOf (":") > -1)
 									{
 										icon = "md-method";
 										//md-literal
 									}
 								
-									if (type.IndexOf ("@private") == -1)
+									if (documentation.IndexOf ("@private") == -1)
 									{
-										list.Add (new CompletionData (name, icon, type));
+										list.Add (new CompletionData (name, icon, FormatType (name, type) + FormatDocumentation (documentation)));
 									}
 								}
 							
