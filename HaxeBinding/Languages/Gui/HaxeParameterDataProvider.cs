@@ -36,8 +36,37 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 			signature = signature.Replace (" ", "");
 			signature = signature.Replace ("<", "&lt;");
 			signature = signature.Replace (">", "&gt;");
+
+			string[] splitByOpenParen = signature.Split ('(');
+			signature = "";
+
+			for (int i = 0; i < splitByOpenParen.Length; i++) {
+
+				string[] splitByCloseParen = splitByOpenParen[i].Split (')');
+
+				for (int j = 0; j < splitByCloseParen.Length; j++) {
+
+					if (i > 0 && j == 0) {
+
+						signature += splitByCloseParen[0].Replace ("-&gt;", "->");
+
+					} else {
+
+						signature += splitByCloseParen[i];
+
+					}
+
+				}
+
+			}
 			
 			parameters = signature.Split (new string[] { "-&gt;" }, StringSplitOptions.None);
+
+			for (int i = 0; i < parameters.Length; i++) {
+
+				parameters[i] = parameters[i].Replace ("->", " -&gt; ");
+
+			}
 		}
 		
 		

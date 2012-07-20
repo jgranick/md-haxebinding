@@ -234,13 +234,38 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 			if (type.IndexOf (":") > -1) {
 
 				type = type.Replace (" ", "");
-				
+
+				string[] splitByOpenParen = type.Split ('(');
+				type = "";
+
+				for (int i = 0; i < splitByOpenParen.Length; i++) {
+
+					string[] splitByCloseParen = splitByOpenParen[i].Split (')');
+
+					for (int j = 0; j < splitByCloseParen.Length; j++) {
+
+						if (i > 0 && j == 0) {
+
+							type += splitByCloseParen[0].Replace ("->", "-&gt;");
+
+						} else {
+
+							type += splitByCloseParen[i];
+
+						}
+
+					}
+
+				}
+
 				string[] parameters = type.Split (new string[] { "->" }, StringSplitOptions.None);
 
 				string display = "function " + name + " (";
 				
 				for (int i = 0; i < parameters.Length - 1; i++) {
+
 					string param = parameters [i];
+					param = param.Replace ("-&gt;", " -> ");
 					int index = param.IndexOf (":");
 					
 					if (index > -1) {	

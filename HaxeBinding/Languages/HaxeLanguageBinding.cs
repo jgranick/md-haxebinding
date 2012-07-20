@@ -12,13 +12,13 @@ namespace MonoDevelop.HaxeBinding.Languages
 
 	public class HaxeLanguageBinding : ILanguageBinding
 	{
-		
-		public string BlockCommentEndTag { get { return "*/"; } }
-		public string BlockCommentStartTag { get { return "/*"; } }
-		public string CommentTag { get { return "//"; } }
-		public string Language { get { return "Haxe"; } }
+
 		public string SingleLineCommentTag { get { return "//"; } }
-		
+		public string BlockCommentStartTag { get { return "/*"; } }
+		public string BlockCommentEndTag { get { return "*/"; } }
+
+		public string Language { get { return "Haxe"; } }
+
 		
 		public FilePath GetFileName (FilePath baseName)
 		{

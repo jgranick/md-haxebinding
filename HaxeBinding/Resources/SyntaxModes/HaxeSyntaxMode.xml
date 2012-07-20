@@ -1,10 +1,19 @@
 <SyntaxMode name="Haxe" mimeTypes="text/x-haxe">
 	
-	<Property name="LineComment">//</Property>
+	
 	<Property name="BlockCommentStart">/*</Property>
 	<Property name="BlockCommentEnd">*/</Property>
-	<Property name="StringQuote">"</Property>
-	<Property name="StringQuote">'</Property>
+	
+	<Span color = "string.double" stopateol = "true" escape='\"'>
+		<Begin>"</Begin>
+		<End>"</End>
+	</Span>
+	
+	<Span color = "string.single" stopateol = "true" escape="\'">
+		<Begin>'</Begin>
+		<End>'</End>
+	</Span>
+	
 	
 	<EolSpan color = "text.preprocessor" rule="text.preprocessor">#</EolSpan>
 	<EolSpan color = "comment.line" rule="Comment" tagColor="comment.tag.line">//</EolSpan>
@@ -18,16 +27,7 @@
 		<Begin>/*</Begin>
 		<End>*/</End>
 	</Span>
-
-	<Span color = "string.double" rule="String" stopateol = "true" escape='\'>
-		<Begin>"</Begin>
-		<End>"</End>
-	</Span>
-
-	<Span color = "string.single" rule="String" stopateol = "true" escape="\">
-		<Begin>&apos;</Begin>
-		<End>&apos;</End>
-	</Span>
+	
 	
 	<Match color = "constant.digit">CSharpNumber</Match>
 	
