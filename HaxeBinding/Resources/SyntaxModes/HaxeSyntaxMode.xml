@@ -15,7 +15,6 @@
 	</Span>
 	
 	
-	<EolSpan color = "text.preprocessor" rule="text.preprocessor">#</EolSpan>
 	<EolSpan color = "comment.line" rule="Comment" tagColor="comment.tag.line">//</EolSpan>
 	
 	<Span color = "comment.block" rule="Documentation" tagColor="comment.tag.block">
@@ -26,6 +25,11 @@
 	<Span color = "comment.block" rule="Comment" tagColor="comment.tag.block">
 		<Begin>/*</Begin>
 		<End>*/</End>
+	</Span>
+	
+	<Span color = "text.preprocessor" rule="text.preprocessor" stopateol="true">
+		<Begin>#</Begin>
+		<End>#end</End>
 	</Span>
 	
 	
