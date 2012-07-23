@@ -50,12 +50,6 @@ class ${SafeProjectName} extends Sprite {
 		
 		
 	}
-	
-	public static function main () {
-		
-		Lib.current.addChild (new ${SafeProjectName} ());
-		
-	}	
 
 }]]></File>
 				<FileTemplateReference TemplateID="EmptyNMMLSourceFile" name="${ProjectName}.nmml" />
