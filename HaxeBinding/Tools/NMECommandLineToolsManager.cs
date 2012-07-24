@@ -32,7 +32,27 @@ namespace MonoDevelop.HaxeBinding.Tools
 		private static Regex mErrorSimple = new Regex (@"^(?<level>\w+):\s(?<message>.*)\.?$", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
 		private static Regex mErrorIgnore = new Regex (@"^(Updated|Recompile|Reason|Files changed):.*", RegexOptions.Compiled);
 
-		
+
+		public static void Clean (NMEProject project, NMEProjectConfiguration configuration, IProgressMonitor monitor)
+		{
+			ProcessStartInfo info = new ProcessStartInfo ();
+			
+			info.FileName = "haxelib";
+			info.Arguments = "run nme clean \"" + project.TargetNMMLFile + "\" " + configuration.Platform.ToLower () + " " + project.AdditionalArguments + " " + configuration.AdditionalArguments;
+			info.UseShellExecute = false;
+			info.RedirectStandardOutput = true;
+			info.RedirectStandardError = true;
+			info.WorkingDirectory = project.BaseDirectory;
+			//info.WindowStyle = ProcessWindowStyle.Hidden;
+			info.CreateNoWindow = true;
+			
+			using (Process process = Process.Start (info))
+			{
+				process.WaitForExit ();
+			}
+		}
+
+
 		public static BuildResult Compile (NMEProject project, NMEProjectConfiguration configuration, IProgressMonitor monitor)
 		{
 			string args = "run nme build \"" + project.TargetNMMLFile + "\" " + configuration.Platform.ToLower ();

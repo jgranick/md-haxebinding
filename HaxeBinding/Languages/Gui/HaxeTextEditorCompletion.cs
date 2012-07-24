@@ -283,7 +283,11 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 
 			} else {
 
-				type = "var " + name + " : " + FormatShortType (type) + " ...";
+				if (type != "") {
+
+					type = "var " + name + " : " + FormatShortType (type) + " ...";
+
+				}
 
 			}
 

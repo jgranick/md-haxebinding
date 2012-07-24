@@ -126,9 +126,10 @@ namespace MonoDevelop.HaxeBinding.Projects
 		}
 		
 		
-		protected override void DoClean (IProgressMonitor monitor, ConfigurationSelector configuration)
+		protected override void DoClean (IProgressMonitor monitor, ConfigurationSelector configurationSelector)
 		{
-			//base.DoClean (monitor, configuration);
+			NMEProjectConfiguration haxeConfig = (NMEProjectConfiguration)GetConfiguration (configurationSelector);
+			NMECommandLineToolsManager.Clean (this, haxeConfig, monitor);
 		}
 		
 		
