@@ -11,7 +11,7 @@
 	
     <Combine name="${ProjectName}" directory=".">
         <Project name="${ProjectName}" directory="." type="NME">
-            <Options TargetNMMLFile="${ProjectName}.nmml" />
+            <Options TargetNMMLFile="application.nmml" />
             <Files>
 				<File name="Assets/nme.svg">
 <![CDATA[<?xml version="1.0" encoding="utf-8"?>
@@ -68,7 +68,7 @@ class ${SafeProjectName} extends Sprite {
 	}
 
 }]]></File>
-				<FileTemplateReference TemplateID="EmptyNMMLSourceFile" name="${ProjectName}.nmml" />
+				<FileTemplateReference TemplateID="EmptyNMMLSourceFile" name="application.nmml" />
             </Files>
         </Project>
     </Combine>
