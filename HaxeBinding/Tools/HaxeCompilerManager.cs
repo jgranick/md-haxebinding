@@ -275,9 +275,13 @@ namespace MonoDevelop.HaxeBinding.Tools
 		                var client = new TcpClient("127.0.0.1", port);
 		                var writer = new StreamWriter(client.GetStream());
 		                writer.WriteLine("--cwd " + project.BaseDirectory);
-						string[] argList = args.Split (' ');
-		                foreach (var arg in argList)
-		                    writer.WriteLine(arg);
+		                
+		                // Instead of replacing spaces with newlines, replace only
+		                // if the space is followed by a dash.
+		                // TODO: Even more intelligent replacement so you can use folders
+						// 		 that contain the string sequence " -".
+						writer.Write(args.Replace(" -", "\n-"));
+						
 						//writer.WriteLine("--connect " + port);
 		                writer.Write("\0");
 		                writer.Flush();
