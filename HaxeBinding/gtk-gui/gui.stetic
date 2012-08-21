@@ -5,8 +5,11 @@
     <target-gtk-version>2.12</target-gtk-version>
   </configuration>
   <import>
-    <widget-library name="../../../../../../../Applications/MonoDevelop.app/Contents/MacOS/lib/monodevelop/bin/MonoDevelop.Ide.dll" />
-    <widget-library name="../bin/Release/MonoDevelop.HaxeBinding.dll" internal="true" />
+    <widget-library name="/Applications/MonoDevelop.app/Contents/MacOS/lib/monodevelop/bin/Mono.TextEditor.dll" />
+    <widget-library name="/Applications/MonoDevelop.app/Contents/MacOS/lib/monodevelop/AddIns/MonoDevelop.DesignerSupport/MonoDevelop.DesignerSupport.dll" />
+    <widget-library name="/Applications/MonoDevelop.app/Contents/MacOS/lib/monodevelop/AddIns/MonoDevelop.Refactoring/MonoDevelop.Refactoring.dll" />
+    <widget-library name="/Applications/MonoDevelop.app/Contents/MacOS/lib/monodevelop/bin/MonoDevelop.Ide.dll" />
+    <widget-library name="../bin/Debug/MonoDevelop.HaxeBinding.dll" internal="true" />
   </import>
   <widget class="Gtk.Bin" id="MonoDevelop.HaxeBinding.Projects.Gui.NMEOutputOptionsWidget" design-size="467 300">
     <property name="MemberName" />
