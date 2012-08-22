@@ -11,7 +11,7 @@
 	
     <Combine name="${ProjectName}" directory=".">
         <Project name="${ProjectName}" directory="." type="NME">
-            <Options TargetNMMLFile="${ProjectName}.nmml" />
+            <Options TargetNMMLFile="application.nmml" />
             <Files>
 				<File name="Assets/nme.svg">
 <![CDATA[<?xml version="1.0" encoding="utf-8"?>
@@ -35,24 +35,40 @@
 <![CDATA[package;
 
 import nme.display.Sprite;
+import nme.events.Event;
 import nme.Lib;
 
 /**
- * ...
- * @author ${AuthorName}
- */
+* ...
+* @author ${AuthorName}
+*/
+
 class ${SafeProjectName} extends Sprite {
-	
-	public function new () {
-		
-		super ();
-		
-		
+
+	public function new() {
+		super();
+		#if iphone
+		Lib.current.stage.addEventListener(Event.RESIZE, init);
+		#else
+		addEventListener(Event.ADDED_TO_STAGE, init);
+		#end
+	}
+
+	private function init(e) {
+		// add code below
 		
 	}
 
+	static public function main() {
+		var stage = Lib.current.stage;
+		stage.scaleMode = nme.display.StageScaleMode.NO_SCALE;
+		stage.align = nme.display.StageAlign.TOP_LEFT;
+
+		Lib.current.addChild(new ${SafeProjectName}());
+	}
+
 }]]></File>
-				<FileTemplateReference TemplateID="EmptyNMMLSourceFile" name="${ProjectName}.nmml" />
+				<FileTemplateReference TemplateID="EmptyNMMLSourceFile" name="application.nmml" />
             </Files>
         </Project>
     </Combine>
