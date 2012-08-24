@@ -15,8 +15,8 @@
 <![CDATA[<?xml version="1.0" encoding="utf-8"?>
 <project>
 	
-	<meta title="${Name}" package="com.testing.myapplication" version="1.0.0" company="${AuthorCompany}" />
-	<app main="${Name}" file="${Name}" path="Export" />
+	<meta title="${ProjectName}" package="com.testing.myapplication" version="1.0.0" company="${AuthorCompany}" />
+	<app main="${SafeProjectName}" file="${SafeProjectName}" path="Export" />
 	
 	<window width="800" height="600" unless="mobile" />
 	<window fps="30" />
