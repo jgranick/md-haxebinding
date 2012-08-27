@@ -12,22 +12,22 @@
     <ReleaseVersion>0.2</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>False</Optimize>
     <OutputPath>bin\Debug</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
+    <ConsolePause>False</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>False</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
+    <ConsolePause>False</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -40,11 +40,20 @@
     <Reference Include="MonoDevelop.Core">
       <HintPath>\Applications\MonoDevelop.app\Contents\MacOS\lib\monodevelop\bin\MonoDevelop.Core.dll</HintPath>
     </Reference>
+    <Reference Include="MonoDevelop.Core">
+      <HintPath>..\..\..\..\Program Files %28x86%29\MonoDevelop\bin\MonoDevelop.Core.dll</HintPath>
+    </Reference>
     <Reference Include="MonoDevelop.Ide">
       <HintPath>\Applications\MonoDevelop.app\Contents\MacOS\lib\monodevelop\bin\MonoDevelop.Ide.dll</HintPath>
     </Reference>
+    <Reference Include="MonoDevelop.Ide">
+      <HintPath>..\..\..\..\Program Files %28x86%29\MonoDevelop\bin\MonoDevelop.Ide.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.NRefactory">
       <HintPath>\Applications\MonoDevelop.app\Contents\MacOS\lib\monodevelop\bin\ICSharpCode.NRefactory.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.NRefactory">
+      <HintPath>..\..\..\..\Program Files %28x86%29\MonoDevelop\bin\ICSharpCode.NRefactory.dll</HintPath>
     </Reference>
     <Reference Include="Mono.TextEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>\Applications\MonoDevelop.app\Contents\MacOS\lib\monodevelop\bin\Mono.TextEditor.dll</HintPath>
@@ -57,6 +66,15 @@
     <Reference Include="MonoDevelop.Refactoring, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>\Applications\MonoDevelop.app\Contents\MacOS\lib\monodevelop\AddIns\MonoDevelop.Refactoring\MonoDevelop.Refactoring.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="Mono.TextEditor">
+      <HintPath>..\..\..\..\Program Files %28x86%29\MonoDevelop\bin\Mono.TextEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="glib-sharp">
+      <HintPath>..\..\..\..\Program Files %28x86%29\Mono-2.10.8\lib\mono\gtk-sharp-2.0\glib-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="atk-sharp">
+      <HintPath>..\..\..\..\Program Files %28x86%29\Mono-2.10.8\lib\mono\gtk-sharp-2.0\atk-sharp.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
