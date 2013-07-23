@@ -219,8 +219,33 @@ namespace MonoDevelop.HaxeBinding.Tools
 			
 			string exe = "haxe";
 			string args = "";
-			
-			if (project is NMEProject) {
+
+			if (project is OpenFLProject) {
+				
+				OpenFLProjectConfiguration configuration = project.GetConfiguration (MonoDevelop.Ide.IdeApp.Workspace.ActiveConfiguration) as OpenFLProjectConfiguration;
+				
+				string platform = configuration.Platform.ToLower ();
+				string path = ((OpenFLProject)project).TargetProjectXMLFile;
+				
+				if (!File.Exists (path))
+				{
+					path = Path.Combine (project.BaseDirectory, path);
+				}
+				
+				DateTime time = File.GetLastWriteTime (Path.GetFullPath (path));
+				
+				if (!time.Equals (cacheNMMLTime) || platform != cachePlatform || configuration.AdditionalArguments != cacheArgumentsPlatform || ((OpenFLProject)project).AdditionalArguments != cacheArgumentsGlobal)
+				{
+					cacheHXML = OpenFLCommandLineToolsManager.GetHXMLData ((OpenFLProject)project, configuration);
+					cacheNMMLTime = time;
+					cachePlatform = platform;
+					cacheArgumentsGlobal = ((OpenFLProject)project).AdditionalArguments;
+					cacheArgumentsPlatform = configuration.AdditionalArguments;
+				}
+				
+				args = cacheHXML + " -D code_completion";
+				
+			} else if (project is NMEProject) {
 				
 				NMEProjectConfiguration configuration = project.GetConfiguration (MonoDevelop.Ide.IdeApp.Workspace.ActiveConfiguration) as NMEProjectConfiguration;
 				

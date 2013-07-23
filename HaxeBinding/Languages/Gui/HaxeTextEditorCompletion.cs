@@ -479,7 +479,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		{
 			base.Initialize ();
 			
-			if (Document.HasProject && ((Document.Project is NMEProject) || (Document.Project is HaxeProject)))
+			if (Document.HasProject && ((Document.Project is OpenFLProject) || (Document.Project is NMEProject) || (Document.Project is HaxeProject)))
 			{
 				mCanRunCompletion = true;
 				
