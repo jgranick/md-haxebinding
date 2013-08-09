@@ -70,12 +70,8 @@
     <Reference Include="Mono.TextEditor">
       <HintPath>..\..\..\..\Program Files %28x86%29\MonoDevelop\bin\Mono.TextEditor.dll</HintPath>
     </Reference>
-    <Reference Include="glib-sharp">
-      <HintPath>..\..\..\..\Program Files %28x86%29\Mono-2.10.8\lib\mono\gtk-sharp-2.0\glib-sharp.dll</HintPath>
-    </Reference>
-    <Reference Include="atk-sharp">
-      <HintPath>..\..\..\..\Program Files %28x86%29\Mono-2.10.8\lib\mono\gtk-sharp-2.0\atk-sharp.dll</HintPath>
-    </Reference>
+    <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
@@ -104,6 +100,10 @@
     <Compile Include="Languages\HXMLLanguageBinding.cs" />
     <Compile Include="gtk-gui\MonoDevelop.HaxeBinding.Projects.Gui.HaxeProjectOptionsWidget.cs" />
     <Compile Include="Tools\HaxeCompilerManager.cs" />
+    <Compile Include="Projects\OpenFLProject.cs" />
+    <Compile Include="Projects\OpenFLProjectBinding.cs" />
+    <Compile Include="Projects\OpenFLProjectConfiguration.cs" />
+    <Compile Include="Tools\OpenFLCommandLineToolsManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -161,6 +161,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\SyntaxModes\NMMLSyntaxMode.xml">
       <LogicalName>NMMLSyntaxMode.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Templates\EmptyOpenFLProject.xpt.xml">
+      <LogicalName>EmptyOpenFLProject.xpt.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Templates\EmptyOpenFLProjectXMLFile.xft.xml">
+      <LogicalName>EmptyOpenFLProjectXMLFile.xft.xml</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

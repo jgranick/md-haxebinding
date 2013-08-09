@@ -1,6 +1,5 @@
 <SyntaxMode name="Haxe" mimeTypes="text/x-haxe">
 	
-	
 	<Property name="BlockCommentStart">/*</Property>
 	<Property name="BlockCommentEnd">*/</Property>
 	
@@ -88,13 +87,15 @@
 		<Word>Float</Word>
 		<Word>Dynamic</Word>
 		<Word>String</Word>
-		<Word>Hash</Word>
-		<Word>IntHash</Word>
 		<Word>List</Word>
 		<Word>FastList</Word>
 		<Word>Date</Word>
 		<Word>Xml</Word>
 		<Word>Void</Word>
+		<Word>Array</Word>
+		<Word>Map</Word>
+		<Word>Hash</Word>
+		<Word>IntHash</Word>
 	</Keywords>
 	
 	<Keywords color = "keyword.declaration">
@@ -110,6 +111,7 @@
 		<Word>public</Word>
 		<Word>private</Word>
 		<Word>extern</Word>
+		<Word>abstract</Word>
 		<Word>inline</Word>
 		<Word>static</Word>
 		<Word>dynamic</Word>
