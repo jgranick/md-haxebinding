@@ -5,21 +5,16 @@
         copyright     = "MIT X11"  
         description   = "Haxe Language Binding"  
         category      = "Language bindings"  
-        version       = "0.4.0" >
-	
+        version       = "0.4.1" >
 	
 	<!-- Dependencies -->
-	
 	<Dependencies>
 		<Addin id="Core" version="3.0" />
 		<Addin id="Ide" version="3.0" />
 		<Addin id="SourceEditor2" version="3.0" />
 	</Dependencies>
 	
-	
-	
 	<!-- Icons -->
-	
 	<Extension path="/MonoDevelop/Core/StockIcons">
 		<StockIcon stockid="fd-icon" resource="flashdevelop-icon-16.png" size="Menu" />
 		<StockIcon stockid="fd-icon" resource="flashdevelop-icon-24.png" size="Dnd" />
@@ -32,10 +27,7 @@
 		<StockIcon stockid="fd-file" icon="md-text-file-icon|res:flashdevelop-overlay-32.png" size="Dialog" />
 	</Extension>
 	
-	
-	
 	<!-- Syntax Modes -->
-	
 	<Extension path="/MonoDevelop/SourceEditor2/SyntaxModes">
 		<Templates resource="HaxeSyntaxMode.xml" />
 		<Templates resource="NMMLSyntaxMode.xml" />
@@ -45,13 +37,11 @@
 		<Templates resource="FlashDevelopStyle.xml" />
 	</Extension>
 	
-	
-	
 	<!-- Templates -->
-	
 	<Extension path="/MonoDevelop/Ide/FileTemplates">
 		<FileTemplate id="EmptyHaxeSourceFile" resource="EmptyHaxeSourceFile.xft.xml" />
 		<FileTemplate id="EmptyNMMLSourceFile" resource="EmptyNMMLFile.xft.xml" />
+		<FileTemplate id="EmptyOpenFLProjectXMLSourceFile" resource="EmptyOpenFLProjectXMLFile.xft.xml" />
 	</Extension>
 	
 	<Extension path="/MonoDevelop/Ide/ProjectTemplates">
@@ -60,13 +50,11 @@
 		<ProjectTemplate id="EmptyHaxeJSProject" resource="EmptyHaxeJSProject.xpt.xml" />
 		<ProjectTemplate id="EmptyHaxeNekoProject" resource="EmptyHaxeNekoProject.xpt.xml" />
 		<ProjectTemplate id="EmptyHaxePHPProject" resource="EmptyHaxePHPProject.xpt.xml" />
+		<ProjectTemplate id="EmptyOpenFLProject" resource="EmptyOpenFLProject.xpt.xml" />
 		<ProjectTemplate id="EmptyNMEProject" resource="EmptyNMEProject.xpt.xml" />
 	</Extension>
 	
-	
-	
 	<!-- File Types -->
-	
 	<Extension path="/MonoDevelop/Core/MimeTypes">
 		<MimeType id="text/x-haxe" _description="Haxe source code" icon="fd-file" isText="true"><File pattern="*.hx" /></MimeType>
 		<MimeType id="text/x-hxml" _description="HXML document" icon="fd-file" isText="true"><File pattern="*.hxml" /></MimeType>
@@ -79,10 +67,7 @@
 		<FileFilter id="NMML" insertbefore="AllFiles" _label="NMML Files" extensions="*.nmml" />
 	</Extension>
 	
-	
-	
 	<!-- Languages -->
-	
 	<Extension path="/MonoDevelop/ProjectModel/LanguageBindings">
 		<LanguageBinding id="Haxe" supportedextensions=".hx" class="MonoDevelop.HaxeBinding.Languages.HaxeLanguageBinding" />
 		<LanguageBinding id="HXML" supportedextensions=".hxml" class="MonoDevelop.HaxeBinding.Languages.HXMLLanguageBinding" />
@@ -93,12 +78,10 @@
 		<Section id="HaxeBindingOptions" _label="Haxe" icon="fd-icon" class="MonoDevelop.HaxeBinding.Languages.Gui.HaxeOptionsPanel" />
 	</Extension>
 	
-	
-	
 	<!-- Projects -->
-	
 	<Extension path="/MonoDevelop/ProjectModel/ProjectBindings">
 		<ProjectBinding id="HaxeProject" class="MonoDevelop.HaxeBinding.Projects.HaxeProjectBinding" />
+		<ProjectBinding id="OpenFLProject" class="MonoDevelop.HaxeBinding.Projects.OpenFLProjectBinding" />
 		<ProjectBinding id="NMEProject" class="MonoDevelop.HaxeBinding.Projects.NMEProjectBinding" />
 	</Extension>
 	
@@ -116,6 +99,8 @@
 	<Extension path="/MonoDevelop/ProjectModel/SerializableClasses">
 		<DataType class="MonoDevelop.HaxeBinding.Projects.HaxeProject" />
 		<DataType class="MonoDevelop.HaxeBinding.Projects.HaxeProjectConfiguration" />
+		<DataType class="MonoDevelop.HaxeBinding.Projects.OpenFLProject" />
+		<DataType class="MonoDevelop.HaxeBinding.Projects.OpenFLProjectConfiguration" />
 		<DataType class="MonoDevelop.HaxeBinding.Projects.NMEProject" />
 		<DataType class="MonoDevelop.HaxeBinding.Projects.NMEProjectConfiguration" />
 	</Extension>
@@ -123,12 +108,10 @@
 	<Extension path="/MonoDevelop/ProjectModel/MSBuildItemTypes">
 		<SolutionItem type="MonoDevelop.HaxeBinding.Projects.HaxeProject" extension="hxproj" guid="{73443E56-3503-11DE-B03D-001DBA02A2FC}"/>
 		<SolutionItem type="MonoDevelop.HaxeBinding.Projects.NMEProject" extension="nmeproj" guid="{319CB2C6-23BD-43E1-85B5-2AAFA3577041}"/>
+		<SolutionItem type="MonoDevelop.HaxeBinding.Projects.OpenFLProject" extension="oflproj" guid="{9344BDBB-3E7f-41FC-A0DD-8665D75EE146}"/>
 	</Extension>
 	
-	
-	
 	<!-- Code Completion -->
-	
 	<Extension path="/MonoDevelop/Ide/TextEditorExtensions">
 		<Class fileExtensions=".hx" class="MonoDevelop.HaxeBinding.Languages.Gui.HaxeTextEditorCompletion" />
 	</Extension>
