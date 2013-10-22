@@ -33,8 +33,11 @@
     <Reference Include="System" />
     <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
       <Private>False</Private>
+      <Package>gtk-sharp-2.0</Package>
     </Reference>
-    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <Package>gtk-sharp-2.0</Package>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Mono.Posix" />
     <Reference Include="MonoDevelop.Core">
@@ -42,36 +45,47 @@
     </Reference>
     <Reference Include="MonoDevelop.Core">
       <HintPath>..\..\..\..\Program Files %28x86%29\MonoDevelop\bin\MonoDevelop.Core.dll</HintPath>
+      <Package>monodevelop</Package>
     </Reference>
     <Reference Include="MonoDevelop.Ide">
       <HintPath>\Applications\MonoDevelop.app\Contents\MacOS\lib\monodevelop\bin\MonoDevelop.Ide.dll</HintPath>
     </Reference>
     <Reference Include="MonoDevelop.Ide">
       <HintPath>..\..\..\..\Program Files %28x86%29\MonoDevelop\bin\MonoDevelop.Ide.dll</HintPath>
+      <Package>monodevelop</Package>
     </Reference>
     <Reference Include="ICSharpCode.NRefactory">
       <HintPath>\Applications\MonoDevelop.app\Contents\MacOS\lib\monodevelop\bin\ICSharpCode.NRefactory.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.NRefactory">
       <HintPath>..\..\..\..\Program Files %28x86%29\MonoDevelop\bin\ICSharpCode.NRefactory.dll</HintPath>
+      <Package>monodevelop</Package>
     </Reference>
     <Reference Include="Mono.TextEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>\Applications\MonoDevelop.app\Contents\MacOS\lib\monodevelop\bin\Mono.TextEditor.dll</HintPath>
       <Private>False</Private>
+      <Package>monodevelop</Package>
     </Reference>
     <Reference Include="MonoDevelop.DesignerSupport, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>\Applications\MonoDevelop.app\Contents\MacOS\lib\monodevelop\AddIns\MonoDevelop.DesignerSupport\MonoDevelop.DesignerSupport.dll</HintPath>
       <Private>False</Private>
+      <Package>monodevelop-core-addins</Package>
     </Reference>
     <Reference Include="MonoDevelop.Refactoring, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>\Applications\MonoDevelop.app\Contents\MacOS\lib\monodevelop\AddIns\MonoDevelop.Refactoring\MonoDevelop.Refactoring.dll</HintPath>
       <Private>False</Private>
+      <Package>monodevelop-core-addins</Package>
     </Reference>
     <Reference Include="Mono.TextEditor">
       <HintPath>..\..\..\..\Program Files %28x86%29\MonoDevelop\bin\Mono.TextEditor.dll</HintPath>
+      <Package>monodevelop</Package>
     </Reference>
-    <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <Package>glib-sharp-2.0</Package>
+    </Reference>
+    <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <Package>gtk-sharp-2.0</Package>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
@@ -104,6 +118,7 @@
     <Compile Include="Projects\OpenFLProjectBinding.cs" />
     <Compile Include="Projects\OpenFLProjectConfiguration.cs" />
     <Compile Include="Tools\OpenFLCommandLineToolsManager.cs" />
+    <Compile Include="Highlighting\HaxeSyntaxMode.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -168,6 +183,7 @@
     <EmbeddedResource Include="Resources\Templates\EmptyOpenFLProjectXMLFile.xft.xml">
       <LogicalName>EmptyOpenFLProjectXMLFile.xft.xml</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="HaxeSyntaxHighlightingMode.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Projects\" />
@@ -180,5 +196,6 @@
     <Folder Include="Resources\SyntaxModes\" />
     <Folder Include="Tools\" />
     <Folder Include="Helpers\" />
+    <Folder Include="Highlighting\" />
   </ItemGroup>
 </Project>

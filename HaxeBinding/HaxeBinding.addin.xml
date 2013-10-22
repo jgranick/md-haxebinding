@@ -12,6 +12,7 @@
 		<Addin id="Core" version="4.0" />
 		<Addin id="Ide" version="4.0" />
 		<Addin id="SourceEditor2" version="4.0" />
+		<Addin id="Refactoring" version="4.0"/>
 	</Dependencies>
 	
 	<!-- Icons -->
@@ -36,6 +37,17 @@
 	<Extension path="/MonoDevelop/SourceEditor2/Styles">
 		<Templates resource="FlashDevelopStyle.xml" />
 	</Extension>-->
+	
+	<!-- Syntax Highlighting and Formatting -->
+
+    <Extension path = "/MonoDevelop/SourceEditor2/CustomModes">
+            <SyntaxMode mimeTypes="text/x-haxe" class="MonoDevelop.HaxeBinding.Highlighting.HaxeSyntaxMode"/>
+    </Extension>
+
+    <!--no formatting right now
+    <Extension path = "/MonoDevelop/Ide/CodeFormatters">
+            <Formatter mimeType="text/x-d" class="MonoDevelop.D.Formatting.DCodeFormatter" />
+    </Extension>-->
 	
 	<!-- Templates -->
 	<Extension path="/MonoDevelop/Ide/FileTemplates">
