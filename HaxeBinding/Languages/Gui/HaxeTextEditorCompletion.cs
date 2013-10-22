@@ -24,20 +24,18 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 {	
 
 	public class HaxeTextEditorCompletion : CompletionTextEditorExtension
-	{
-		
+	{	
 		private XmlDocument mCacheXML = null;
 		private bool mCacheXMLCurrent = true;
 		private bool mCacheIsObject = true;
 		private int mCacheTriggerLine = -1;
 		private int mCacheTriggerOffset = -1;
-		private bool mCanRunCompletion = false;
+		private bool mCanRunCompletion = true;
 		private bool mCompletionEnabled = true;
 		private string mTempBaseDirectory;
 		private string mTempDirectory;
 		private string mTempFileName;
 		private HaxeParameterDataProvider parameterDataProvider;
-		
 		
 		public override bool CanRunCompletionCommand ()
 		{
@@ -79,11 +77,6 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 			}
 			
 			return parameterIndex;
-			
-			
-			//int index = 
-			//return 0;
-			//return base.GetCurrentParameterIndex (startOffset);
 		}
 		
 		
@@ -361,7 +354,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 								break;
 						}	
 					}
-					
+
 					return list;
 				}
 				catch (Exception ex)
@@ -390,36 +383,61 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 			return "";
 			
 		}
-		
-		
-		/*public override ICompletionDataList HandleCodeCompletion (CodeCompletionContext completionContext, char completionChar)
-		{
-			if (mCanRunCompletion && mCompletionEnabled)
-			{
-				if (completionChar == '.' || completionChar == '(')
-				{
-					return GetCompletionList (completionContext);
-				}
-			}
-			
-			return null;
-		}*/
-			
-		
+
+
 		public override ICompletionDataList HandleCodeCompletion (CodeCompletionContext completionContext, char completionChar, ref int triggerWordLength)
 		{
 			if (mCanRunCompletion && mCompletionEnabled)
 			{
-				if (completionChar == '.' || completionChar == '(')
+				switch (completionChar)
 				{
-					return GetCompletionList (completionContext);
+					case '.':
+					case '(':
+						return GetCompletionList (completionContext);
+					default:
+	                    if (char.IsLetter (completionChar)) {
+	                        // Aggressive completion
+	                        ICompletionDataList list = GlobalComplete ();
+	                        triggerWordLength = ResetTriggerOffset (completionContext);
+	                        return list;
+                        }
+					break;
 				}
 			}
 			
 			return null;
 		}
-		
-		
+
+
+		private ICompletionDataList GlobalComplete () // just dummy test TODO: rewrite
+        {
+            CompletionDataList list = new CompletionDataList ();
+            list.AutoSelect = true;
+            
+			list.Add(new CompletionData("import"));
+            
+            return list;
+        }
+
+		// stole if from c binding
+		/// <summary>
+        /// Move the completion trigger offset to the beginning of the current token
+        /// </summary>
+        protected virtual int ResetTriggerOffset (CodeCompletionContext completionContext)
+        {
+                int i = completionContext.TriggerOffset;
+                if (i >= Editor.Length)
+                        return 0;
+                int accumulator = 0;
+                
+                for (;
+                     1 < i && char.IsLetterOrDigit (Editor.GetCharAt (i));
+                     --i, ++accumulator);
+                completionContext.TriggerOffset = i-1;
+                return accumulator+1;
+        }// ResetTriggerOffset
+
+
 		public override IParameterDataProvider HandleParameterCompletion (CodeCompletionContext completionContext, char completionChar)
 		{
 			if (mCanRunCompletion)
