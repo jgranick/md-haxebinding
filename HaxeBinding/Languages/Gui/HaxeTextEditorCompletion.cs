@@ -293,7 +293,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		private CompletionDataList GetCompletionList (CodeCompletionContext completionContext)
 		{
 			FetchCompletionData (completionContext);
-			
+
 			if (mCacheXML != null && mCacheXMLCurrent && mCacheIsObject)
 			{
 				try
@@ -347,7 +347,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 								
 									if (documentation.IndexOf ("@private") == -1)
 									{
-										list.Add (new CompletionData (name, icon, FormatType (name, type) + FormatDocumentation (documentation)));
+										list.Add (new HaxeCompletionData (name, icon, FormatType (name, type) + FormatDocumentation (documentation)));
 									}
 								}
 							

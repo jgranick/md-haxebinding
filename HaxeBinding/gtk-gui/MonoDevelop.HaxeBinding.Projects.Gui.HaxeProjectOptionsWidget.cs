@@ -19,7 +19,7 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 		private global::Gtk.Entry AdditionalArgumentsEntry;
 		private global::Gtk.Label AdditionalArgumentsLabel;
 		private global::Gtk.Label GtkLabel2;
-		
+
 		protected virtual void Build ()
 		{
 			global::Stetic.Gui.Initialize (this);

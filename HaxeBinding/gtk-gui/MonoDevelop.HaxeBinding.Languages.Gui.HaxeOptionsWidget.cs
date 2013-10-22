@@ -15,7 +15,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		private global::Gtk.Label GtkLabel2;
 		private global::Gtk.Frame frame2;
 		private global::Gtk.Alignment GtkAlignment1;
-		
+
 		protected virtual void Build ()
 		{
 			global::Stetic.Gui.Initialize (this);

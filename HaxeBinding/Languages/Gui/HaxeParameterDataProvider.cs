@@ -4,6 +4,8 @@ using MonoDevelop.Ide.Gui;
 using MonoDevelop.Ide.CodeCompletion;
 using MonoDevelop.Core;
 using ICSharpCode.NRefactory.Completion;
+using System.Text;
+using MonoDevelop.Ide.TypeSystem;
 
 
 namespace MonoDevelop.HaxeBinding.Languages.Gui
@@ -290,7 +292,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 			
 			return result.ToString ();*/
 			//return "desc";
-			return "";
+			return signature;
 		}
 		
 		public string GetParameterDescription (int overload, int paramIndex)
@@ -333,6 +335,12 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 			}
 		}
 
+		public override TooltipInformation CreateTooltipInformation (int overload, int currentParameter, bool smartWrap)
+		{
+			TooltipInformation tooltip = new TooltipInformation ();
+			tooltip.SignatureMarkup = this.GetDescription(overload, currentParameter);
+			return tooltip;
+		}
 	}
 	
 }

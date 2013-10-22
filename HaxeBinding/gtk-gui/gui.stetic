@@ -5,8 +5,10 @@
     <target-gtk-version>2.12</target-gtk-version>
   </configuration>
   <import>
-    <widget-library name="../../../../../Program Files (x86)/MonoDevelop/bin/MonoDevelop.Ide.dll" />
-    <widget-library name="../../../../../Program Files (x86)/MonoDevelop/bin/Mono.TextEditor.dll" />
+    <widget-library name="Mono.TextEditor, Version=1.0.0.0, Culture=neutral" />
+    <widget-library name="MonoDevelop.DesignerSupport, Version=2.6.0.0, Culture=neutral" />
+    <widget-library name="MonoDevelop.Refactoring, Version=2.6.0.0, Culture=neutral" />
+    <widget-library name="Mono.TextEditor, Version=1.0.0.0, Culture=neutral" />
     <widget-library name="../bin/Debug/MonoDevelop.HaxeBinding.dll" internal="true" />
   </import>
   <widget class="Gtk.Bin" id="MonoDevelop.HaxeBinding.Projects.Gui.NMEOutputOptionsWidget" design-size="467 300">

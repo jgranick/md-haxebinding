@@ -20,6 +20,11 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
+    <CustomCommands>
+      <CustomCommands>
+        <Command type="Execute" command="monodevelop" />
+      </CustomCommands>
+    </CustomCommands>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -119,6 +124,7 @@
     <Compile Include="Projects\OpenFLProjectConfiguration.cs" />
     <Compile Include="Tools\OpenFLCommandLineToolsManager.cs" />
     <Compile Include="Highlighting\HaxeSyntaxMode.cs" />
+    <Compile Include="Languages\Gui\HaxeCompletionData.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
