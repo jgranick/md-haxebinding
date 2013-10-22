@@ -300,7 +300,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 			{
 				if (!context.ExecutionHandler.CanExecute (cmd))
 				{
-					monitor.ReportError (String.Format ("Cannot execute '{0}'.", cmd.CommandString), null);
+					monitor.ReportError (String.Format ("Cannot execute '{0}'.", cmd.Target), null);
 					return;
 				}
 				
@@ -313,7 +313,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 			}
 			catch (Exception)
 			{
-				monitor.ReportError (String.Format ("Error while executing '{0}'.", cmd.CommandString), null);
+				monitor.ReportError (String.Format ("Error while executing '{0}'.", cmd.Target), null);
 			}
 			finally
 			{

@@ -438,7 +438,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
         }// ResetTriggerOffset
 
 
-		public override IParameterDataProvider HandleParameterCompletion (CodeCompletionContext completionContext, char completionChar)
+		public override ParameterDataProvider HandleParameterCompletion (CodeCompletionContext completionContext, char completionChar)
 		{
 			if (mCanRunCompletion)
 			{
@@ -472,7 +472,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 					{
 						if (parameterDataProvider == null)
 						{
-							parameterDataProvider = new HaxeParameterDataProvider ();
+							parameterDataProvider = new HaxeParameterDataProvider (100);
 							parameterDataProvider.Update (completionContext, mCacheXML);
 							return parameterDataProvider;
 						}

@@ -1,13 +1,15 @@
 using System;
 using System.Xml;
+using MonoDevelop.Ide.Gui;
 using MonoDevelop.Ide.CodeCompletion;
+using MonoDevelop.Core;
 using ICSharpCode.NRefactory.Completion;
 
 
 namespace MonoDevelop.HaxeBinding.Languages.Gui
 {
 
-	public class HaxeParameterDataProvider : IParameterDataProvider
+	public class HaxeParameterDataProvider : ParameterDataProvider
 	{
 		
 		/*public int OverloadCount { get { return 1; } }
@@ -16,21 +18,26 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		private bool showCompletion = false;
 		private string signature;*/
 		
-		private int offset;
+		//private int startOffset;
 		private string[] parameters;
 		private string signature;
 
 		
-		public HaxeParameterDataProvider ()
+		public HaxeParameterDataProvider (int startOffset) : base(startOffset)
 		{
-			
+			//this.startOffset = startOffset;
 		}
-		
+
+		public override string GetParameterName (int overload, int paramIndex)
+		{
+			// unused
+			return "";
+		}
 		
 		public void Update (CodeCompletionContext completionContext, XmlDocument data)
 		{
 			//showCompletion = true;
-			offset = completionContext.TriggerOffset;
+			//startOffset = completionContext.TriggerOffset;
 			
 			signature = data.FirstChild.InnerText.Trim ();
 			signature = signature.Replace (" ", "");
@@ -161,11 +168,11 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		}*/
 		
 		
-		public int StartOffset {
+		/*public int StartOffset {
 			get {
 				return offset;
 			}
-		}
+		}*/
 
 
 		private string FormatShortType (string type)
@@ -298,7 +305,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 			return parameters [paramIndex];
 		}
 
-		public int GetParameterCount (int overload)
+		public override int GetParameterCount (int overload)
 		{
 			/*if (overload >= Count)
 				return -1;
@@ -308,7 +315,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 			return parameters.Length - 1;
 		}
 
-		public bool AllowParameterList (int overload)
+		public override bool AllowParameterList (int overload)
 		{
 			/*if (overload >= Count)
 				return false;
@@ -318,7 +325,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 			return true;
 		}
 		
-		public int Count {
+		public override int Count {
 			get {
 				//return indexers != null ? indexers.Count : 0;
 				//return 0;
