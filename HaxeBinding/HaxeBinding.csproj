@@ -22,7 +22,11 @@
     <ConsolePause>False</ConsolePause>
     <CustomCommands>
       <CustomCommands>
-        <Command type="Execute" command="monodevelop" />
+        <Command type="Execute" command="monodevelop">
+          <EnvironmentVariables>
+            <Variable name="MONODEVELOP_DEV_ADDINS" value="${TargetDir}" />
+          </EnvironmentVariables>
+        </Command>
       </CustomCommands>
     </CustomCommands>
   </PropertyGroup>
@@ -44,7 +48,6 @@
       <Package>gtk-sharp-2.0</Package>
     </Reference>
     <Reference Include="System.Xml" />
-    <Reference Include="Mono.Posix" />
     <Reference Include="MonoDevelop.Core">
       <HintPath>\Applications\MonoDevelop.app\Contents\MacOS\lib\monodevelop\bin\MonoDevelop.Core.dll</HintPath>
     </Reference>
@@ -91,6 +94,14 @@
     <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
       <Package>gtk-sharp-2.0</Package>
     </Reference>
+    <Reference Include="Mono.Debugging, Version=0.0.0.0, Culture=neutral, PublicKeyToken=5e9ce85b0923c84f">
+      <Private>False</Private>
+      <Package>monodevelop</Package>
+    </Reference>
+    <Reference Include="MonoDevelop.Debugger, Version=2.6.0.0, Culture=neutral">
+      <Private>False</Private>
+      <Package>monodevelop-core-addins</Package>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
@@ -125,6 +136,8 @@
     <Compile Include="Tools\OpenFLCommandLineToolsManager.cs" />
     <Compile Include="Highlighting\HaxeSyntaxMode.cs" />
     <Compile Include="Languages\Gui\HaxeCompletionData.cs" />
+    <Compile Include="Debugger\HxcppDebuggerFactory.cs" />
+    <Compile Include="Debugger\HxcppDbgSession.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -203,5 +216,6 @@
     <Folder Include="Tools\" />
     <Folder Include="Helpers\" />
     <Folder Include="Highlighting\" />
+    <Folder Include="Debugger\" />
   </ItemGroup>
 </Project>
