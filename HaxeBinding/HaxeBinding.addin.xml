@@ -9,10 +9,10 @@
 	
 	<!-- Dependencies -->
 	<Dependencies>
-		<Addin id="Core" version="4.0" />
-		<Addin id="Ide" version="4.0" />
-		<Addin id="SourceEditor2" version="4.0" />
-		<Addin id="Refactoring" version="4.0"/>
+		<Addin id="::Monodevelop.Core" version="4.0" />
+		<Addin id="::Monodevelop.Ide" version="4.0" />
+		<Addin id="::Monodevelop.SourceEditor2" version="4.0" />
+		<Addin id="::Monodevelop.Refactoring" version="4.0"/>
 	</Dependencies>
 	
 	<!-- Icons -->
