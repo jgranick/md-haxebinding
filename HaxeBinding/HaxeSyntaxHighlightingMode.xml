@@ -147,11 +147,9 @@
                 <Word>immutable</Word>
                 <Word>invariant</Word>
                 <Word>nothrow</Word>
-                <Word>lazy</Word>
                 <Word>override</Word>
                 <Word>package</Word>
                 <Word>private</Word>
-                <Word>protected</Word>
                 <Word>public</Word>
                 <Word>pure</Word>
                 <Word>scope</Word>
@@ -185,42 +183,18 @@
         </Keywords>
 
         <Keywords color="Keyword(Type)">
-                <Word>auto</Word>
-                <Word>bool</Word>
-                <Word>byte</Word>
-                <Word>cdouble</Word>
-                <Word>cent</Word>
-                <Word>cfloat</Word>
-                <Word>char</Word>
-                <Word>creal</Word>
-                <Word>dchar</Word>
-                <Word>double</Word>
-                <Word>float</Word>
-                <Word>idouble</Word>
-                <Word>ifloat</Word>
-                <Word>int</Word>
-                <Word>ireal</Word>
-                <Word>long</Word>
-                <Word>real</Word>
-                <Word>short</Word>
-                <Word>ubyte</Word>
-                <Word>ucent</Word>
-                <Word>uint</Word>
-                <Word>ulong</Word>
-                <Word>ushort</Word>
-                <Word>wchar</Word>
+                <Word>Bool</Word>
+                <Word>Dynamic</Word>
+                <Word>Byte</Word>
+                <Word>Float</Word>
+                <Word>Int</Word>
 
                 <!-- Not real keywords -->
-                <Word>Object</Word>
-                <Word>string</Word>
-                <Word>wstring</Word>
-                <Word>dstring</Word>
-                <Word>__ctfe</Word>
-                <Word>size_t</Word>
+                <Word>String</Word>
         </Keywords>
 
         <Keywords color = "Keyword(Void)">
-                <Word>void</Word>
+                <Word>Void</Word>
         </Keywords>
 
         <Keywords color = "Keyword(Namespace)">
@@ -235,6 +209,7 @@
                 <Word>struct</Word>
                 <Word>template</Word>
                 <Word>union</Word>
+                <Word>enum</Word>
 
                 <Word>delegate</Word>
                 <Word>function</Word>

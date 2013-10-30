@@ -12,7 +12,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		private global::Gtk.Table table1;
 		private global::Gtk.Entry PortNumberEntry;
 		private global::Gtk.Label PortNumberLabel;
-		private global::Gtk.Label GtkLabel2;
+		private global::Gtk.Label CompilationServerLabel;
 		private global::Gtk.Frame frame2;
 		private global::Gtk.Alignment GtkAlignment1;
 
@@ -43,7 +43,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 			this.EnableCompilationServerCheckBox = new global::Gtk.CheckButton ();
 			this.EnableCompilationServerCheckBox.CanFocus = true;
 			this.EnableCompilationServerCheckBox.Name = "EnableCompilationServerCheckBox";
-			this.EnableCompilationServerCheckBox.Label = global::Mono.Unix.Catalog.GetString ("Enable compilation server");
+			this.EnableCompilationServerCheckBox.Label = "Enable compilation server";
 			this.EnableCompilationServerCheckBox.DrawIndicator = true;
 			this.EnableCompilationServerCheckBox.UseUnderline = true;
 			this.vbox2.Add (this.EnableCompilationServerCheckBox);
@@ -71,7 +71,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 			// Container child table1.Gtk.Table+TableChild
 			this.PortNumberLabel = new global::Gtk.Label ();
 			this.PortNumberLabel.Name = "PortNumberLabel";
-			this.PortNumberLabel.LabelProp = global::Mono.Unix.Catalog.GetString ("Port number");
+			this.PortNumberLabel.LabelProp = "Port number";
 			this.table1.Add (this.PortNumberLabel);
 			global::Gtk.Table.TableChild w3 = ((global::Gtk.Table.TableChild)(this.table1 [this.PortNumberLabel]));
 			w3.XOptions = ((global::Gtk.AttachOptions)(4));
@@ -81,11 +81,11 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 			w4.Position = 1;
 			this.GtkAlignment.Add (this.vbox2);
 			this.frame1.Add (this.GtkAlignment);
-			this.GtkLabel2 = new global::Gtk.Label ();
-			this.GtkLabel2.Name = "GtkLabel2";
-			this.GtkLabel2.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Compilation Server</b>");
-			this.GtkLabel2.UseMarkup = true;
-			this.frame1.LabelWidget = this.GtkLabel2;
+			this.CompilationServerLabel = new global::Gtk.Label ();
+			this.CompilationServerLabel.Name = "CompilationServerLabel";
+			this.CompilationServerLabel.LabelProp = "<b>Compilation Server</b>";
+			this.CompilationServerLabel.UseMarkup = true;
+			this.frame1.LabelWidget = this.CompilationServerLabel;
 			this.vbox1.Add (this.frame1);
 			global::Gtk.Box.BoxChild w7 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frame1]));
 			w7.Position = 0;

@@ -46,7 +46,7 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 			// Container child table1.Gtk.Table+TableChild
 			this.AdditionalArgumentsLabel = new global::Gtk.Label ();
 			this.AdditionalArgumentsLabel.Name = "AdditionalArgumentsLabel";
-			this.AdditionalArgumentsLabel.LabelProp = global::Mono.Unix.Catalog.GetString ("Additional arguments:");
+			this.AdditionalArgumentsLabel.LabelProp = "Additional arguments 2:";
 			this.table1.Add (this.AdditionalArgumentsLabel);
 			global::Gtk.Table.TableChild w2 = ((global::Gtk.Table.TableChild)(this.table1 [this.AdditionalArgumentsLabel]));
 			w2.XOptions = ((global::Gtk.AttachOptions)(4));
@@ -65,7 +65,7 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 			this.frame1.Add (this.GtkAlignment);
 			this.GtkLabel1 = new global::Gtk.Label ();
 			this.GtkLabel1.Name = "GtkLabel1";
-			this.GtkLabel1.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Additional Options</b>");
+			this.GtkLabel1.LabelProp = "<b>Additional Options 2</b>";
 			this.GtkLabel1.UseMarkup = true;
 			this.frame1.LabelWidget = this.GtkLabel1;
 			this.Add (this.frame1);
