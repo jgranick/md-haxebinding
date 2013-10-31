@@ -1,17 +1,33 @@
 using System;
+using System.Globalization;
+using System.Text;
 using System.IO;
-using MonoDevelop.Core.Execution;
-using Mono.Debugging.Backend;
-using Mono.Debugging.Client;
-using MonoDevelop.Debugger;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading;
+using Mono.Debugging.Client;
+using MonoDevelop.Core;
+using MonoDevelop.Core.Execution;
+using Mono.Unix.Native;
 
 namespace MonoDevelop.HaxeBinding
 {
 	public class HxcppDbgSession: DebuggerSession
 	{
+		Process proc;
+		StreamReader sout;
+		StreamWriter sin;
+		IProcessAsyncOperation console;
+		Thread thread;
+
+		object debuggerLock = new object ();
+
 		protected override void OnRun (DebuggerStartInfo startInfo)
 		{
+			lock (debuggerLock) {
+				StartDebugger ();
+			}
 		}
 
 		protected override void OnAttachToProcess (long processId)
@@ -92,6 +108,39 @@ namespace MonoDevelop.HaxeBinding
 		protected override ThreadInfo[] OnGetThreads (long processId)
 		{
 			return null;
+		}
+
+		// TODO: replace gdb to custom debugger
+		void StartDebugger ()
+		{
+			Console.WriteLine ("Debugger started");
+			proc = new Process ();
+			proc.StartInfo.FileName = "gdb";
+			proc.StartInfo.Arguments = "-quiet -fullname -i=mi2";
+			proc.StartInfo.UseShellExecute = false;
+			proc.StartInfo.RedirectStandardInput = true;
+			proc.StartInfo.RedirectStandardOutput = true;
+			proc.StartInfo.RedirectStandardError = true;
+			proc.StartInfo.CreateNoWindow = true;
+			proc.Start ();
+
+			sout = proc.StandardOutput;
+			sin = proc.StandardInput;
+
+			thread = new Thread (OutputInterpreter);
+			thread.Name = "Debugger output interpeter";
+			thread.IsBackground = true;
+			thread.Start ();
+		}
+
+		// Thread for parsing debugger output
+		void OutputInterpreter()
+		{
+			string line;
+			while ((line = sout.ReadLine ()) != null) 
+			{
+				Console.WriteLine (line);
+			}
 		}
 	}
 }

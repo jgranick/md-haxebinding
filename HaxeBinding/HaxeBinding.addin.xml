@@ -13,6 +13,7 @@
 		<Addin id="Ide" version="4.0" />
 		<Addin id="SourceEditor2" version="4.0" />
 		<Addin id="Refactoring" version="4.0"/>
+		<Addin id="Debugger" version="4.0"/>
 	</Dependencies>
 	
 	<!-- Icons -->
@@ -128,5 +129,11 @@
 		<Class fileExtensions=".hx" class="MonoDevelop.HaxeBinding.Languages.Gui.HaxeTextEditorCompletion" />
 	</Extension>
 	
+	<Extension path="/MonoDevelop/Debugging/DebuggerEngines">
+		<DebuggerEngine id="MonoDevelop.HaxeBinding" 
+		        name="Haxe debugger" 
+		        features="ConditionalBreakpoints, Tracepoints, Catchpoints, Attaching, DebugFile, Stepping, Pause, Breakpoints, Disassembly"
+		        type="MonoDevelop.HaxeBinding.HxcppDebuggerFactory" />
+    </Extension>
 	
 </Addin>
