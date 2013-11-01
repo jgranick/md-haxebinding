@@ -18,14 +18,15 @@ namespace MonoDevelop.HaxeBinding
 		Process proc;
 		StreamReader sout;
 		StreamWriter sin;
-		IProcessAsyncOperation console;
 		Thread thread;
+		static Boolean dbgCreated = false; //just a hack to prevent debugger creation on every session
 
 		object debuggerLock = new object ();
 
 		protected override void OnRun (DebuggerStartInfo startInfo)
 		{
 			lock (debuggerLock) {
+				CreateDebugger ();
 				StartDebugger ();
 			}
 		}
@@ -114,9 +115,10 @@ namespace MonoDevelop.HaxeBinding
 		void StartDebugger ()
 		{
 			Console.WriteLine ("Debugger started");
+			string tmp_dir = Path.GetTempPath ();
 			proc = new Process ();
-			proc.StartInfo.FileName = "gdb";
-			proc.StartInfo.Arguments = "-quiet -fullname -i=mi2";
+			proc.StartInfo.FileName = "neko";
+			proc.StartInfo.Arguments = tmp_dir + "server.n";
 			proc.StartInfo.UseShellExecute = false;
 			proc.StartInfo.RedirectStandardInput = true;
 			proc.StartInfo.RedirectStandardOutput = true;
@@ -140,6 +142,28 @@ namespace MonoDevelop.HaxeBinding
 			while ((line = sout.ReadLine ()) != null) 
 			{
 				Console.WriteLine (line);
+			}
+		}
+
+		void CreateDebugger ()
+		{
+			if (dbgCreated)
+				return;
+			ProcessStartInfo dbgCreateInfo = new ProcessStartInfo ();
+			string tmp_dir = Path.GetTempPath ();
+
+			dbgCreateInfo.FileName = "haxe";
+			dbgCreateInfo.Arguments = "-main debugger.HaxeServer -lib debugger -neko " + tmp_dir + "server.n";
+			dbgCreateInfo.UseShellExecute = false;
+			dbgCreateInfo.RedirectStandardOutput = true;
+			dbgCreateInfo.RedirectStandardError = true;
+			//info.WindowStyle = ProcessWindowStyle.Hidden;
+			dbgCreateInfo.CreateNoWindow = true;
+
+			using (Process process = Process.Start (dbgCreateInfo))
+			{
+				process.WaitForExit ();
+				dbgCreated = true;
 			}
 		}
 	}
