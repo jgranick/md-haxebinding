@@ -37,8 +37,8 @@ namespace MonoDevelop.HaxeBinding.Tools
 		{
 			ProcessStartInfo info = new ProcessStartInfo ();
 			
-			info.FileName = "haxelib";
-			info.Arguments = "run openfl clean \"" + project.TargetProjectXMLFile + "\" " + configuration.Platform.ToLower () + " " + project.AdditionalArguments + " " + configuration.AdditionalArguments;
+			info.FileName = "haxe";
+			info.Arguments = " --run tools.haxelib.Main run openfl clean \"" + project.TargetProjectXMLFile + "\" " + configuration.Platform.ToLower () + " " + project.AdditionalArguments + " " + configuration.AdditionalArguments;
 			info.UseShellExecute = false;
 			info.RedirectStandardOutput = true;
 			info.RedirectStandardError = true;
@@ -55,7 +55,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 
 		public static BuildResult Compile (OpenFLProject project, OpenFLProjectConfiguration configuration, IProgressMonitor monitor)
 		{
-			string args = "run openfl build \"" + project.TargetProjectXMLFile + "\" " + configuration.Platform.ToLower ();
+			string args = " --run tools.haxelib.Main run openfl build \"" + project.TargetProjectXMLFile + "\" " + configuration.Platform.ToLower ();
 			
 			if (configuration.DebugMode)
 			{
@@ -73,7 +73,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 			}
 			
 			string error = "";
-			int exitCode = DoCompilation ("haxelib", args, project.BaseDirectory, monitor, ref error);
+			int exitCode = DoCompilation ("haxe", args, project.BaseDirectory, monitor, ref error);
 			
 			BuildResult result = ParseOutput (project, error);
 			if (result.CompilerOutput.Trim ().Length != 0)
@@ -185,8 +185,8 @@ namespace MonoDevelop.HaxeBinding.Tools
 		{
 			ProcessStartInfo info = new ProcessStartInfo ();
 			
-			info.FileName = "haxelib";
-			info.Arguments = "run openfl update \"" + project.TargetProjectXMLFile + "\" " + configuration.Platform.ToLower () + " " + project.AdditionalArguments + " " + configuration.AdditionalArguments;
+			info.FileName = "haxe";
+			info.Arguments = "--run tools.haxelib.Main run openfl update \"" + project.TargetProjectXMLFile + "\" " + configuration.Platform.ToLower () + " " + project.AdditionalArguments + " " + configuration.AdditionalArguments;
 			info.UseShellExecute = false;
 			info.RedirectStandardOutput = true;
 			info.RedirectStandardError = true;
@@ -199,7 +199,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 				process.WaitForExit ();
 			}
 			
-			info.Arguments = "run openfl display \"" + project.TargetProjectXMLFile + "\" " + configuration.Platform.ToLower () + " " + project.AdditionalArguments + " " + configuration.AdditionalArguments;
+			info.Arguments = " --run tools.haxelib.Main run openfl display \"" + project.TargetProjectXMLFile + "\" " + configuration.Platform.ToLower () + " " + project.AdditionalArguments + " " + configuration.AdditionalArguments;
 			
 			using (Process process = Process.Start (info))
 			{
@@ -247,8 +247,8 @@ namespace MonoDevelop.HaxeBinding.Tools
 		
 		private static ExecutionCommand CreateExecutionCommand (OpenFLProject project, OpenFLProjectConfiguration configuration)
 		{
-			string exe = "haxelib";
-			string args = "run openfl run \"" + project.TargetProjectXMLFile + "\" " + configuration.Platform.ToLower ();
+			string exe = "haxe";
+			string args = "--run tools.haxelib.Main run openfl run \"" + project.TargetProjectXMLFile + "\" " + configuration.Platform.ToLower ();
 			
 			if (configuration.DebugMode)
 			{

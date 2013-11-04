@@ -11,6 +11,7 @@ namespace MonoDevelop.HaxeBinding
 	public class HxcppDebuggerFactory: IDebuggerEngine
 	{
 		// Just a dumb hack, cause i don't know how to detect can we debug or not yet
+		// TODO: make "if OpenflExecutionCommand and HxcppExecution command"
 		public bool CanDebugCommand (ExecutionCommand command)
 		{
 			return true;
@@ -39,8 +40,7 @@ namespace MonoDevelop.HaxeBinding
 		// Returns just ans empty list, cause we can't attach this debugger
 		public ProcessInfo[] GetAttachableProcesses ()
 		{
-			List<ProcessInfo> procs = new List<ProcessInfo> ();
-			return procs.ToArray ();
+			return new ProcessInfo[0];
 		}
 	}
 }

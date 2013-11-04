@@ -504,7 +504,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 					
 					if (configuration.DebugMode)
 					{
-						cmd.EnvironmentVariables.Add ("HXCPP_DEBUG_HOST", "gdb");
+					//	cmd.EnvironmentVariables.Add ("HXCPP_DEBUG_HOST", "gdb");
 						cmd.EnvironmentVariables.Add ("HXCPP_DEBUG", "1");
 					}
 					//cmd.WorkingDirectory = project.BaseDirectory.FullPath;

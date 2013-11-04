@@ -60,7 +60,7 @@ namespace MonoDevelop.HaxeBinding
 				Stop();
 			};
 
-			LogWriter(false, "Debugger started\n");
+			LogWriter(false, "Process started\n");
 
 			appthread = new Thread (AppOutput);
 			appthread.Name = "Application output interpeter";
@@ -74,6 +74,11 @@ namespace MonoDevelop.HaxeBinding
 
 		public override void Dispose ()
 		{
+			if(thread != null)
+				thread.Abort ();
+			if (appthread != null)
+				appthread.Abort ();
+			base.Dispose ();
 		}
 
 		protected override void OnSetActiveThread (long processId, long threadId)
@@ -82,6 +87,7 @@ namespace MonoDevelop.HaxeBinding
 
 		protected override void OnStop ()
 		{
+			LogWriter(false, "Stopped debugging\n");
 			StopDebugger ();
 		}
 
