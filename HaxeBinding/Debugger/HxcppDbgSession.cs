@@ -57,7 +57,7 @@ namespace MonoDevelop.HaxeBinding
 			appout = proc.StandardOutput;
 			proc.EnableRaisingEvents = true;
 			proc.Exited += delegate {
-				Stop();
+				Exit();
 			};
 
 			LogWriter(false, "Process started\n");
@@ -87,8 +87,9 @@ namespace MonoDevelop.HaxeBinding
 
 		protected override void OnStop ()
 		{
-			LogWriter(false, "Stopped debugging\n");
-			StopDebugger ();
+			if(this.LogWriter != null)
+				LogWriter(false, "Stopped debugging\n");
+			Frontend.NotifyTargetEvent (new TargetEventArgs (TargetEventType.TargetStopped));
 		}
 
 		protected override void OnDetach ()
@@ -97,6 +98,7 @@ namespace MonoDevelop.HaxeBinding
 
 		protected override void OnExit ()
 		{
+			Frontend.NotifyTargetEvent (new TargetEventArgs (TargetEventType.TargetExited));
 			StopDebugger ();
 		}
 
@@ -161,6 +163,9 @@ namespace MonoDevelop.HaxeBinding
 		{
 			thread.Abort ();
 			appthread.Abort ();
+			if (debugger != null && !debugger.HasExited) {
+				debugger.Kill ();
+			}
 		}
 
 		void StartDebugger ()
@@ -192,7 +197,7 @@ namespace MonoDevelop.HaxeBinding
 			string line;
 			while ((line = sout.ReadLine ()) != null) 
 			{
-				LogWriter (false, line);
+				LogWriter (false, line + '\n');
 			}
 		}
 
@@ -202,7 +207,7 @@ namespace MonoDevelop.HaxeBinding
 			string line;
 			while ((line = appout.ReadLine ()) != null) 
 			{
-				LogWriter (false, line);
+				LogWriter (false, line + '\n');
 			}
 		}
 
