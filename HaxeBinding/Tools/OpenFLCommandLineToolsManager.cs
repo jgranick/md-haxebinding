@@ -15,6 +15,14 @@ using MonoDevelop.HaxeBinding.Projects;
 
 namespace MonoDevelop.HaxeBinding.Tools
 {
+	// That's a very dirty hack
+	static class CurrentArgs
+	{
+		public static string TargetProjectXMLFile = "";
+		public static string Platform = "";
+		public static string ProjectBase = "";
+		public static IProgressMonitor CurrentMonitor = null;
+	}
 
 	static class OpenFLCommandLineToolsManager
 	{
@@ -32,6 +40,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 		private static Regex mErrorSimple = new Regex (@"^(?<level>\w+):\s(?<message>.*)\.?$", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
 		private static Regex mErrorIgnore = new Regex (@"^(Updated|Recompile|Reason|Files changed):.*", RegexOptions.Compiled);
 
+		public static ExecutionCommand lastExec;
 
 		public static void Clean (OpenFLProject project, OpenFLProjectConfiguration configuration, IProgressMonitor monitor)
 		{
@@ -55,6 +64,10 @@ namespace MonoDevelop.HaxeBinding.Tools
 
 		public static BuildResult Compile (OpenFLProject project, OpenFLProjectConfiguration configuration, IProgressMonitor monitor)
 		{
+			CurrentArgs.TargetProjectXMLFile = project.TargetProjectXMLFile;
+			CurrentArgs.Platform = configuration.Platform.ToLower ();
+			CurrentArgs.ProjectBase = project.BaseDirectory;
+
 			string args = "run openfl build \"" + project.TargetProjectXMLFile + "\" " + configuration.Platform.ToLower ();
 			
 			if (configuration.DebugMode)
@@ -268,7 +281,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 			NativeExecutionCommand cmd = new NativeExecutionCommand (exe);
 			cmd.Arguments = args;
 			cmd.WorkingDirectory = project.BaseDirectory.FullPath;
-			
+
 			return cmd;
 		}
 		
@@ -287,15 +300,13 @@ namespace MonoDevelop.HaxeBinding.Tools
 		public static void Run (OpenFLProject project, OpenFLProjectConfiguration configuration, IProgressMonitor monitor, ExecutionContext context)
 		{
 			ExecutionCommand cmd = CreateExecutionCommand (project, configuration);
-
 			IConsole console;
-			if (configuration.ExternalConsole)
+			if (configuration.ExternalConsole) {
 				console = context.ExternalConsoleFactory.CreateConsole (false);
-			else
+			} else {
 				console = context.ConsoleFactory.CreateConsole (false);
-
+			}
 			AggregatedOperationMonitor operationMonitor = new AggregatedOperationMonitor (monitor);
-
 			try
 			{
 				if (!context.ExecutionHandler.CanExecute (cmd))
@@ -303,12 +314,10 @@ namespace MonoDevelop.HaxeBinding.Tools
 					monitor.ReportError (String.Format ("Cannot execute '{0}'.", cmd.Target), null);
 					return;
 				}
-				
+
 				IProcessAsyncOperation operation = context.ExecutionHandler.Execute (cmd, console);
-				
 				operationMonitor.AddOperation (operation);
 				operation.WaitForCompleted ();
-
 				monitor.Log.WriteLine ("Player exited with code {0}.", operation.ExitCode);
 			}
 			catch (Exception)

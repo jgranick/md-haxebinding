@@ -42,7 +42,6 @@ namespace MonoDevelop.HaxeBinding.Projects
 
 		public OpenFLProject () : base()
 		{
-
 		}
 		
 		

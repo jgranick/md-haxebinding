@@ -10,6 +10,9 @@ using Mono.Debugging.Client;
 using MonoDevelop.Core;
 using MonoDevelop.Core.Execution;
 using Mono.Unix.Native;
+using MonoDevelop.Core.Serialization;
+using MonoDevelop.HaxeBinding.Projects;
+using MonoDevelop.HaxeBinding.Tools;
 
 namespace MonoDevelop.HaxeBinding
 {
@@ -18,17 +21,66 @@ namespace MonoDevelop.HaxeBinding
 		Process proc;
 		StreamReader sout;
 		StreamWriter sin;
+		IProcessAsyncOperation console;
 		Thread thread;
 		static Boolean dbgCreated = false; //just a hack to prevent debugger creation on every session
 
 		object debuggerLock = new object ();
+		object syncLock = new object ();
 
 		protected override void OnRun (DebuggerStartInfo startInfo)
 		{
+			Console.WriteLine ("in OnRun of debug session");
 			lock (debuggerLock) {
+				// Create a script to be run in a terminal
+				string script = Path.GetTempFileName ();
+				string ttyfile = Path.GetTempFileName ();
+				string ttyfileDone = ttyfile + "_done";
+				string tty;
+
+				try {
+					File.WriteAllText (script, "tty > " + ttyfile + "\ntouch " + ttyfileDone + "\nsleep 10000d");
+					Mono.Unix.Native.Syscall.chmod (script, FilePermissions.ALLPERMS);
+
+					console = Runtime.ProcessService.StartConsoleProcess (script, "", ".", ExternalConsoleFactory.Instance.CreateConsole (true), null);
+					DateTime tim = DateTime.Now;
+					while (!File.Exists (ttyfileDone)) {
+						System.Threading.Thread.Sleep (100);
+						if ((DateTime.Now - tim).TotalSeconds > 10)
+							throw new InvalidOperationException ("Console could not be created.");
+					}
+					tty = File.ReadAllText (ttyfile).Trim (' ','\n');
+				} finally {
+					try {
+						if (File.Exists (script))
+							File.Delete (script);
+						if (File.Exists (ttyfile))
+							File.Delete (ttyfile);
+						if (File.Exists (ttyfileDone))
+							File.Delete (ttyfileDone);
+					} catch {
+						// Ignore
+					}
+				}
+
+
 				CreateDebugger ();
 				StartDebugger ();
+				OnStarted ();
+				RunCommand ("codsdf", "");
 			}
+
+
+
+			/*Process dproc = new Process ();
+			dproc.StartInfo.WorkingDirectory = CurrentArgs.ProjectBase;
+			dproc.StartInfo.FileName = "haxelib";
+			dproc.StartInfo.Arguments = "run openfl run \"" + CurrentArgs.TargetProjectXMLFile + "\" " + CurrentArgs.Platform + " -debug";
+			dproc.StartInfo.UseShellExecute = false;
+			dproc.Start ();
+			Trace.WriteLine ("After process creation");
+			Console.WriteLine (dproc.StartInfo.Arguments);
+			Console.WriteLine (dproc.Id);*/
 		}
 
 		protected override void OnAttachToProcess (long processId)
@@ -45,6 +97,7 @@ namespace MonoDevelop.HaxeBinding
 
 		protected override void OnStop ()
 		{
+			StopDebugger ();
 		}
 
 		protected override void OnDetach ()
@@ -53,6 +106,7 @@ namespace MonoDevelop.HaxeBinding
 
 		protected override void OnExit ()
 		{
+			StopDebugger ();
 		}
 
 		protected override void OnStepLine ()
@@ -73,6 +127,7 @@ namespace MonoDevelop.HaxeBinding
 
 		protected override void OnFinish ()
 		{
+			StopDebugger ();
 		}
 
 		protected override BreakEventInfo OnInsertBreakEvent (BreakEvent be)
@@ -111,7 +166,12 @@ namespace MonoDevelop.HaxeBinding
 			return null;
 		}
 
-		// TODO: replace gdb to custom debugger
+		void StopDebugger()
+		{
+			proc.Kill ();
+			thread.Abort ();
+		}
+
 		void StartDebugger ()
 		{
 			Console.WriteLine ("Debugger started");
@@ -157,7 +217,6 @@ namespace MonoDevelop.HaxeBinding
 			dbgCreateInfo.UseShellExecute = false;
 			dbgCreateInfo.RedirectStandardOutput = true;
 			dbgCreateInfo.RedirectStandardError = true;
-			//info.WindowStyle = ProcessWindowStyle.Hidden;
 			dbgCreateInfo.CreateNoWindow = true;
 
 			using (Process process = Process.Start (dbgCreateInfo))
@@ -166,6 +225,32 @@ namespace MonoDevelop.HaxeBinding
 				dbgCreated = true;
 			}
 		}
+
+		public void RunCommand (string command, params string[] args)
+		{
+			lock (debuggerLock) {
+				lock (syncLock) {
+					//lastResult = null;
+
+					//lock (eventLock) {
+					//	running = true;
+					//}
+
+					//if (logGdb)
+					//	Console.WriteLine ("gdb<: " + command + " " + string.Join (" ", args));
+
+					sin.WriteLine (command + " " + string.Join (" ", args));
+
+					if (!Monitor.Wait (syncLock, 4000))
+						throw new InvalidOperationException ("Command execution timeout.");
+					//if (lastResult.Status == CommandStatus.Error)
+					//	throw new InvalidOperationException (lastResult.ErrorMessage);
+					//return lastResult;
+				}
+
+			}
+		}
+
 	}
 }
 
