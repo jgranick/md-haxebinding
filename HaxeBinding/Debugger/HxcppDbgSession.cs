@@ -18,11 +18,14 @@ namespace MonoDevelop.HaxeBinding
 {
 	public class HxcppDbgSession: DebuggerSession
 	{
+		Process debugger;
 		Process proc;
+		StreamReader appout;
 		StreamReader sout;
 		StreamWriter sin;
 		IProcessAsyncOperation console;
 		Thread thread;
+		Thread appthread;
 		static Boolean dbgCreated = false; //just a hack to prevent debugger creation on every session
 
 		object debuggerLock = new object ();
@@ -32,55 +35,37 @@ namespace MonoDevelop.HaxeBinding
 		{
 			Console.WriteLine ("in OnRun of debug session");
 			lock (debuggerLock) {
-				// Create a script to be run in a terminal
-				string script = Path.GetTempFileName ();
-				string ttyfile = Path.GetTempFileName ();
-				string ttyfileDone = ttyfile + "_done";
-				string tty;
-
-				try {
-					File.WriteAllText (script, "tty > " + ttyfile + "\ntouch " + ttyfileDone + "\nsleep 10000d");
-					Mono.Unix.Native.Syscall.chmod (script, FilePermissions.ALLPERMS);
-
-					console = Runtime.ProcessService.StartConsoleProcess (script, "", ".", ExternalConsoleFactory.Instance.CreateConsole (true), null);
-					DateTime tim = DateTime.Now;
-					while (!File.Exists (ttyfileDone)) {
-						System.Threading.Thread.Sleep (100);
-						if ((DateTime.Now - tim).TotalSeconds > 10)
-							throw new InvalidOperationException ("Console could not be created.");
-					}
-					tty = File.ReadAllText (ttyfile).Trim (' ','\n');
-				} finally {
-					try {
-						if (File.Exists (script))
-							File.Delete (script);
-						if (File.Exists (ttyfile))
-							File.Delete (ttyfile);
-						if (File.Exists (ttyfileDone))
-							File.Delete (ttyfileDone);
-					} catch {
-						// Ignore
-					}
-				}
-
-
 				CreateDebugger ();
 				StartDebugger ();
+				StartProcess (startInfo);
 				OnStarted ();
-				RunCommand ("codsdf", "");
 			}
+		}
 
+		private void StartProcess(DebuggerStartInfo startInfo)
+		{
+			var psi = new ProcessStartInfo (startInfo.Command) {
+				Arguments = string.Format (startInfo.Arguments),
+				UseShellExecute = false,
+				RedirectStandardOutput = true,
+				CreateNoWindow = true,
+				WorkingDirectory = startInfo.WorkingDirectory,
+			};
 
+			proc = Process.Start(psi);
 
-			/*Process dproc = new Process ();
-			dproc.StartInfo.WorkingDirectory = CurrentArgs.ProjectBase;
-			dproc.StartInfo.FileName = "haxelib";
-			dproc.StartInfo.Arguments = "run openfl run \"" + CurrentArgs.TargetProjectXMLFile + "\" " + CurrentArgs.Platform + " -debug";
-			dproc.StartInfo.UseShellExecute = false;
-			dproc.Start ();
-			Trace.WriteLine ("After process creation");
-			Console.WriteLine (dproc.StartInfo.Arguments);
-			Console.WriteLine (dproc.Id);*/
+			appout = proc.StandardOutput;
+			proc.EnableRaisingEvents = true;
+			proc.Exited += delegate {
+				Stop();
+			};
+
+			LogWriter(false, "Debugger started\n");
+
+			appthread = new Thread (AppOutput);
+			appthread.Name = "Application output interpeter";
+			appthread.IsBackground = true;
+			appthread.Start ();
 		}
 
 		protected override void OnAttachToProcess (long processId)
@@ -168,26 +153,26 @@ namespace MonoDevelop.HaxeBinding
 
 		void StopDebugger()
 		{
-			proc.Kill ();
 			thread.Abort ();
+			appthread.Abort ();
 		}
 
 		void StartDebugger ()
 		{
-			Console.WriteLine ("Debugger started");
+			LogWriter (false, "Debugger started\n");
 			string tmp_dir = Path.GetTempPath ();
-			proc = new Process ();
-			proc.StartInfo.FileName = "neko";
-			proc.StartInfo.Arguments = tmp_dir + "server.n";
-			proc.StartInfo.UseShellExecute = false;
-			proc.StartInfo.RedirectStandardInput = true;
-			proc.StartInfo.RedirectStandardOutput = true;
-			proc.StartInfo.RedirectStandardError = true;
-			proc.StartInfo.CreateNoWindow = true;
-			proc.Start ();
+			debugger = new Process ();
+			debugger.StartInfo.FileName = "neko";
+			debugger.StartInfo.Arguments = tmp_dir + "server.n";
+			debugger.StartInfo.UseShellExecute = false;
+			debugger.StartInfo.RedirectStandardInput = true;
+			debugger.StartInfo.RedirectStandardOutput = true;
+			debugger.StartInfo.RedirectStandardError = true;
+			debugger.StartInfo.CreateNoWindow = true;
+			debugger.Start ();
 
-			sout = proc.StandardOutput;
-			sin = proc.StandardInput;
+			sout = debugger.StandardOutput;
+			sin = debugger.StandardInput;
 
 			thread = new Thread (OutputInterpreter);
 			thread.Name = "Debugger output interpeter";
@@ -201,7 +186,17 @@ namespace MonoDevelop.HaxeBinding
 			string line;
 			while ((line = sout.ReadLine ()) != null) 
 			{
-				Console.WriteLine (line);
+				LogWriter (false, line);
+			}
+		}
+
+		//yeah one mor dirty hack, cause i don't know how to attach proc to current session
+		void AppOutput()
+		{
+			string line;
+			while ((line = appout.ReadLine ()) != null) 
+			{
+				LogWriter (false, line);
 			}
 		}
 

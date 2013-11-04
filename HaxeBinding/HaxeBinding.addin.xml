@@ -135,5 +135,13 @@
 		        features="ConditionalBreakpoints, Tracepoints, Catchpoints, Attaching, DebugFile, Stepping, Pause, Breakpoints, Disassembly"
 		        type="MonoDevelop.HaxeBinding.HxcppDebuggerFactory" />
     </Extension>
+    
+    <!--<Extension path="/MonoDevelop/Debugging/DebuggerEngines">
+            <DebuggerEngine
+                    id="MonoDevelop.HaxeBinding.SoftDebugger"
+                    name="Haxe debugger (Soft)"
+                    features="Breakpoints, Pause, Stepping, DebugFile, ConditionalBreakpoints, Tracepoints, Catchpoints"
+                    type="MonoDevelop.HaxeBinding.HxcppDebuggerEngine" />
+    </Extension>-->
 	
 </Addin>
