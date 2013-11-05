@@ -87,7 +87,7 @@ namespace MonoDevelop.HaxeBinding
 
 		protected override void OnStop ()
 		{
-			if(this.LogWriter != null)
+			if(LogWriter != null)
 				LogWriter(false, "Stopped debugging\n");
 			Frontend.NotifyTargetEvent (new TargetEventArgs (TargetEventType.TargetStopped));
 		}
@@ -125,23 +125,42 @@ namespace MonoDevelop.HaxeBinding
 
 		protected override BreakEventInfo OnInsertBreakEvent (BreakEvent be)
 		{
-			return null;
+			LogWriter(false, "Break inserted\n");
+			Breakpoint bp = be as Breakpoint;
+			if (bp == null)
+				throw new NotSupportedException ();
+
+			BreakEventInfo bi = new BreakEventInfo ();
+
+			lock (debuggerLock) {
+				LogWriter(false, "Location is " + Path.GetFileName(bp.FileName) + ":" + bp.Line + '\n');
+				//TODO: add run command with success and failed return
+			}
+
+			//bi.Handle = TODO: add returned success value (break count etc)
+			bi.SetStatus (BreakEventStatus.Bound, null);
+			return bi;
 		}
 
 		protected override void OnRemoveBreakEvent (BreakEventInfo binfo)
 		{
+			if(LogWriter != null)
+				LogWriter(false, "Break removed " + binfo.ToString());
 		}
 
 		protected override void OnEnableBreakEvent (BreakEventInfo binfo, bool enable)
 		{
+			LogWriter(false, "Break enabled " + binfo.ToString());
 		}
 
 		protected override void OnUpdateBreakEvent (BreakEventInfo binfo)
 		{
+			LogWriter(false, "Break updated " + binfo.ToString());
 		}
 
 		protected override void OnContinue ()
 		{
+			RunCommand("continue", new string[0]);
 		}
 
 		protected override Backtrace OnGetThreadBacktrace (long processId, long threadId)
@@ -232,29 +251,24 @@ namespace MonoDevelop.HaxeBinding
 			}
 		}
 
-		public void RunCommand (string command, params string[] args)
+		private void RunCommand (string command, params string[] args)
 		{
 			lock (debuggerLock) {
 				lock (syncLock) {
-					//lastResult = null;
-
-					//lock (eventLock) {
-					//	running = true;
-					//}
-
-					//if (logGdb)
-					//	Console.WriteLine ("gdb<: " + command + " " + string.Join (" ", args));
-
 					sin.WriteLine (command + " " + string.Join (" ", args));
 
+					// TODO: need to decide do i need it or not
 					if (!Monitor.Wait (syncLock, 4000))
 						throw new InvalidOperationException ("Command execution timeout.");
-					//if (lastResult.Status == CommandStatus.Error)
-					//	throw new InvalidOperationException (lastResult.ErrorMessage);
-					//return lastResult;
 				}
 
 			}
+		}
+
+		private void FireBreakpoint(int HitCount)
+		{
+			var eventArgs = new TargetEventArgs (TargetEventType.TargetHitBreakpoint);
+			eventArgs.BreakEvent.HitCount = HitCount;
 		}
 
 	}
