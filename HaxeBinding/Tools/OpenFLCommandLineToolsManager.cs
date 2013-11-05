@@ -31,8 +31,6 @@ namespace MonoDevelop.HaxeBinding.Tools
 		private static Regex mErrorSimple = new Regex (@"^(?<level>\w+):\s(?<message>.*)\.?$", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
 		private static Regex mErrorIgnore = new Regex (@"^(Updated|Recompile|Reason|Files changed):.*", RegexOptions.Compiled);
 
-		public static ExecutionCommand lastExec;
-
 		public static void Clean (OpenFLProject project, OpenFLProjectConfiguration configuration, IProgressMonitor monitor)
 		{
 			ProcessStartInfo info = new ProcessStartInfo ();

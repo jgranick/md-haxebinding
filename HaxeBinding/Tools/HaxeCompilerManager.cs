@@ -245,31 +245,6 @@ namespace MonoDevelop.HaxeBinding.Tools
 				
 				args = cacheHXML + " -D code_completion";
 				
-			} else if (project is NMEProject) {
-				
-				NMEProjectConfiguration configuration = project.GetConfiguration (MonoDevelop.Ide.IdeApp.Workspace.ActiveConfiguration) as NMEProjectConfiguration;
-				
-				string platform = configuration.Platform.ToLower ();
-				string path = ((NMEProject)project).TargetNMMLFile;
-				
-				if (!File.Exists (path))
-				{
-					path = Path.Combine (project.BaseDirectory, path);
-				}
-				
-				DateTime time = File.GetLastWriteTime (Path.GetFullPath (path));
-				
-				if (!time.Equals (cacheNMMLTime) || platform != cachePlatform || configuration.AdditionalArguments != cacheArgumentsPlatform || ((NMEProject)project).AdditionalArguments != cacheArgumentsGlobal)
-				{
-					cacheHXML = NMECommandLineToolsManager.GetHXMLData ((NMEProject)project, configuration);
-					cacheNMMLTime = time;
-					cachePlatform = platform;
-					cacheArgumentsGlobal = ((NMEProject)project).AdditionalArguments;
-					cacheArgumentsPlatform = configuration.AdditionalArguments;
-				}
-				
-				args = cacheHXML + " -D code_completion";
-				
 			} else if (project is HaxeProject) {
 				
 				HaxeProjectConfiguration configuration = project.GetConfiguration (MonoDevelop.Ide.IdeApp.Workspace.ActiveConfiguration) as HaxeProjectConfiguration;

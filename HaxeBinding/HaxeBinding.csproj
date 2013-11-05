@@ -48,12 +48,24 @@
     <Reference Include="gdk-sharp" />
     <Reference Include="pango-sharp" />
     <Reference Include="Mono.Cairo" />
-    <Reference Include="Mono.Addins" />
-    <Reference Include="MonoDevelop.Core" />
-    <Reference Include="MonoDevelop.Ide" />
-    <Reference Include="Mono.Debugging" />
-    <Reference Include="Mono.TextEditor" />
-    <Reference Include="ICSharpCode.NRefactory" />
+    <Reference Include="Mono.Addins">
+      <Package>E:\dev_tools\Xamarin studio\bin\Mono.Addins.dll</Package>
+    </Reference>
+    <Reference Include="MonoDevelop.Core">
+      <Package>E:\dev_tools\Xamarin studio\bin\MonoDevelop.Core.dll</Package>
+    </Reference>
+    <Reference Include="MonoDevelop.Ide">
+      <Package>E:\dev_tools\Xamarin studio\bin\MonoDevelop.Ide.dll</Package>
+    </Reference>
+    <Reference Include="Mono.Debugging">
+      <Package>E:\dev_tools\Xamarin studio\bin\Mono.Debugging.dll</Package>
+    </Reference>
+    <Reference Include="Mono.TextEditor">
+      <Package>E:\dev_tools\Xamarin studio\bin\Mono.TextEditor.dll</Package>
+    </Reference>
+    <Reference Include="ICSharpCode.NRefactory">
+      <Package>E:\dev_tools\Xamarin studio\bin\ICSharpCode.NRefactory.dll</Package>
+    </Reference>
     <Reference Include="Mono.Posix, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756">
       <Private>False</Private>
     </Reference>
@@ -62,6 +74,7 @@
     </Reference>
     <Reference Include="MonoDevelop.Debugger, Version=2.6.0.0, Culture=neutral">
       <Private>False</Private>
+      <Package>E:\dev_tools\Xamarin studio\AddIns\MonoDevelop.Debugger\MonoDevelop.Debugger.dll</Package>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -70,22 +83,13 @@
     <Compile Include="Projects\HaxeProject.cs" />
     <Compile Include="Projects\HaxeProjectBinding.cs" />
     <Compile Include="Projects\HaxeProjectConfiguration.cs" />
-    <Compile Include="Projects\NMEProject.cs" />
-    <Compile Include="Projects\NMEProjectBinding.cs" />
-    <Compile Include="Projects\NMEProjectConfiguration.cs" />
     <Compile Include="Projects\Gui\HaxeOutputOptionsPanel.cs" />
     <Compile Include="Projects\Gui\HaxeProjectOptionsPanel.cs" />
-    <Compile Include="Projects\Gui\NMEOutputOptionsPanel.cs" />
-    <Compile Include="Projects\Gui\NMEProjectOptionsPanel.cs" />
     <Compile Include="Languages\HaxeLanguageBinding.cs" />
-    <Compile Include="Languages\NMMLLanguageBinding.cs" />
     <Compile Include="Languages\Gui\HaxeOptionsPanel.cs" />
     <Compile Include="Languages\Gui\HaxeTextEditorCompletion.cs" />
     <Compile Include="gtk-gui\MonoDevelop.HaxeBinding.Languages.Gui.HaxeOptionsWidget.cs" />
-    <Compile Include="gtk-gui\MonoDevelop.HaxeBinding.Projects.Gui.NMEOutputOptionsWidget.cs" />
-    <Compile Include="gtk-gui\MonoDevelop.HaxeBinding.Projects.Gui.NMEProjectOptionsWidget.cs" />
     <Compile Include="gtk-gui\MonoDevelop.HaxeBinding.Projects.Gui.HaxeOutputOptionsWidget.cs" />
-    <Compile Include="Tools\NMECommandLineToolsManager.cs" />
     <Compile Include="Helpers\PathHelper.cs" />
     <Compile Include="Languages\Gui\HaxeParameterDataProvider.cs" />
     <Compile Include="Languages\HXMLLanguageBinding.cs" />
@@ -130,15 +134,6 @@
     <EmbeddedResource Include="Resources\Icons\flashdevelop-overlay-32.png">
       <LogicalName>flashdevelop-overlay-32.png</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Templates\EmptyNMEProject.xpt.xml">
-      <LogicalName>EmptyNMEProject.xpt.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Templates\EmptyNMMLFile.xft.xml">
-      <LogicalName>EmptyNMMLFile.xft.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\SyntaxModes\FlashDevelopStyle.xml">
-      <LogicalName>FlashDevelopStyle.xml</LogicalName>
-    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Templates\EmptyHaxeFlashProject.xpt.xml">
       <LogicalName>EmptyHaxeFlashProject.xpt.xml</LogicalName>
     </EmbeddedResource>
@@ -178,5 +173,6 @@
     <Folder Include="Helpers\" />
     <Folder Include="Highlighting\" />
     <Folder Include="Debugger\" />
+    <Folder Include="gtk-gui\" />
   </ItemGroup>
 </Project>

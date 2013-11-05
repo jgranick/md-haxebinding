@@ -23,7 +23,6 @@ namespace MonoDevelop.HaxeBinding
 		StreamReader appout;
 		StreamReader sout;
 		StreamWriter sin;
-		IProcessAsyncOperation console;
 		Thread thread;
 		Thread appthread;
 		static Boolean dbgCreated = false; //just a hack to prevent debugger creation on every session
@@ -90,6 +89,7 @@ namespace MonoDevelop.HaxeBinding
 			if(LogWriter != null)
 				LogWriter(false, "Stopped debugging\n");
 			Frontend.NotifyTargetEvent (new TargetEventArgs (TargetEventType.TargetStopped));
+			StopDebugger ();
 		}
 
 		protected override void OnDetach ()
