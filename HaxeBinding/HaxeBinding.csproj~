@@ -42,43 +42,40 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml" />
-    <Reference Include="atk-sharp">
-      <Package>gtk-sharp-2.0</Package>
-    </Reference>
-    <Reference Include="gtk-sharp">
-      <Package>gtk-sharp-2.0</Package>
-    </Reference>
-    <Reference Include="glib-sharp">
-      <Package>glib-sharp-2.0</Package>
-    </Reference>
-    <Reference Include="gdk-sharp">
-      <Package>gtk-sharp-2.0</Package>
-    </Reference>
-    <Reference Include="pango-sharp">
-      <Package>gtk-sharp-2.0</Package>
-    </Reference>
+    <Reference Include="atk-sharp" />
+    <Reference Include="gtk-sharp" />
+    <Reference Include="glib-sharp" />
+    <Reference Include="gdk-sharp" />
+    <Reference Include="pango-sharp" />
     <Reference Include="Mono.Cairo" />
+    <Reference Include="Mono.Addins">
+      <Package>E:\dev_tools\Xamarin studio\bin\Mono.Addins.dll</Package>
+    </Reference>
     <Reference Include="MonoDevelop.Core">
-      <Package>monodevelop</Package>
+      <Package>E:\dev_tools\Xamarin studio\bin\MonoDevelop.Core.dll</Package>
     </Reference>
     <Reference Include="MonoDevelop.Ide">
-      <Package>monodevelop</Package>
+      <Package>E:\dev_tools\Xamarin studio\bin\MonoDevelop.Ide.dll</Package>
     </Reference>
     <Reference Include="Mono.Debugging">
-      <Package>monodevelop</Package>
+      <Package>E:\dev_tools\Xamarin studio\bin\Mono.Debugging.dll</Package>
     </Reference>
     <Reference Include="Mono.TextEditor">
-      <Package>monodevelop</Package>
+      <Package>E:\dev_tools\Xamarin studio\bin\Mono.TextEditor.dll</Package>
     </Reference>
     <Reference Include="ICSharpCode.NRefactory">
-      <Package>monodevelop</Package>
+      <Package>E:\dev_tools\Xamarin studio\bin\ICSharpCode.NRefactory.dll</Package>
+    </Reference>
+    <Reference Include="Mono.Posix, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Mono.Posix, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756">
+      <Private>False</Private>
     </Reference>
     <Reference Include="MonoDevelop.Debugger, Version=2.6.0.0, Culture=neutral">
       <Private>False</Private>
-      <Package>monodevelop-core-addins</Package>
+      <Package>E:\dev_tools\Xamarin studio\AddIns\MonoDevelop.Debugger\MonoDevelop.Debugger.dll</Package>
     </Reference>
-    <Reference Include="Mono.Posix" />
-    <Reference Include="Mono.Posix" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
@@ -106,9 +103,6 @@
     <Compile Include="Languages\Gui\HaxeCompletionData.cs" />
     <Compile Include="Debugger\HxcppDebuggerFactory.cs" />
     <Compile Include="Debugger\HxcppDbgSession.cs" />
-    <Compile Include="Projects\OpenFLExecutionCommand.cs" />
-    <Compile Include="Projects\HaxeExecutionCommand.cs" />
-    <Compile Include="Debugger\HxcppDebuggerStartInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

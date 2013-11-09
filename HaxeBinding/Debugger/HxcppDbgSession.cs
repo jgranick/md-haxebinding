@@ -13,9 +13,16 @@ using Mono.Unix.Native;
 using MonoDevelop.Core.Serialization;
 using MonoDevelop.HaxeBinding.Projects;
 using MonoDevelop.HaxeBinding.Tools;
+using System.Text.RegularExpressions;
 
 namespace MonoDevelop.HaxeBinding
 {
+	public struct Break
+	{
+		public string filename;
+		public int line;
+	}
+
 	public class HxcppDbgSession: DebuggerSession
 	{
 		Process debugger;
@@ -26,14 +33,26 @@ namespace MonoDevelop.HaxeBinding
 		Thread thread;
 		Thread appthread;
 		static Boolean dbgCreated = false; //just a hack to prevent debugger creation on every session
+		Array classPathes = null;
 
 		object debuggerLock = new object ();
 		object syncLock = new object ();
+
+		private ArrayList breaks = new ArrayList();
+		private Regex regex = new Regex (@"Breakpoint (\d+) set and enabled\.");
 
 		protected override void OnRun (DebuggerStartInfo startInfo)
 		{
 			Console.WriteLine ("in OnRun of debug session");
 			lock (debuggerLock) {
+				// TODO: add for haxe projects too
+				if (startInfo is HxcppDebuggerStartInfo) {
+					LogWriter (false, "It's hxcpp\n");
+					classPathes = ((HxcppDebuggerStartInfo)startInfo).Pathes;
+				} else {
+					LogWriter (false, "It's not hxcpp\n");
+					classPathes = new string[0];
+				}
 				CreateDebugger ();
 				StartDebugger ();
 				StartProcess (startInfo);
@@ -133,7 +152,8 @@ namespace MonoDevelop.HaxeBinding
 			BreakEventInfo bi = new BreakEventInfo ();
 
 			lock (debuggerLock) {
-				LogWriter(false, "Location is " + Path.GetFileName(bp.FileName) + ":" + bp.Line + '\n');
+				//TODO: file path should be fixed. It's not just filepath, it's also -cp Path
+				LogWriter(false, "Location is " + PathHelper.CutOffClassPath(classPathes, bp.FileName) + ":" + bp.Line + '\n');
 				//TODO: add run command with success and failed return
 			}
 

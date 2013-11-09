@@ -20,7 +20,12 @@ namespace MonoDevelop.HaxeBinding
 		public DebuggerStartInfo CreateDebuggerStartInfo (ExecutionCommand command)
 		{
 			NativeExecutionCommand pec = (NativeExecutionCommand) command;
-			DebuggerStartInfo startInfo = new DebuggerStartInfo ();
+			HxcppDebuggerStartInfo startInfo = new HxcppDebuggerStartInfo ();
+			if (command is OpenFLExecutionCommand) {
+				startInfo.Pathes = ((OpenFLExecutionCommand)command).Pathes;
+			} else {
+				startInfo.Pathes = new string[0];
+			}
 			startInfo.Command = pec.Command;
 			startInfo.Arguments = pec.Arguments;
 			startInfo.WorkingDirectory = pec.WorkingDirectory;

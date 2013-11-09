@@ -29,11 +29,12 @@ namespace MonoDevelop.HaxeBinding.Projects
 			get { return mAdditionalArguments;  }
 			set { mAdditionalArguments = value; }
 		}
-		
-		
+
 		[ItemProperty("TargetProjectXMLFile", DefaultValue="")]
 		string mTargetProjectXMLFile = string.Empty;
-		
+
+		public ArrayList pathes = new ArrayList ();
+
 		public string TargetProjectXMLFile {
 			get { return mTargetProjectXMLFile;  }
 			set { mTargetProjectXMLFile = value; }
@@ -56,57 +57,44 @@ namespace MonoDevelop.HaxeBinding.Projects
 		{
 			if (projectOptions.Attributes ["TargetProjectXMLFile"] != null)
 			{
-				
 				TargetProjectXMLFile = GetOptionAttribute (info, projectOptions, "TargetProjectXMLFile");
-				
 			}
 			
 			if (projectOptions.Attributes ["AdditionalArguments"] != null)
 			{
-				
 				AdditionalArguments = GetOptionAttribute (info, projectOptions, "AdditionalArguments");
-				
 			}
 			
 			OpenFLProjectConfiguration configuration;
-			
+
 			string[] targets = new string[] { "Android", "BlackBerry", "Flash", "HTML5", "iOS", "Linux", "Mac", "webOS", "Windows" };
 			
 			foreach (string target in targets)
 			{
-				
 				configuration = (OpenFLProjectConfiguration)CreateConfiguration ("Debug");
 				configuration.DebugMode = true;
 				configuration.Platform = target;
 				
 				if (target == "iOS")
 				{
-					
 					configuration.AdditionalArguments = "-simulator";
-						
 				}
-				
 				Configurations.Add (configuration);
-				
 			}
 			
 			foreach (string target in targets)
 			{
-				
 				configuration = (OpenFLProjectConfiguration)CreateConfiguration ("Release");
 				configuration.DebugMode = false;
 				configuration.Platform = target;
 				
 				if (target == "iOS")
 				{
-					
 					configuration.AdditionalArguments = "-simulator";
-						
 				}
-				
 				Configurations.Add (configuration);
-				
 			}
+			pathes.Add (this.BaseDirectory);
 		}
 		
 		
@@ -135,6 +123,8 @@ namespace MonoDevelop.HaxeBinding.Projects
 		protected override void DoExecute (IProgressMonitor monitor, ExecutionContext context, ConfigurationSelector configurationSelector)
 		{
 			OpenFLProjectConfiguration haxeConfig = (OpenFLProjectConfiguration)GetConfiguration (configurationSelector);
+			pathes.Clear ();
+			pathes = OpenFLCommandLineToolsManager.GetClassPatches (this, haxeConfig);
 			OpenFLCommandLineToolsManager.Run (this, haxeConfig, monitor, context);
 		}
 		

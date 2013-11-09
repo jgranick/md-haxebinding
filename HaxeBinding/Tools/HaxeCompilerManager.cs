@@ -236,7 +236,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 				
 				if (!time.Equals (cacheNMMLTime) || platform != cachePlatform || configuration.AdditionalArguments != cacheArgumentsPlatform || ((OpenFLProject)project).AdditionalArguments != cacheArgumentsGlobal)
 				{
-					cacheHXML = OpenFLCommandLineToolsManager.GetHXMLData ((OpenFLProject)project, configuration);
+					cacheHXML = OpenFLCommandLineToolsManager.GetHXMLData ((OpenFLProject)project, configuration).Replace (Environment.NewLine, " ");
 					cacheNMMLTime = time;
 					cachePlatform = platform;
 					cacheArgumentsGlobal = ((OpenFLProject)project).AdditionalArguments;
@@ -473,7 +473,8 @@ namespace MonoDevelop.HaxeBinding.Tools
 						args = "\"" + output + "\"";
 					}
 					
-					NativeExecutionCommand cmd = new NativeExecutionCommand (exe);
+					//NativeExecutionCommand cmd = new NativeExecutionCommand (exe);
+					HaxeExecutionCommand cmd = new HaxeExecutionCommand (exe);
 					cmd.Arguments = args;
 					cmd.WorkingDirectory = Path.GetDirectoryName (output);
 					
@@ -534,7 +535,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 			{
 				return false;
 			}
-			else if (cmd is NativeExecutionCommand)
+			else if (cmd is HaxeExecutionCommand)
 			{
 				return context.ExecutionHandler.CanExecute (cmd);
 			}
@@ -549,7 +550,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 		{
 			ExecutionCommand cmd = CreateExecutionCommand (project, configuration);
 			
-			if (cmd is NativeExecutionCommand)
+			if (cmd is HaxeExecutionCommand)
 			{
 				IConsole console;
 				if (configuration.ExternalConsole)

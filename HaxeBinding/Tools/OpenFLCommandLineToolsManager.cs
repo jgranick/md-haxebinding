@@ -11,6 +11,7 @@ using MonoDevelop.Core.Serialization;
 using MonoDevelop.Ide.CodeCompletion;
 using MonoDevelop.Projects;
 using MonoDevelop.HaxeBinding.Projects;
+using System.Collections;
 
 
 namespace MonoDevelop.HaxeBinding.Tools
@@ -203,10 +204,36 @@ namespace MonoDevelop.HaxeBinding.Tools
 			{
 				string data = process.StandardOutput.ReadToEnd ();
 				process.WaitForExit ();
-				return data.Replace (Environment.NewLine, " ");
+				return data;
 			}
 		}
 
+		private static ArrayList GetLibraryPath(string library)
+		{
+			ProcessStartInfo info = new ProcessStartInfo ();
+
+			info.FileName = "haxe";
+			info.Arguments = "--run tools.haxelib.Main path " + library;
+			info.UseShellExecute = false;
+			info.RedirectStandardOutput = true;
+			info.RedirectStandardError = true;
+			//info.WindowStyle = ProcessWindowStyle.Hidden;
+			info.CreateNoWindow = true;
+			string data;
+			using (Process process = Process.Start (info))
+			{
+				data = process.StandardOutput.ReadToEnd ();
+				process.WaitForExit ();
+			}
+			var libsPathes = new ArrayList ();
+			var dataList = data.Split (Environment.NewLine.ToCharArray());
+			foreach (string line in dataList) {
+				if (!line.StartsWith ("-D ") && !line.StartsWith ("-L ")) {
+					libsPathes.Add (line);
+				}
+			}
+			return libsPathes;
+		}
 
 		static BuildResult ParseOutput (OpenFLProject project, string stderr)
 		{
@@ -263,9 +290,11 @@ namespace MonoDevelop.HaxeBinding.Tools
 				args += " " + configuration.AdditionalArguments;
 			}
 
-			NativeExecutionCommand cmd = new NativeExecutionCommand (exe);
+			//NativeExecutionCommand cmd = new NativeExecutionCommand (exe);
+			OpenFLExecutionCommand cmd = new OpenFLExecutionCommand (exe);
 			cmd.Arguments = args;
 			cmd.WorkingDirectory = project.BaseDirectory.FullPath;
+			cmd.Pathes = project.pathes.ToArray();
 
 			return cmd;
 		}
@@ -273,7 +302,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 		
 		public static bool CanRun (OpenFLProject project, OpenFLProjectConfiguration configuration, ExecutionContext context)
 		{
-			ExecutionCommand cmd = CreateExecutionCommand (project, configuration);
+			ExecutionCommand cmd = (NativeExecutionCommand)CreateExecutionCommand (project, configuration);
 			if (cmd == null)
 			{
 				return false;
@@ -281,41 +310,57 @@ namespace MonoDevelop.HaxeBinding.Tools
 			return context.ExecutionHandler.CanExecute (cmd);
 		}
 
-
-	public static void Run (OpenFLProject project, OpenFLProjectConfiguration configuration, IProgressMonitor monitor, ExecutionContext context)
-	{
-		ExecutionCommand cmd = CreateExecutionCommand (project, configuration);
-		IConsole console;
-		if (configuration.ExternalConsole) {
-			console = context.ExternalConsoleFactory.CreateConsole (false);
-		} else {
-			console = context.ConsoleFactory.CreateConsole (false);
-		}
-		AggregatedOperationMonitor operationMonitor = new AggregatedOperationMonitor (monitor);
-		try
+		public static void Run (OpenFLProject project, OpenFLProjectConfiguration configuration, IProgressMonitor monitor, ExecutionContext context)
 		{
-			if (!context.ExecutionHandler.CanExecute (cmd))
-			{
-				monitor.ReportError (String.Format ("Cannot execute '{0}'.", cmd.Target), null);
-				return;
+			ExecutionCommand cmd = CreateExecutionCommand (project, configuration);
+			IConsole console;
+			if (configuration.ExternalConsole) {
+				console = context.ExternalConsoleFactory.CreateConsole (false);
+			} else {
+				console = context.ConsoleFactory.CreateConsole (false);
 			}
+			AggregatedOperationMonitor operationMonitor = new AggregatedOperationMonitor (monitor);
+			try
+			{
+				if (!context.ExecutionHandler.CanExecute (cmd))
+				{
+					monitor.ReportError (String.Format ("Cannot execute '{0}'.", cmd.Target), null);
+					return;
+				}
 
-			IProcessAsyncOperation operation = context.ExecutionHandler.Execute (cmd, console);
-			operationMonitor.AddOperation (operation);
-			operation.WaitForCompleted ();
-			monitor.Log.WriteLine ("Player exited with code {0}.", operation.ExitCode);
+				IProcessAsyncOperation operation = context.ExecutionHandler.Execute (cmd, console);
+				operationMonitor.AddOperation (operation);
+				operation.WaitForCompleted ();
+				monitor.Log.WriteLine ("Player exited with code {0}.", operation.ExitCode);
+			}
+			catch (Exception)
+			{
+				monitor.ReportError (String.Format ("Error while executing '{0}'.", cmd.Target), null);
+			}
+			finally
+			{
+				operationMonitor.Dispose ();
+				console.Dispose ();
+			}
 		}
-		catch (Exception)
+
+		public static ArrayList GetClassPatches(OpenFLProject project, OpenFLProjectConfiguration configuration)
 		{
-			monitor.ReportError (String.Format ("Error while executing '{0}'.", cmd.Target), null);
-		}
-		finally
-		{
-			operationMonitor.Dispose ();
-			console.Dispose ();
+			ArrayList pathes = new ArrayList ();
+			ArrayList libs = new ArrayList ();
+			string data = GetHXMLData (project, configuration);
+			string[] dataList = data.Split (Environment.NewLine.ToCharArray());
+			foreach (string line in dataList) {
+				if (line.StartsWith ("-lib ")) {
+					libs.Add (line.Substring (5));
+				} else if (line.StartsWith ("-cp ")) {
+					pathes.Add (project.BaseDirectory + "/" + line.Substring (4));
+				}
+			}
+			foreach (string lib in libs) {
+				pathes.AddRange (GetLibraryPath (lib));
+			}
+			return pathes;
 		}
 	}
-		
-	}
-	
 }

@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using MonoDevelop.Core.Serialization;
+using System.Collections;
 
 
 namespace MonoDevelop.HaxeBinding
@@ -11,6 +12,8 @@ namespace MonoDevelop.HaxeBinding
 
 	public class PathHelper
 	{
+		public static ArrayList relativePathes = new ArrayList ();
+
 		public static string ToRelativePath (string absolutePath, string relativeTo)
 		{
 			List<string> fileTokens = new List<string> (absolutePath.Split (Path.DirectorySeparatorChar)), anchorTokens = new List<string> (relativeTo.Split (Path.DirectorySeparatorChar));
@@ -61,6 +64,16 @@ namespace MonoDevelop.HaxeBinding
 
 			return builder.ToString (0, length);
 		}// ToRelativePath
+
+		public static string CutOffClassPath(Array pathes, string filepath)
+		{
+			foreach (string classPath in pathes) {
+				if (filepath.StartsWith (classPath)) {
+					return filepath.Substring (classPath.Length + 1);
+				}
+			}
+			return "";
+		}
 	}
 	
 }
