@@ -19,12 +19,18 @@ namespace MonoDevelop.HaxeBinding
 {
 	public struct Break
 	{
+		public Break(string filename, int line) {
+			this.filename = filename;
+			this.line = line;
+		}
+
 		public string filename;
 		public int line;
 	}
 
 	public class HxcppDbgSession: DebuggerSession
 	{
+		enum outputType { interrupt, backtrace, backtraceinfo };
 		Process debugger;
 		Process proc;
 		StreamReader appout;
@@ -38,8 +44,11 @@ namespace MonoDevelop.HaxeBinding
 		object debuggerLock = new object ();
 		object syncLock = new object ();
 
+		HxcppCommandResult lastResult = new HxcppCommandResult ();
+
 		private ArrayList breaks = new ArrayList();
-		private Regex regex = new Regex (@"Breakpoint (\d+) set and enabled\.");
+		private Regex breakAdded = new Regex (@"Breakpoint (\d+) set and enabled\.");
+		private Regex threadStopped = new Regex(@"Thread (\d+) stopped in (\d+)\.");
 
 		protected override void OnRun (DebuggerStartInfo startInfo)
 		{
@@ -107,8 +116,10 @@ namespace MonoDevelop.HaxeBinding
 		{
 			if(LogWriter != null)
 				LogWriter(false, "Stopped debugging\n");
-			Frontend.NotifyTargetEvent (new TargetEventArgs (TargetEventType.TargetStopped));
-			StopDebugger ();
+			RunCommand ("break", new string[0]);
+			//Frontend.NotifyTargetEvent (new TargetEventArgs (TargetEventType.TargetInterrupted));
+			//OnTargetEvent (new TargetEventArgs (TargetEventType.TargetInterrupted));
+			//StopDebugger ();
 		}
 
 		protected override void OnDetach ()
@@ -152,9 +163,8 @@ namespace MonoDevelop.HaxeBinding
 			BreakEventInfo bi = new BreakEventInfo ();
 
 			lock (debuggerLock) {
-				//TODO: file path should be fixed. It's not just filepath, it's also -cp Path
 				LogWriter(false, "Location is " + PathHelper.CutOffClassPath(classPathes, bp.FileName) + ":" + bp.Line + '\n');
-				//TODO: add run command with success and failed return
+				breaks.Add (new Break (PathHelper.CutOffClassPath (classPathes, bp.FileName), bp.Line));
 			}
 
 			//bi.Handle = TODO: add returned success value (break count etc)
@@ -233,11 +243,48 @@ namespace MonoDevelop.HaxeBinding
 		// Thread for parsing debugger output
 		void OutputInterpreter()
 		{
+			TargetEventType type;
 			string line;
 			while ((line = sout.ReadLine ()) != null) 
 			{
 				LogWriter (false, line + '\n');
+				if (threadStopped.Match (line).Success) {
+					type = TargetEventType.TargetInterrupted;
+					ProcessResult (line, outputType.interrupt, threadStopped.Match (line)); // yea, shit-code
+				} else {
+					type = TargetEventType.TargetStopped;
+				}
+				FireTargetEvent (type);
 			}
+		}
+
+		void ProcessResult(string line, outputType eventType, Match matchResult) 
+		{
+
+			// after getting the result and putting it to the lastResult var we are pulsing lock
+			Monitor.PulseAll (syncLock);
+		}
+
+		ThreadInfo GetThread (long id)
+		{
+			return new ThreadInfo (0, id, "Thread #" + id, null);
+		}
+
+		void FireTargetEvent(TargetEventType type)
+		{
+			TargetEventArgs args = new TargetEventArgs (type);
+			if (type != TargetEventType.TargetExited) {
+				//GdbCommandResult res = RunCommand ("-stack-info-depth");
+				//int fcount = int.Parse (res.GetValue ("depth"));
+				//
+				//GdbBacktrace bt = new GdbBacktrace (this, activeThread, fcount, curFrame);
+				//args.Backtrace = new Backtrace (bt);
+				//args.Thread = GetThread (activeThread);
+				HxcppBacktrace bt = new HxcppBacktrace ();
+				args.Backtrace = new Backtrace (bt);
+				args.Thread = GetThread (0);
+			}
+			OnTargetEvent (args);
 		}
 
 		//yeah one mor dirty hack, cause i don't know how to attach proc to current session
@@ -277,20 +324,12 @@ namespace MonoDevelop.HaxeBinding
 				lock (syncLock) {
 					sin.WriteLine (command + " " + string.Join (" ", args));
 
-					// TODO: need to decide do i need it or not
 					if (!Monitor.Wait (syncLock, 4000))
 						throw new InvalidOperationException ("Command execution timeout.");
 				}
 
 			}
 		}
-
-		private void FireBreakpoint(int HitCount)
-		{
-			var eventArgs = new TargetEventArgs (TargetEventType.TargetHitBreakpoint);
-			eventArgs.BreakEvent.HitCount = HitCount;
-		}
-
 	}
 }
 
