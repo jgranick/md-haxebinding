@@ -2,7 +2,6 @@ using System;
 using System.Globalization;
 using System.Text;
 using System.IO;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
@@ -46,7 +45,7 @@ namespace MonoDevelop.HaxeBinding
 
 		HxcppCommandResult lastResult = new HxcppCommandResult ();
 
-		private ArrayList breaks = new ArrayList();
+		private List<Break> breaks = new List<Break>();
 		private Regex breakAdded = new Regex (@"Breakpoint (\d+) set and enabled\.");
 		private Regex threadStopped = new Regex(@"Thread (\d+) stopped in (\d+)\.");
 
@@ -260,9 +259,10 @@ namespace MonoDevelop.HaxeBinding
 
 		void ProcessResult(string line, outputType eventType, Match matchResult) 
 		{
-
-			// after getting the result and putting it to the lastResult var we are pulsing lock
-			Monitor.PulseAll (syncLock);
+			lock (syncLock) {
+				// after getting the result and putting it to the lastResult var we are pulsing lock
+				Monitor.PulseAll (syncLock);
+			}
 		}
 
 		ThreadInfo GetThread (long id)
@@ -280,7 +280,7 @@ namespace MonoDevelop.HaxeBinding
 				//GdbBacktrace bt = new GdbBacktrace (this, activeThread, fcount, curFrame);
 				//args.Backtrace = new Backtrace (bt);
 				//args.Thread = GetThread (activeThread);
-				HxcppBacktrace bt = new HxcppBacktrace ();
+				HxcppBacktrace bt = new HxcppBacktrace (this, lastResult.depth, 0);
 				args.Backtrace = new Backtrace (bt);
 				args.Thread = GetThread (0);
 			}

@@ -11,10 +11,13 @@ namespace MonoDevelop.HaxeBinding
 		HxcppDbgSession session;
 		//DissassemblyBuffer[] disBuffers;
 		//int currentFrame = -1;
-		//long threadId;
+		long threadId;
 
-		public HxcppBacktrace ()
+		public HxcppBacktrace (HxcppDbgSession session, int fcount, long threadId)
 		{
+			this.session = session;
+			this.fcount = fcount;
+			this.threadId = threadId;
 		}
 
 		#region IObjectValueSource implementation
@@ -100,7 +103,7 @@ namespace MonoDevelop.HaxeBinding
 
 		public int FrameCount {
 			get {
-				throw new NotImplementedException ();
+				return fcount;
 			}
 		}
 

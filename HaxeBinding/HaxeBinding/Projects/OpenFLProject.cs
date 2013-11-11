@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Xml;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.CodeDom.Compiler;
@@ -33,7 +32,7 @@ namespace MonoDevelop.HaxeBinding.Projects
 		[ItemProperty("TargetProjectXMLFile", DefaultValue="")]
 		string mTargetProjectXMLFile = string.Empty;
 
-		public ArrayList pathes = new ArrayList ();
+		public List<string> pathes = new List<string> ();
 
 		public string TargetProjectXMLFile {
 			get { return mTargetProjectXMLFile;  }

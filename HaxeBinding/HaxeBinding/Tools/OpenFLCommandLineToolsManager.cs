@@ -208,7 +208,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 			}
 		}
 
-		private static ArrayList GetLibraryPath(string library)
+		private static List<string> GetLibraryPath(string library)
 		{
 			ProcessStartInfo info = new ProcessStartInfo ();
 
@@ -225,7 +225,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 				data = process.StandardOutput.ReadToEnd ();
 				process.WaitForExit ();
 			}
-			var libsPathes = new ArrayList ();
+			var libsPathes = new List<string> ();
 			var dataList = data.Split (Environment.NewLine.ToCharArray());
 			foreach (string line in dataList) {
 				if (!line.StartsWith ("-D ") && !line.StartsWith ("-L ")) {
@@ -344,10 +344,10 @@ namespace MonoDevelop.HaxeBinding.Tools
 			}
 		}
 
-		public static ArrayList GetClassPatches(OpenFLProject project, OpenFLProjectConfiguration configuration)
+		public static List<string> GetClassPatches(OpenFLProject project, OpenFLProjectConfiguration configuration)
 		{
-			ArrayList pathes = new ArrayList ();
-			ArrayList libs = new ArrayList ();
+			List<string> pathes = new List<string> ();
+			List<string> libs = new List<string> ();
 			string data = GetHXMLData (project, configuration);
 			string[] dataList = data.Split (Environment.NewLine.ToCharArray());
 			foreach (string line in dataList) {
