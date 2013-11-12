@@ -39,6 +39,7 @@ namespace MonoDevelop.HaxeBinding
 		Thread appthread;
 		static Boolean dbgCreated = false; //just a hack to prevent debugger creation on every session
 		Array classPathes = null;
+		bool running = false;
 
 		object debuggerLock = new object ();
 		object syncLock = new object ();
@@ -64,6 +65,7 @@ namespace MonoDevelop.HaxeBinding
 				CreateDebugger ();
 				StartDebugger ();
 				StartProcess (startInfo);
+				running = true;
 				OnStarted ();
 			}
 		}
@@ -115,7 +117,10 @@ namespace MonoDevelop.HaxeBinding
 		{
 			if(LogWriter != null)
 				LogWriter(false, "Stopped debugging\n");
-			RunCommand ("break", new string[0]);
+			if (running) {
+				RunCommand (true, "break", new string[0]);
+				running = false;
+			}
 			//Frontend.NotifyTargetEvent (new TargetEventArgs (TargetEventType.TargetInterrupted));
 			//OnTargetEvent (new TargetEventArgs (TargetEventType.TargetInterrupted));
 			//StopDebugger ();
@@ -189,7 +194,10 @@ namespace MonoDevelop.HaxeBinding
 
 		protected override void OnContinue ()
 		{
-			RunCommand("continue", new string[0]);
+			LogWriter (false, "Continue execution\n");
+			RunCommand(false, "continue");
+			running = true;
+			//OnTargetEvent (new TargetEventArgs (TargetEventType.TargetReady));
 		}
 
 		protected override Backtrace OnGetThreadBacktrace (long processId, long threadId)
@@ -209,6 +217,7 @@ namespace MonoDevelop.HaxeBinding
 
 		void StopDebugger()
 		{
+			running = false;
 			thread.Abort ();
 			appthread.Abort ();
 			if (debugger != null && !debugger.HasExited) {
@@ -251,7 +260,9 @@ namespace MonoDevelop.HaxeBinding
 					type = TargetEventType.TargetInterrupted;
 					ProcessResult (line, outputType.interrupt, threadStopped.Match (line)); // yea, shit-code
 				} else {
-					type = TargetEventType.TargetStopped;
+					//type = TargetEventType.TargetStopped;
+					Console.WriteLine ("just blanla in output");
+					continue;
 				}
 				FireTargetEvent (type);
 			}
@@ -318,14 +329,15 @@ namespace MonoDevelop.HaxeBinding
 			}
 		}
 
-		private void RunCommand (string command, params string[] args)
+		private void RunCommand (bool waitForAnswer, string command, params string[] args)
 		{
 			lock (debuggerLock) {
 				lock (syncLock) {
 					sin.WriteLine (command + " " + string.Join (" ", args));
 
-					if (!Monitor.Wait (syncLock, 4000))
-						throw new InvalidOperationException ("Command execution timeout.");
+					if(waitForAnswer)
+						if (!Monitor.Wait (syncLock, 4000))
+							throw new InvalidOperationException ("Command execution timeout.");
 				}
 
 			}

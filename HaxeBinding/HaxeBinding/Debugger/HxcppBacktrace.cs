@@ -53,7 +53,9 @@ namespace MonoDevelop.HaxeBinding
 
 		public StackFrame[] GetStackFrames (int firstIndex, int lastIndex)
 		{
-			throw new NotImplementedException ();
+			//TODO: fill it up
+			return new StackFrame[0];
+			//throw new NotImplementedException ();
 		}
 
 		public ObjectValue[] GetLocalVariables (int frameIndex, EvaluationOptions options)
