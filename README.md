@@ -1,3 +1,8 @@
+Warning
+=======
+
+Current version is for nightly builds (3.1.0 haxe candidate)
+
 That's for of original md_haxebinding
 
 Introduction
