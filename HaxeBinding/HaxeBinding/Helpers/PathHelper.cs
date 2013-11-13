@@ -72,6 +72,16 @@ namespace MonoDevelop.HaxeBinding
 			}
 			return "";
 		}
+
+		public static string GetFullPath(Array pathes, string file)
+		{
+			foreach (string classPath in pathes) {
+				if (File.Exists(classPath + '/' + file)) {
+					return classPath + '/' + file;
+				}
+			}
+			return file;
+		}
 	}
 	
 }

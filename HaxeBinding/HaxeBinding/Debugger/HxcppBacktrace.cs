@@ -1,6 +1,7 @@
 using System;
 using Mono.Debugging.Backend;
 using Mono.Debugging.Client;
+using System.Collections.Generic;
 
 namespace MonoDevelop.HaxeBinding
 {
@@ -53,9 +54,11 @@ namespace MonoDevelop.HaxeBinding
 
 		public StackFrame[] GetStackFrames (int firstIndex, int lastIndex)
 		{
-			//TODO: fill it up
-			return new StackFrame[0];
-			//throw new NotImplementedException ();
+			Console.WriteLine (firstIndex + " " + lastIndex);
+			List<StackFrame> frames = new List<StackFrame>();
+			//TODO: fill it up, now it's just a dummy thing to point to the file
+			frames.Add (new StackFrame (0, new SourceLocation("new", "E:\\dev\\myown\\just_test\\Just_ololo\\Source\\Just_ololo.hx", 15), "Native"));
+			return frames.ToArray();
 		}
 
 		public ObjectValue[] GetLocalVariables (int frameIndex, EvaluationOptions options)
@@ -65,7 +68,8 @@ namespace MonoDevelop.HaxeBinding
 
 		public ObjectValue[] GetParameters (int frameIndex, EvaluationOptions options)
 		{
-			throw new NotImplementedException ();
+			List<ObjectValue> objects = new List<ObjectValue> ();
+			return objects.ToArray ();
 		}
 
 		public ObjectValue GetThisReference (int frameIndex, EvaluationOptions options)

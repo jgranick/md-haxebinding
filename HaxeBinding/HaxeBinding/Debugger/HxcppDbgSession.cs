@@ -29,7 +29,7 @@ namespace MonoDevelop.HaxeBinding
 
 	public class HxcppDbgSession: DebuggerSession
 	{
-		enum outputType { interrupt, backtrace, backtraceinfo };
+		enum outputType { interrupt, backtrace, backtraceInfo, breakInserted };
 		Process debugger;
 		Process proc;
 		StreamReader appout;
@@ -47,8 +47,12 @@ namespace MonoDevelop.HaxeBinding
 		HxcppCommandResult lastResult = new HxcppCommandResult ();
 
 		private List<Break> breaks = new List<Break>();
+		// 1: break num.
 		private Regex breakAdded = new Regex (@"Breakpoint (\d+) set and enabled\.");
+		// 1: thread num. 2: stack depth.
 		private Regex threadStopped = new Regex(@"Thread (\d+) stopped in (\d+)\.");
+		// 1: stack line num. 2: function name. 3: file name. 4: line number
+		private Regex stackTrace = new Regex(@"(\d+) : (.+) at (.+):(\d+)");
 
 		protected override void OnRun (DebuggerStartInfo startInfo)
 		{
@@ -202,16 +206,20 @@ namespace MonoDevelop.HaxeBinding
 
 		protected override Backtrace OnGetThreadBacktrace (long processId, long threadId)
 		{
+			Console.WriteLine ("on getthreadbacktrace");
 			return null;
 		}
 
 		protected override ProcessInfo[] OnGetProcesses ()
 		{
-			return null;
+			Console.WriteLine ("on getprocess");
+
+			return new ProcessInfo[] {new ProcessInfo (proc.Id, proc.ProcessName)};
 		}
 
 		protected override ThreadInfo[] OnGetThreads (long processId)
 		{
+			Console.WriteLine ("on getthreads");
 			return null;
 		}
 
@@ -259,9 +267,12 @@ namespace MonoDevelop.HaxeBinding
 				if (threadStopped.Match (line).Success) {
 					type = TargetEventType.TargetInterrupted;
 					ProcessResult (line, outputType.interrupt, threadStopped.Match (line)); // yea, shit-code
-				} else {
+				} else if(breakAdded.Match(line).Success) {
+					ProcessResult (line, outputType.breakInserted, breakAdded.Match(line));
+					continue;
+				}else {
 					//type = TargetEventType.TargetStopped;
-					Console.WriteLine ("just blanla in output");
+					//Console.WriteLine ("just blanla in output");
 					continue;
 				}
 				FireTargetEvent (type);
@@ -272,13 +283,23 @@ namespace MonoDevelop.HaxeBinding
 		{
 			lock (syncLock) {
 				// after getting the result and putting it to the lastResult var we are pulsing lock
-				Monitor.PulseAll (syncLock);
+				switch (eventType)
+				{
+				case outputType.interrupt:
+					lastResult.threadId = Convert.ToInt32(matchResult.Groups [1]);
+					lastResult.depth = lastResult.depth_unprocessed = Convert.ToInt32(matchResult.Groups [2]);
+					Monitor.PulseAll (syncLock);
+					break;
+				// we will not pulse if we are not waiting for it
+				//default:
+					//Monitor.PulseAll (syncLock);
+				}
 			}
 		}
 
 		ThreadInfo GetThread (long id)
 		{
-			return new ThreadInfo (0, id, "Thread #" + id, null);
+			return new ThreadInfo (proc.Id, id, "Thread #" + id, null);
 		}
 
 		void FireTargetEvent(TargetEventType type)
@@ -291,7 +312,7 @@ namespace MonoDevelop.HaxeBinding
 				//GdbBacktrace bt = new GdbBacktrace (this, activeThread, fcount, curFrame);
 				//args.Backtrace = new Backtrace (bt);
 				//args.Thread = GetThread (activeThread);
-				HxcppBacktrace bt = new HxcppBacktrace (this, lastResult.depth, 0);
+				HxcppBacktrace bt = new HxcppBacktrace (this, 1, 0);
 				args.Backtrace = new Backtrace (bt);
 				args.Thread = GetThread (0);
 			}
@@ -339,7 +360,6 @@ namespace MonoDevelop.HaxeBinding
 						if (!Monitor.Wait (syncLock, 4000))
 							throw new InvalidOperationException ("Command execution timeout.");
 				}
-
 			}
 		}
 	}
