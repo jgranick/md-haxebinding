@@ -2,6 +2,7 @@ using System;
 using Mono.Debugging.Backend;
 using Mono.Debugging.Client;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace MonoDevelop.HaxeBinding
 {
@@ -13,6 +14,7 @@ namespace MonoDevelop.HaxeBinding
 		//DissassemblyBuffer[] disBuffers;
 		//int currentFrame = -1;
 		long threadId;
+		bool firstly = true;
 
 		public HxcppBacktrace (HxcppDbgSession session, int fcount, long threadId)
 		{
@@ -57,7 +59,24 @@ namespace MonoDevelop.HaxeBinding
 			Console.WriteLine (firstIndex + " " + lastIndex);
 			List<StackFrame> frames = new List<StackFrame>();
 			//TODO: fill it up, now it's just a dummy thing to point to the file
-			frames.Add (new StackFrame (0, new SourceLocation("new", "E:\\dev\\myown\\just_test\\Just_ololo\\Source\\Just_ololo.hx", 15), "Native"));
+			session.lastResult.stackElements.Clear ();
+			if (firstly) {
+				session.RunCommand (false, "where", new string[0]);
+				firstly = false;
+			} else {
+				lock (session.backtraceLock) {
+					if (!Monitor.Wait (session.backtraceLock, 4000))
+						throw new InvalidOperationException ("Command execution timeout.");
+				}
+				foreach (HxcppStackInfo element in session.lastResult.stackElements) {
+					frames.Add (new StackFrame (0,
+					                          new SourceLocation (element.name,
+					                                             PathHelper.GetFullPath (session.classPathes, element.file),
+					                                             element.line), 
+					                          "Haxe"));
+				}
+			}
+			//frames.Add (new StackFrame (0, new SourceLocation("new", "E:\\dev\\myown\\just_test\\Just_ololo\\Source\\Just_ololo.hx", 15), "Native"));
 			return frames.ToArray();
 		}
 

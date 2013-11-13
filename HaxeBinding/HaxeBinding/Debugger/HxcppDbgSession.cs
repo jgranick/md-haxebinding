@@ -35,16 +35,21 @@ namespace MonoDevelop.HaxeBinding
 		StreamReader appout;
 		StreamReader sout;
 		StreamWriter sin;
-		Thread thread;
+		Thread reciever;
+		Thread sender;
 		Thread appthread;
+
+		string commandsBuffer = "";
+
 		static Boolean dbgCreated = false; //just a hack to prevent debugger creation on every session
-		Array classPathes = null;
+		public Array classPathes = null;
 		bool running = false;
 
 		object debuggerLock = new object ();
 		object syncLock = new object ();
+		public object backtraceLock = new object ();
 
-		HxcppCommandResult lastResult = new HxcppCommandResult ();
+		public HxcppCommandResult lastResult = new HxcppCommandResult ();
 
 		private List<Break> breaks = new List<Break>();
 		// 1: break num.
@@ -106,8 +111,8 @@ namespace MonoDevelop.HaxeBinding
 
 		public override void Dispose ()
 		{
-			if(thread != null)
-				thread.Abort ();
+			if(reciever != null)
+				reciever.Abort ();
 			if (appthread != null)
 				appthread.Abort ();
 			base.Dispose ();
@@ -226,7 +231,7 @@ namespace MonoDevelop.HaxeBinding
 		void StopDebugger()
 		{
 			running = false;
-			thread.Abort ();
+			reciever.Abort ();
 			appthread.Abort ();
 			if (debugger != null && !debugger.HasExited) {
 				debugger.Kill ();
@@ -249,11 +254,12 @@ namespace MonoDevelop.HaxeBinding
 
 			sout = debugger.StandardOutput;
 			sin = debugger.StandardInput;
+			sin.AutoFlush = true;
 
-			thread = new Thread (OutputInterpreter);
-			thread.Name = "Debugger output interpeter";
-			thread.IsBackground = true;
-			thread.Start ();
+			reciever = new Thread (OutputInterpreter);
+			reciever.Name = "Debugger output interpeter";
+			reciever.IsBackground = true;
+			reciever.Start ();
 		}
 
 		// Thread for parsing debugger output
@@ -261,7 +267,7 @@ namespace MonoDevelop.HaxeBinding
 		{
 			TargetEventType type;
 			string line;
-			while ((line = sout.ReadLine ()) != null) 
+			while ((line = sout.ReadLine()) != null) 
 			{
 				LogWriter (false, line + '\n');
 				if (threadStopped.Match (line).Success) {
@@ -270,7 +276,10 @@ namespace MonoDevelop.HaxeBinding
 				} else if(breakAdded.Match(line).Success) {
 					ProcessResult (line, outputType.breakInserted, breakAdded.Match(line));
 					continue;
-				}else {
+				} else if(stackTrace.Match(line).Success) {
+					ProcessResult (line, outputType.backtrace, stackTrace.Match(line));
+					continue;
+				} else {
 					//type = TargetEventType.TargetStopped;
 					//Console.WriteLine ("just blanla in output");
 					continue;
@@ -286,13 +295,31 @@ namespace MonoDevelop.HaxeBinding
 				switch (eventType)
 				{
 				case outputType.interrupt:
-					lastResult.threadId = Convert.ToInt32(matchResult.Groups [1]);
-					lastResult.depth = lastResult.depth_unprocessed = Convert.ToInt32(matchResult.Groups [2]);
+					lastResult.threadId = Convert.ToInt32(matchResult.Groups [1].Value);
+					lastResult.depth = lastResult.depth_unprocessed = Convert.ToInt32(matchResult.Groups [2].Value);
+
 					Monitor.PulseAll (syncLock);
+					//lastResult.stackElements.Clear ();
+					//RunCommand (true, "where", new string[0]);
+					break;
+				case outputType.backtrace:
+					var element = new HxcppStackInfo ();
+					//2: function name. 3: file name. 4: line number
+					element.name = Convert.ToString (matchResult.Groups [2].Value);
+					element.file = Convert.ToString (matchResult.Groups [3].Value);
+					element.line = Convert.ToInt32 (matchResult.Groups [4].Value);
+					lastResult.stackElements.Add (element);
+					lastResult.depth_unprocessed--;
+					if (lastResult.depth_unprocessed < 0) {
+						lock (backtraceLock) {
+							Monitor.PulseAll (backtraceLock);
+						}
+					}
 					break;
 				// we will not pulse if we are not waiting for it
 				//default:
 					//Monitor.PulseAll (syncLock);
+					//break;
 				}
 			}
 		}
@@ -312,7 +339,7 @@ namespace MonoDevelop.HaxeBinding
 				//GdbBacktrace bt = new GdbBacktrace (this, activeThread, fcount, curFrame);
 				//args.Backtrace = new Backtrace (bt);
 				//args.Thread = GetThread (activeThread);
-				HxcppBacktrace bt = new HxcppBacktrace (this, 1, 0);
+				HxcppBacktrace bt = new HxcppBacktrace (this, lastResult.depth, lastResult.threadId);
 				args.Backtrace = new Backtrace (bt);
 				args.Thread = GetThread (0);
 			}
@@ -350,17 +377,36 @@ namespace MonoDevelop.HaxeBinding
 			}
 		}
 
-		private void RunCommand (bool waitForAnswer, string command, params string[] args)
+		public void RunCommand (bool waitForAnswer, string command, params string[] args)
 		{
+
 			lock (debuggerLock) {
 				lock (syncLock) {
 					sin.WriteLine (command + " " + string.Join (" ", args));
+					sin.Flush ();
+					//SendCommand (command + " " + string.Join (" ", args));
 
-					if(waitForAnswer)
+					if (waitForAnswer) {
 						if (!Monitor.Wait (syncLock, 4000))
 							throw new InvalidOperationException ("Command execution timeout.");
+					}
 				}
 			}
+		}
+
+		private void SendCommand(string command)
+		{
+			commandsBuffer = command;
+			sender = new Thread (InputDispatcher);
+			sender.Name = "Input dispatcher";
+			sender.IsBackground = true;
+			sender.Start ();
+		}
+
+		void InputDispatcher()
+		{
+			sin.WriteLine (commandsBuffer);
+			sender.Abort ();
 		}
 	}
 }
