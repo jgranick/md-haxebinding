@@ -346,7 +346,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 
 		public static List<string> GetClassPatches(OpenFLProject project, OpenFLProjectConfiguration configuration)
 		{
-			List<string> pathes = new List<string> ();
+			List<string> patches = new List<string> ();
 			List<string> libs = new List<string> ();
 			string data = GetHXMLData (project, configuration);
 			string[] dataList = data.Split (Environment.NewLine.ToCharArray());
@@ -354,13 +354,13 @@ namespace MonoDevelop.HaxeBinding.Tools
 				if (line.StartsWith ("-lib ")) {
 					libs.Add (line.Substring (5));
 				} else if (line.StartsWith ("-cp ")) {
-					pathes.Add (project.BaseDirectory + "/" + line.Substring (4));
+					patches.Add (project.BaseDirectory + "/" + line.Substring (4));
 				}
 			}
 			foreach (string lib in libs) {
-				pathes.AddRange (GetLibraryPath (lib));
+				patches.AddRange (GetLibraryPath (lib));
 			}
-			return pathes;
+			return patches;
 		}
 	}
 }
