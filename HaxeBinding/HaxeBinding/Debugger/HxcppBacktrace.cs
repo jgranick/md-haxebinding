@@ -3,6 +3,7 @@ using Mono.Debugging.Backend;
 using Mono.Debugging.Client;
 using System.Collections.Generic;
 using System.Threading;
+using System.Linq;
 
 namespace MonoDevelop.HaxeBinding
 {
@@ -14,7 +15,7 @@ namespace MonoDevelop.HaxeBinding
 		//DissassemblyBuffer[] disBuffers;
 		//int currentFrame = -1;
 		long threadId;
-		bool firstly = true;
+		object syncLock = new object();
 
 		public HxcppBacktrace (HxcppDbgSession session, int fcount, long threadId)
 		{
@@ -60,14 +61,16 @@ namespace MonoDevelop.HaxeBinding
 			List<StackFrame> frames = new List<StackFrame>();
 			//TODO: fill it up, now it's just a dummy thing to point to the file
 			session.lastResult.stackElements.Clear ();
-				session.RunCommand (true, "where", new string[0]);
+			session.RunCommand (true, "where", new string[0]);
+			lock (syncLock) {
 				foreach (HxcppStackInfo element in session.lastResult.stackElements) {
 					frames.Add (new StackFrame (0,
-					                          new SourceLocation (element.name,
-					                                             PathHelper.GetFullPath (session.classPathes, element.file),
-					                                             element.line), 
-					                          "Haxe"));
+					                            new SourceLocation (element.name,
+					                                              PathHelper.GetFullPath (session.classPathes, element.file),
+					                                              element.line), 
+					                            "Haxe"));
 				}
+			}
 			//frames.Add (new StackFrame (0, new SourceLocation("new", "E:\\dev\\myown\\just_test\\Just_ololo\\Source\\Just_ololo.hx", 15), "Native"));
 			return frames.ToArray();
 		}
@@ -95,25 +98,36 @@ namespace MonoDevelop.HaxeBinding
 
 		public ObjectValue[] GetAllLocals (int frameIndex, EvaluationOptions options)
 		{
-			session.RunCommand (false, "vars");
+			session.RunCommand (true, "vars");
 			List<ObjectValue> locals = new List<ObjectValue> ();
-			ObjectValue val;
-			ObjectValueFlags flags = ObjectValueFlags.Variable;
-			val = ObjectValue.CreatePrimitive (this, new ObjectPath ("dummy_var_name"), "dummyInt", new EvaluationResult ("128"), flags);
-			val.Name = "Dummy var";
-			locals.Add (val);
+			lock (syncLock) {
+				foreach (string varName in session.lastResult.vars) {
+					ObjectValue val;
+					ObjectValueFlags flags = ObjectValueFlags.Variable;
+					val = ObjectValue.CreatePrimitive (this, new ObjectPath (varName), "dummyInt", new EvaluationResult ("test_val"), flags);
+					val.Name = varName;
+					locals.Add (val);
+				}
+			}
 
 			return locals.ToArray ();
 		}
 
 		public ObjectValue[] GetExpressionValues (int frameIndex, string[] expressions, EvaluationOptions options)
 		{
+			session.RunCommand (true, "vars");
 			List<ObjectValue> locals = new List<ObjectValue> ();
-			ObjectValue val;
-			ObjectValueFlags flags = ObjectValueFlags.Variable;
-			val = ObjectValue.CreatePrimitive (this, new ObjectPath ("dummy_var_name"), "dummyInt", new EvaluationResult ("128"), flags);
-			val.Name = "Dummy var";
-			locals.Add (val);
+			lock (syncLock) {
+				foreach (string varName in session.lastResult.vars) {
+					if (expressions.Contains (varName)) {
+						ObjectValue val;
+						ObjectValueFlags flags = ObjectValueFlags.Variable;
+						val = ObjectValue.CreatePrimitive (this, new ObjectPath (varName), "dummyInt", new EvaluationResult ("test_val"), flags);
+						val.Name = varName;
+						locals.Add (val);
+					}
+				}
+			}
 
 			return locals.ToArray ();
 		}

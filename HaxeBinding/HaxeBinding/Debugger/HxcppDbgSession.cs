@@ -29,7 +29,7 @@ namespace MonoDevelop.HaxeBinding
 
 	public class HxcppDbgSession: DebuggerSession
 	{
-		enum outputType { interrupt, backtrace, backtraceInfo, breakInserted };
+		enum outputType { interrupt, backtrace, backtraceInfo, breakInserted, varsList };
 		Process debugger;
 		Process proc;
 		StreamReader appout;
@@ -45,6 +45,7 @@ namespace MonoDevelop.HaxeBinding
 		//object debuggerLock = new object ();
 		//public object syncLock = new object ();
 		//public object backtraceLock = new object ();
+		public bool waitForVars = false;
 
 		WaitHandle[] syncHandle = new WaitHandle[] { new AutoResetEvent (false) };
 
@@ -57,6 +58,8 @@ namespace MonoDevelop.HaxeBinding
 		private Regex threadStopped = new Regex(@"Thread (\d+) stopped in (\d+)\.");
 		// 1: stack line num. 2: function name. 3: file name. 4: line number
 		private Regex stackTrace = new Regex(@"(\d+) : (.+) at (.+):(\d+)");
+		// just a string match
+		private Regex varsList = new Regex(@"local vars {");
 
 		protected override void OnRun (DebuggerStartInfo startInfo)
 		{
@@ -266,7 +269,14 @@ namespace MonoDevelop.HaxeBinding
 			while ((line = sout.ReadLine()) != null) 
 			{
 				LogWriter (false, line + '\n');
-				if (threadStopped.Match (line).Success) {
+				if (waitForVars) {
+					ProcessResult (line, outputType.varsList, null);
+					continue;
+				} else if(varsList.Match (line).Success) {
+					lastResult.vars.Clear ();
+					waitForVars = true;
+					continue;
+				}else if (threadStopped.Match (line).Success) {
 					type = TargetEventType.TargetInterrupted;
 					ProcessResult (line, outputType.interrupt, threadStopped.Match (line)); // yea, shit-code
 				} else if(breakAdded.Match(line).Success) {
@@ -305,6 +315,14 @@ namespace MonoDevelop.HaxeBinding
 				lastResult.stackElements.Add (element);
 				lastResult.depth_unprocessed--;
 				if (lastResult.depth_unprocessed < 0) {
+					are.Set ();
+				}
+				break;
+			case outputType.varsList:
+				if (line != "}") {
+					lastResult.vars.Add (line);
+				} else {
+					waitForVars = false;
 					are.Set ();
 				}
 				break;
