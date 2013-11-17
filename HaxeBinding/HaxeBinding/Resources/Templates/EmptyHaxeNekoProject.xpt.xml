@@ -13,14 +13,14 @@
         <Project name="${ProjectName}" directory="." type="Haxe">
             <Options TargetHXMLFile="${ProjectName}.hxml" />
             <Files>
-                <File name="Source/${ProjectName}.hx" AddStandardHeader="True">
+                <HaxeFile name="src/${ModuleName}.hx" AddStandardHeader="True">
 <![CDATA[package;
 
 /**
  * ...
  * @author ${AuthorName}
  */
-class ${SafeProjectName} {
+class ${ModuleName} {
 	
 	public function new () {
 		
@@ -30,15 +30,15 @@ class ${SafeProjectName} {
 	
 	static function main () {
 		
-		new ${SafeProjectName} ();
+		new ${ModuleName} ();
 		
 	}
 
-}]]></File>
-				<File name="${ProjectName}.hxml" AddStandardHeader="True">
-<![CDATA[-cp Source
--main ${SafeProjectName}
--neko Export/${ProjectName}.n]]></File>
+}]]></HaxeFile>
+				<HaxeFile name="${ProjectName}.hxml" AddStandardHeader="True">
+<![CDATA[-cp src
+-main ${ModuleName}
+-neko bin/${ProjectName}.n]]></HaxeFile>
             </Files>
         </Project>
     </Combine>

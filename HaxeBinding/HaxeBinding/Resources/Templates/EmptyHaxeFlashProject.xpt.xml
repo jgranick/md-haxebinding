@@ -13,7 +13,7 @@
         <Project name="${ProjectName}" directory="." type="Haxe">
             <Options TargetHXMLFile="${ProjectName}.hxml" />
             <Files>
-                <File name="Source/${ProjectName}.hx" AddStandardHeader="True">
+                <HaxeFile name="src/${ModuleName}.hx" AddStandardHeader="True">
 <![CDATA[package;
 
 import flash.display.Sprite;
@@ -23,7 +23,7 @@ import flash.Lib;
  * ...
  * @author ${AuthorName}
  */
-class ${SafeProjectName} extends Sprite {
+class ${ModuleName} extends Sprite {
 	
 	public function new () {
 		
@@ -35,17 +35,17 @@ class ${SafeProjectName} extends Sprite {
 	
 	static function main () {
 		
-		Lib.current.addChild (new ${SafeProjectName} ());
+		Lib.current.addChild (new ${ModuleName} ());
 		
 	}
 
-}]]></File>			
-				<File name="${ProjectName}.hxml" AddStandardHeader="True">
-<![CDATA[-cp Source
--main ${SafeProjectName}		
--swf9 Export/${ProjectName}.swf
+}]]></HaxeFile>			
+				<HaxeFile name="${ProjectName}.hxml" AddStandardHeader="True">
+<![CDATA[-cp src
+-main ${ModuleName}		
+-swf bin/${ProjectName}.swf
 -swf-header 550:400:30:FFFFFF
--swf-version 11]]></File>
+-swf-version 11]]></HaxeFile>
             </Files>
         </Project>
     </Combine>

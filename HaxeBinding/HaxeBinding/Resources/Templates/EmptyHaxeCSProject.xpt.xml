@@ -2,11 +2,11 @@
 <Template Originator="Joshua Granick">
         
     <TemplateConfiguration>
-        <_Name>Empty Haxe/PHP Project</_Name>
+        <_Name>Empty Haxe/CSharp Project</_Name>
         <_Category>Haxe</_Category>
         <Icon>fd-project</Icon>
         <LanguageName>Haxe</LanguageName>
-        <_Description>Creates an empty Haxe/PHP project</_Description>
+        <_Description>Creates an empty Haxe/CSharp project</_Description>
     </TemplateConfiguration>
 
     <Combine name="${ProjectName}" directory=".">
@@ -38,7 +38,7 @@ class ${ModuleName} {
 				<HaxeFile name="${ProjectName}.hxml" AddStandardHeader="True">
 <![CDATA[-cp src
 -main ${ModuleName}
--php bin]]></HaxeFile>
+-cs bin]]></HaxeFile>
             </Files>
         </Project>
     </Combine>

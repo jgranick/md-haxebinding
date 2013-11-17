@@ -45,13 +45,19 @@
 		<FileTemplate id="EmptyHaxeSourceFile" resource="EmptyHaxeSourceFile.xft.xml" />
 		<FileTemplate id="EmptyOpenFLProjectXMLSourceFile" resource="EmptyOpenFLProjectXMLFile.xft.xml" />
 	</Extension>
-	
+
+	<Extension path="/MonoDevelop/Ide/FileTemplateTypes">
+		<FileTemplateType name="HaxeFile" class="HaxeBinding.HaxeFileDescriptionTemplate"/>
+	</Extension>
+
 	<Extension path="/MonoDevelop/Ide/ProjectTemplates">
 		<ProjectTemplate id="EmptyHaxeCPPProject" resource="EmptyHaxeCPPProject.xpt.xml" />
 		<ProjectTemplate id="EmptyHaxeFlashProject" resource="EmptyHaxeFlashProject.xpt.xml" />
 		<ProjectTemplate id="EmptyHaxeJSProject" resource="EmptyHaxeJSProject.xpt.xml" />
 		<ProjectTemplate id="EmptyHaxeNekoProject" resource="EmptyHaxeNekoProject.xpt.xml" />
 		<ProjectTemplate id="EmptyHaxePHPProject" resource="EmptyHaxePHPProject.xpt.xml" />
+		<ProjectTemplate id="EmptyHaxeCSProject" resource="EmptyHaxeCSProject.xpt.xml" />
+		<ProjectTemplate id="EmptyHaxeJavaProject" resource="EmptyHaxeJavaProject.xpt.xml" />
 		<ProjectTemplate id="EmptyOpenFLProject" resource="EmptyOpenFLProject.xpt.xml" />
 	</Extension>
 	

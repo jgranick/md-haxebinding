@@ -88,7 +88,6 @@
     <Compile Include="HaxeBinding\Languages\Gui\HaxeOptionsPanel.cs" />
     <Compile Include="HaxeBinding\Languages\Gui\HaxeParameterDataProvider.cs" />
     <Compile Include="HaxeBinding\Languages\Gui\HaxeTextEditorCompletion.cs" />
-    <Compile Include="HaxeBinding\Projects\HaxeExecutionCommand.cs" />
     <Compile Include="HaxeBinding\Projects\HaxeProject.cs" />
     <Compile Include="HaxeBinding\Projects\HaxeProjectBinding.cs" />
     <Compile Include="HaxeBinding\Projects\HaxeProjectConfiguration.cs" />
@@ -100,6 +99,10 @@
     <Compile Include="HaxeBinding\Projects\Gui\HaxeProjectOptionsPanel.cs" />
     <Compile Include="HaxeBinding\Tools\HaxeCompilerManager.cs" />
     <Compile Include="HaxeBinding\Tools\OpenFLCommandLineToolsManager.cs" />
+    <Compile Include="HaxeBinding\Tools\HaxeExecutionCommand.cs" />
+    <Compile Include="HaxeBinding\Resources\Templates\HaxeFileDescriptionTemplate.cs">
+      <DeployService-Deploy>True</DeployService-Deploy>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Manifest.addin.xml">
@@ -137,6 +140,12 @@
     <EmbeddedResource Include="HaxeBinding\Resources\Icons\flashdevelop-overlay-16.png" />
     <EmbeddedResource Include="HaxeBinding\Resources\Icons\flashdevelop-overlay-32.png" />
     <EmbeddedResource Include="HaxeBinding\Resources\SyntaxModes\HaxeSyntaxHighlightingMode.xml" />
+    <EmbeddedResource Include="HaxeBinding\Resources\Templates\EmptyHaxeCSProject.xpt.xml">
+      <LogicalName>EmptyHaxeCSProject.xpt.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HaxeBinding\Resources\Templates\EmptyHaxeJavaProject.xpt.xml">
+      <LogicalName>EmptyHaxeJavaProject.xpt.xml</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

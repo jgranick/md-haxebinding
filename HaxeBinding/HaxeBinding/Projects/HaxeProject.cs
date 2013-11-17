@@ -39,6 +39,10 @@ namespace MonoDevelop.HaxeBinding.Projects
 			set { mTargetHXMLFile = value; }
 		}
 
+		public string ModuleName {
+			get;
+			private set;
+		}
 
 		public HaxeProject () : base()
 		{
@@ -68,6 +72,8 @@ namespace MonoDevelop.HaxeBinding.Projects
 				AdditionalArguments = GetOptionAttribute (info, projectOptions, "AdditionalArguments");
 				
 			}
+
+			ModuleName = info.ProjectName.Substring (0, 1).ToUpper () + info.ProjectName.Substring (1);
 			
 			HaxeProjectConfiguration configuration;
 			
@@ -82,8 +88,7 @@ namespace MonoDevelop.HaxeBinding.Projects
 			//configuration.Platform = target;
 			Configurations.Add (configuration);
 		}
-		
-		
+
 		public override SolutionItemConfiguration CreateConfiguration (string name)
 		{
 			HaxeProjectConfiguration conf = new HaxeProjectConfiguration ();
@@ -116,9 +121,9 @@ namespace MonoDevelop.HaxeBinding.Projects
 		{
 			string value = projectOptions.Attributes [attributeName].InnerText;
 			value = value.Replace ("${ProjectName}", info.ProjectName);
+			value = value.Replace ("${ModuleName}", ModuleName);
 			return value;
 		}
-		
 		
 		public override bool IsCompileable (string fileName)
 		{
