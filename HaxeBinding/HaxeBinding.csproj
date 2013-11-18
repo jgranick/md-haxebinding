@@ -6,7 +6,7 @@
     <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{FEFA271B-2C35-413A-A50F-72D640EFB73B}</ProjectGuid>
-    <ProjectTypeGuids>{7DBEB09D-BB9F-4D92-A141-A009135475EF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectTypeGuids>{7DBEB09D-BB9F-4D92-A141-A009135475EF};{9E18EBAE-25A0-4CB9-A1B3-A3F6F2C5B359}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <RootNamespace>HaxeBinding</RootNamespace>
     <AssemblyName>HaxeBinding</AssemblyName>
@@ -43,14 +43,6 @@
     </Reference>
     <Reference Include="ICSharpCode.NRefactory">
     </Reference>
-    <Reference Include="gtk-sharp">
-    </Reference>
-    <Reference Include="glib-sharp">
-    </Reference>
-    <Reference Include="gdk-sharp">
-    </Reference>
-    <Reference Include="pango-sharp">
-    </Reference>
     <Reference Include="Mono.Cairo" />
     <Reference Include="Mono.Debugging, Version=0.0.0.0, Culture=neutral, PublicKeyToken=5e9ce85b0923c84f">
       <Private>False</Private>
@@ -68,6 +60,10 @@
     <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
       <Private>False</Private>
     </Reference>
+    <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -76,10 +72,6 @@
     <Compile Include="HaxeBinding\Debugger\HxcppDbgSession.cs" />
     <Compile Include="HaxeBinding\Debugger\HxcppDebuggerFactory.cs" />
     <Compile Include="HaxeBinding\Debugger\HxcppDebuggerStartInfo.cs" />
-    <Compile Include="HaxeBinding\gtk-gui\generated.cs" />
-    <Compile Include="HaxeBinding\gtk-gui\MonoDevelop.HaxeBinding.Languages.Gui.HaxeOptionsWidget.cs" />
-    <Compile Include="HaxeBinding\gtk-gui\MonoDevelop.HaxeBinding.Projects.Gui.HaxeOutputOptionsWidget.cs" />
-    <Compile Include="HaxeBinding\gtk-gui\MonoDevelop.HaxeBinding.Projects.Gui.HaxeProjectOptionsWidget.cs" />
     <Compile Include="HaxeBinding\Helpers\PathHelper.cs" />
     <Compile Include="HaxeBinding\Highlighting\HaxeSyntaxMode.cs" />
     <Compile Include="HaxeBinding\Languages\HaxeLanguageBinding.cs" />
@@ -103,6 +95,10 @@
     <Compile Include="HaxeBinding\Resources\Templates\HaxeFileDescriptionTemplate.cs">
       <DeployService-Deploy>True</DeployService-Deploy>
     </Compile>
+    <Compile Include="gtk-gui\generated.cs" />
+    <Compile Include="gtk-gui\MonoDevelop.HaxeBinding.Languages.Gui.HaxeOptionsWidget.cs" />
+    <Compile Include="gtk-gui\MonoDevelop.HaxeBinding.Projects.Gui.HaxeOutputOptionsWidget.cs" />
+    <Compile Include="gtk-gui\MonoDevelop.HaxeBinding.Projects.Gui.HaxeProjectOptionsWidget.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Manifest.addin.xml">
@@ -146,12 +142,12 @@
     <EmbeddedResource Include="HaxeBinding\Resources\Templates\EmptyHaxeJavaProject.xpt.xml">
       <LogicalName>EmptyHaxeJavaProject.xpt.xml</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="gtk-gui\gui.stetic">
+      <LogicalName>gui.stetic</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="HaxeBinding\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="HaxeBinding\gtk-gui\gui.stetic" />
   </ItemGroup>
 </Project>
