@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<Template Originator="Joshua Granick">
+        
+    <TemplateConfiguration>
+        <_Name>Empty Haxe/Java Project</_Name>
+        <_Category>Haxe</_Category>
+        <Icon>fd-project</Icon>
+        <LanguageName>Haxe</LanguageName>
+        <_Description>Creates an empty Haxe/Java project</_Description>
+    </TemplateConfiguration>
+
+    <Combine name="${ProjectName}" directory=".">
+        <Project name="${ProjectName}" directory="." type="Haxe">
+            <Options TargetHXMLFile="${ProjectName}.hxml" />
+            <Files>
+                <HaxeFile name="src/${ModuleName}.hx" AddStandardHeader="True">
+<![CDATA[package;
+
+/**
+ * ...
+ * @author ${AuthorName}
+ */
+class ${ModuleName} {
+	
+	public function new () {
+		
+		
+		
+	}
+	
+	static function main () {
+		
+		new ${ModuleName} ();
+		
+	}
+
+}]]></HaxeFile>
+				<HaxeFile name="${ProjectName}.hxml" AddStandardHeader="True">
+<![CDATA[-cp src
+-main ${ModuleName}
+-java bin]]></HaxeFile>
+            </Files>
+        </Project>
+    </Combine>
+</Template>

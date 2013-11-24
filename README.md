@@ -1,3 +1,10 @@
+Warning
+=======
+
+Current version is for nightly builds (3.1.0 haxe candidate)
+
+That's for of original md_haxebinding
+
 Introduction
 ============
 
@@ -6,40 +13,27 @@ The "Haxe Language Binding" is an initial step towards bringing the functionalit
 
 Since both MonoDevelop and FlashDevelop share a common language (C#), extending MonoDevelop provides an opportunity to port functionality, while building on a mature, stable editor.
 
-For more background on the project, please feel free to read:
-	
-http://www.joshuagranick.com/blog/2012/04/06/flashdevelop-for-maclinux-part-1/
-
 
 
 Installation
 ------------
 
 
-You can install this add-in using the "Add-in Manager" from within MonoDevelop.
+You can install this add-in using the "Add-in Manager" from within MonoDevelop. That's preffered way to do it.
 
-Previous versions are compatible with MonoDevelop 2.8, which is the latest version in the Ubuntu repositories.
+The current version is designed to support MonoDevelop 4.0.
 
-The current version is designed to support MonoDevelop 3.0.
-
-You can install MonoDevelop 3.0 in Ubuntu using the "keks9n" PPA:
-	
-
-	sudo add-apt-repository ppa:keks9n/monodevelop-latest
-	sudo apt-get install monodevelop
-	
-
-You can find instructions for other Linux distributions or download MonoDevelop 2.8 for Mac or Windows, here:
-
-	
 http://www.monodevelop.com/download
-	
 
 If you would like to help develop the add-in, you should clone this repository then add a symlink between the "MonoDevelop.HaxeBinding.dll" file under /HaxBinding/bin/Debug and the /LocalInstall/Addins directory.
 
-On Linux this is located at "~/.local/share/MonoDevelop-3.0/LocalInstall/Addins". Create the directory if it does not exist.
+Or you can run addin directly from MonoDevelop.
 
-On Mac it is located at "~/Library/Application Support/MonoDevelop-3.0/LocalInstall/Addins" and on Windows it is "C:\Users\(your user name)\AppData\Local\MonoDevelop-3.0\LocalInstall\Addins" 
+To open solution Addin Maker should be installed. This addon is available from MonoDevelop addins repository, but only in windows repo. So, if you are developing in non-Windows os, you should add http://addins.monodevelop.com/Stable/Windows/4.0.12/root.mrep to your repos.
+
+On Linux this is located at "~/.local/share/MonoDevelop-4.0/LocalInstall/Addins". Create the directory if it does not exist.
+
+On Mac it is located at "~/Library/Application Support/MonoDevelop-4.0/LocalInstall/Addins" and on Windows it is "C:\Users\(your user name)\AppData\Local\XamarinStudio-4.0\LocalInstall\Addins" 
 
 
 
@@ -47,27 +41,16 @@ Supported Features
 ------------------
 
 
-* Project creation for C++, Flash, JS, Neko, PHP and NME (3.2+)
+* Project creation for C++, Flash, JS, Neko, PHP and NME (3.2+) and openfl
 * Haxe language highlighting
 * Haxe compiler-based code completion
 * Build and run support
-* Initial support for C++ debugging
-
-
-Other Notes
------------
-
-
-Code completion for method parameters is not available in MonoDevelop 3.0, as the API was changed. I will try to have this fixed as soon as I am able.
-
-The add-in does support the "compilation server" feature in Haxe 2.09, which caches completion to improve response times. This is performed automatically.
-
-A known limitation of Haxe compiler-based code completion is that it will occur only on a period or a parenthesis. This covers the majority of cases but not all. This may be improved in the future, either with workarounds or with improvements in the Haxe compiler.
 
 
 Feedback
 --------
 
 
-Please feel free to contact me on Twitter (@singmajesty) with any feedback. Thanks!
+Please feel free to contact me on Twitter (@zaynyatyi) or by e-mail (zaynyatyi@gmail.com) with any feedback. Thanks!
+
 

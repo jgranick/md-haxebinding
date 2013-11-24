@@ -5,180 +5,149 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{83A1EED7-C53C-4A24-9173-745D62852C8B}</ProjectGuid>
+    <ProjectGuid>{FEFA271B-2C35-413A-A50F-72D640EFB73B}</ProjectGuid>
+    <ProjectTypeGuids>{7DBEB09D-BB9F-4D92-A141-A009135475EF};{9E18EBAE-25A0-4CB9-A1B3-A3F6F2C5B359}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <RootNamespace>MonoDevelop.HaxeBinding</RootNamespace>
-    <AssemblyName>MonoDevelop.HaxeBinding</AssemblyName>
-    <ReleaseVersion>0.2</ReleaseVersion>
+    <RootNamespace>HaxeBinding</RootNamespace>
+    <AssemblyName>HaxeBinding</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>True</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>False</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>False</ConsolePause>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>none</DebugType>
-    <Optimize>False</Optimize>
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>False</ConsolePause>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="System.Xml" />
-    <Reference Include="Mono.Posix" />
-    <Reference Include="MonoDevelop.Core">
-      <HintPath>\Applications\MonoDevelop.app\Contents\MacOS\lib\monodevelop\bin\MonoDevelop.Core.dll</HintPath>
+    <Reference Include="System.Core" />
+    <Reference Include="Mono.Addins">
     </Reference>
     <Reference Include="MonoDevelop.Core">
-      <HintPath>..\..\..\..\Program Files %28x86%29\MonoDevelop\bin\MonoDevelop.Core.dll</HintPath>
     </Reference>
     <Reference Include="MonoDevelop.Ide">
-      <HintPath>\Applications\MonoDevelop.app\Contents\MacOS\lib\monodevelop\bin\MonoDevelop.Ide.dll</HintPath>
-    </Reference>
-    <Reference Include="MonoDevelop.Ide">
-      <HintPath>..\..\..\..\Program Files %28x86%29\MonoDevelop\bin\MonoDevelop.Ide.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSharpCode.NRefactory">
-      <HintPath>\Applications\MonoDevelop.app\Contents\MacOS\lib\monodevelop\bin\ICSharpCode.NRefactory.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSharpCode.NRefactory">
-      <HintPath>..\..\..\..\Program Files %28x86%29\MonoDevelop\bin\ICSharpCode.NRefactory.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.TextEditor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>\Applications\MonoDevelop.app\Contents\MacOS\lib\monodevelop\bin\Mono.TextEditor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="MonoDevelop.DesignerSupport, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>\Applications\MonoDevelop.app\Contents\MacOS\lib\monodevelop\AddIns\MonoDevelop.DesignerSupport\MonoDevelop.DesignerSupport.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="MonoDevelop.Refactoring, Version=2.6.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>\Applications\MonoDevelop.app\Contents\MacOS\lib\monodevelop\AddIns\MonoDevelop.Refactoring\MonoDevelop.Refactoring.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Mono.TextEditor">
-      <HintPath>..\..\..\..\Program Files %28x86%29\MonoDevelop\bin\Mono.TextEditor.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.NRefactory">
+    </Reference>
+    <Reference Include="Mono.Cairo" />
+    <Reference Include="Mono.Debugging, Version=0.0.0.0, Culture=neutral, PublicKeyToken=5e9ce85b0923c84f">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Mono.Posix" />
+    <Reference Include="MonoDevelop.Debugger, Version=2.6.0.0, Culture=neutral">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="MonoDevelop.Refactoring, Version=2.6.0.0, Culture=neutral">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="MonoDevelop.SourceEditor2, Version=2.6.0.0, Culture=neutral">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="HaxeBinding\Debugger\HxcppBacktrace.cs" />
+    <Compile Include="HaxeBinding\Debugger\HxcppCommandResult.cs" />
+    <Compile Include="HaxeBinding\Debugger\HxcppDbgSession.cs" />
+    <Compile Include="HaxeBinding\Debugger\HxcppDebuggerFactory.cs" />
+    <Compile Include="HaxeBinding\Debugger\HxcppDebuggerStartInfo.cs" />
+    <Compile Include="HaxeBinding\Helpers\PathHelper.cs" />
+    <Compile Include="HaxeBinding\Highlighting\HaxeSyntaxMode.cs" />
+    <Compile Include="HaxeBinding\Languages\HaxeLanguageBinding.cs" />
+    <Compile Include="HaxeBinding\Languages\HXMLLanguageBinding.cs" />
+    <Compile Include="HaxeBinding\Languages\Gui\HaxeCompletionData.cs" />
+    <Compile Include="HaxeBinding\Languages\Gui\HaxeOptionsPanel.cs" />
+    <Compile Include="HaxeBinding\Languages\Gui\HaxeParameterDataProvider.cs" />
+    <Compile Include="HaxeBinding\Languages\Gui\HaxeTextEditorCompletion.cs" />
+    <Compile Include="HaxeBinding\Projects\HaxeProject.cs" />
+    <Compile Include="HaxeBinding\Projects\HaxeProjectBinding.cs" />
+    <Compile Include="HaxeBinding\Projects\HaxeProjectConfiguration.cs" />
+    <Compile Include="HaxeBinding\Projects\OpenFLExecutionCommand.cs" />
+    <Compile Include="HaxeBinding\Projects\OpenFLProject.cs" />
+    <Compile Include="HaxeBinding\Projects\OpenFLProjectBinding.cs" />
+    <Compile Include="HaxeBinding\Projects\OpenFLProjectConfiguration.cs" />
+    <Compile Include="HaxeBinding\Projects\Gui\HaxeOutputOptionsPanel.cs" />
+    <Compile Include="HaxeBinding\Projects\Gui\HaxeProjectOptionsPanel.cs" />
+    <Compile Include="HaxeBinding\Tools\HaxeCompilerManager.cs" />
+    <Compile Include="HaxeBinding\Tools\OpenFLCommandLineToolsManager.cs" />
+    <Compile Include="HaxeBinding\Tools\HaxeExecutionCommand.cs" />
+    <Compile Include="HaxeBinding\Resources\Templates\HaxeFileDescriptionTemplate.cs">
+      <DeployService-Deploy>True</DeployService-Deploy>
+    </Compile>
     <Compile Include="gtk-gui\generated.cs" />
-    <Compile Include="Projects\HaxeProject.cs" />
-    <Compile Include="Projects\HaxeProjectBinding.cs" />
-    <Compile Include="Projects\HaxeProjectConfiguration.cs" />
-    <Compile Include="Projects\NMEProject.cs" />
-    <Compile Include="Projects\NMEProjectBinding.cs" />
-    <Compile Include="Projects\NMEProjectConfiguration.cs" />
-    <Compile Include="Projects\Gui\HaxeOutputOptionsPanel.cs" />
-    <Compile Include="Projects\Gui\HaxeProjectOptionsPanel.cs" />
-    <Compile Include="Projects\Gui\NMEOutputOptionsPanel.cs" />
-    <Compile Include="Projects\Gui\NMEProjectOptionsPanel.cs" />
-    <Compile Include="Languages\HaxeLanguageBinding.cs" />
-    <Compile Include="Languages\NMMLLanguageBinding.cs" />
-    <Compile Include="Languages\Gui\HaxeOptionsPanel.cs" />
-    <Compile Include="Languages\Gui\HaxeTextEditorCompletion.cs" />
     <Compile Include="gtk-gui\MonoDevelop.HaxeBinding.Languages.Gui.HaxeOptionsWidget.cs" />
-    <Compile Include="gtk-gui\MonoDevelop.HaxeBinding.Projects.Gui.NMEOutputOptionsWidget.cs" />
-    <Compile Include="gtk-gui\MonoDevelop.HaxeBinding.Projects.Gui.NMEProjectOptionsWidget.cs" />
     <Compile Include="gtk-gui\MonoDevelop.HaxeBinding.Projects.Gui.HaxeOutputOptionsWidget.cs" />
-    <Compile Include="Tools\NMECommandLineToolsManager.cs" />
-    <Compile Include="Helpers\PathHelper.cs" />
-    <Compile Include="Languages\Gui\HaxeParameterDataProvider.cs" />
-    <Compile Include="Languages\HXMLLanguageBinding.cs" />
     <Compile Include="gtk-gui\MonoDevelop.HaxeBinding.Projects.Gui.HaxeProjectOptionsWidget.cs" />
-    <Compile Include="Tools\HaxeCompilerManager.cs" />
-    <Compile Include="Projects\OpenFLProject.cs" />
-    <Compile Include="Projects\OpenFLProjectBinding.cs" />
-    <Compile Include="Projects\OpenFLProjectConfiguration.cs" />
-    <Compile Include="Tools\OpenFLCommandLineToolsManager.cs" />
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <EmbeddedResource Include="Properties\Manifest.addin.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HaxeBinding\Resources\Templates\EmptyHaxeCPPProject.xpt.xml">
+      <LogicalName>EmptyHaxeCPPProject.xpt.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HaxeBinding\Resources\Templates\EmptyHaxeFlashProject.xpt.xml">
+      <LogicalName>EmptyHaxeFlashProject.xpt.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HaxeBinding\Resources\Templates\EmptyHaxeJSProject.xpt.xml">
+      <LogicalName>EmptyHaxeJSProject.xpt.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HaxeBinding\Resources\Templates\EmptyHaxeNekoProject.xpt.xml">
+      <LogicalName>EmptyHaxeNekoProject.xpt.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HaxeBinding\Resources\Templates\EmptyHaxePHPProject.xpt.xml">
+      <LogicalName>EmptyHaxePHPProject.xpt.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HaxeBinding\Resources\Templates\EmptyHaxeSourceFile.xft.xml">
+      <LogicalName>EmptyHaxeSourceFile.xft.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HaxeBinding\Resources\Templates\EmptyOpenFLProject.xpt.xml">
+      <LogicalName>EmptyOpenFLProject.xpt.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HaxeBinding\Resources\Templates\EmptyOpenFLProjectXMLFile.xft.xml">
+      <LogicalName>EmptyOpenFLProjectXMLFile.xft.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HaxeBinding\Resources\SyntaxModes\HaxeSyntaxMode.xml" />
+    <EmbeddedResource Include="HaxeBinding\Resources\Icons\flashdevelop-icon-16.png" />
+    <EmbeddedResource Include="HaxeBinding\Resources\Icons\flashdevelop-icon-22.png" />
+    <EmbeddedResource Include="HaxeBinding\Resources\Icons\flashdevelop-icon-24.png" />
+    <EmbeddedResource Include="HaxeBinding\Resources\Icons\flashdevelop-icon-32.png" />
+    <EmbeddedResource Include="HaxeBinding\Resources\Icons\flashdevelop-overlay-16.png" />
+    <EmbeddedResource Include="HaxeBinding\Resources\Icons\flashdevelop-overlay-32.png" />
+    <EmbeddedResource Include="HaxeBinding\Resources\SyntaxModes\HaxeSyntaxHighlightingMode.xml" />
+    <EmbeddedResource Include="HaxeBinding\Resources\Templates\EmptyHaxeCSProject.xpt.xml">
+      <LogicalName>EmptyHaxeCSProject.xpt.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HaxeBinding\Resources\Templates\EmptyHaxeJavaProject.xpt.xml">
+      <LogicalName>EmptyHaxeJavaProject.xpt.xml</LogicalName>
+    </EmbeddedResource>
     <EmbeddedResource Include="gtk-gui\gui.stetic">
       <LogicalName>gui.stetic</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="HaxeBinding.addin.xml" />
-    <EmbeddedResource Include="Resources\SyntaxModes\HaxeSyntaxMode.xml">
-      <LogicalName>HaxeSyntaxMode.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Templates\EmptyHaxeSourceFile.xft.xml">
-      <LogicalName>EmptyHaxeSourceFile.xft.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Icons\flashdevelop-icon-16.png">
-      <LogicalName>flashdevelop-icon-16.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Icons\flashdevelop-icon-22.png">
-      <LogicalName>flashdevelop-icon-22.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Icons\flashdevelop-icon-24.png">
-      <LogicalName>flashdevelop-icon-24.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Icons\flashdevelop-icon-32.png">
-      <LogicalName>flashdevelop-icon-32.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Icons\flashdevelop-overlay-16.png">
-      <LogicalName>flashdevelop-overlay-16.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Icons\flashdevelop-overlay-32.png">
-      <LogicalName>flashdevelop-overlay-32.png</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Templates\EmptyNMEProject.xpt.xml">
-      <LogicalName>EmptyNMEProject.xpt.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Templates\EmptyNMMLFile.xft.xml">
-      <LogicalName>EmptyNMMLFile.xft.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\SyntaxModes\FlashDevelopStyle.xml">
-      <LogicalName>FlashDevelopStyle.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Templates\EmptyHaxeFlashProject.xpt.xml">
-      <LogicalName>EmptyHaxeFlashProject.xpt.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Templates\EmptyHaxeCPPProject.xpt.xml">
-      <LogicalName>EmptyHaxeCPPProject.xpt.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Templates\EmptyHaxeJSProject.xpt.xml">
-      <LogicalName>EmptyHaxeJSProject.xpt.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Templates\EmptyHaxeNekoProject.xpt.xml">
-      <LogicalName>EmptyHaxeNekoProject.xpt.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Templates\EmptyHaxePHPProject.xpt.xml">
-      <LogicalName>EmptyHaxePHPProject.xpt.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\SyntaxModes\NMMLSyntaxMode.xml">
-      <LogicalName>NMMLSyntaxMode.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Templates\EmptyOpenFLProject.xpt.xml">
-      <LogicalName>EmptyOpenFLProject.xpt.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Templates\EmptyOpenFLProjectXMLFile.xft.xml">
-      <LogicalName>EmptyOpenFLProjectXMLFile.xft.xml</LogicalName>
-    </EmbeddedResource>
   </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="Projects\" />
-    <Folder Include="Projects\Gui\" />
-    <Folder Include="Languages\" />
-    <Folder Include="Languages\Gui\" />
-    <Folder Include="Resources\" />
-    <Folder Include="Resources\Icons\" />
-    <Folder Include="Resources\Templates\" />
-    <Folder Include="Resources\SyntaxModes\" />
-    <Folder Include="Tools\" />
-    <Folder Include="Helpers\" />
+    <Folder Include="HaxeBinding\" />
   </ItemGroup>
 </Project>

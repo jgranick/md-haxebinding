@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<Template Originator="Joshua Granick">
+        
+    <TemplateConfiguration>
+        <_Name>Empty Haxe/Flash Project</_Name>
+        <_Category>Haxe</_Category>
+        <Icon>fd-project</Icon>
+        <LanguageName>Haxe</LanguageName>
+        <_Description>Creates an empty Haxe/Flash project</_Description>
+    </TemplateConfiguration>
+
+    <Combine name="${ProjectName}" directory=".">
+        <Project name="${ProjectName}" directory="." type="Haxe">
+            <Options TargetHXMLFile="${ProjectName}.hxml" />
+            <Files>
+                <HaxeFile name="src/${ModuleName}.hx" AddStandardHeader="True">
+<![CDATA[package;
+
+import flash.display.Sprite;
+import flash.Lib;
+
+/**
+ * ...
+ * @author ${AuthorName}
+ */
+class ${ModuleName} extends Sprite {
+	
+	public function new () {
+		
+		super ();
+		
+		
+		
+	}
+	
+	static function main () {
+		
+		Lib.current.addChild (new ${ModuleName} ());
+		
+	}
+
+}]]></HaxeFile>			
+				<HaxeFile name="${ProjectName}.hxml" AddStandardHeader="True">
+<![CDATA[-cp src
+-main ${ModuleName}		
+-swf bin/${ProjectName}.swf
+-swf-header 550:400:30:FFFFFF
+-swf-version 11]]></HaxeFile>
+            </Files>
+        </Project>
+    </Combine>
+</Template>

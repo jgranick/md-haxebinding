@@ -11,7 +11,7 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 		private global::Gtk.Label AdditionalArgumentsLabel;
 		private global::Gtk.HBox hbox1;
 		private global::Gtk.Label GtkLabel1;
-		
+
 		protected virtual void Build ()
 		{
 			global::Stetic.Gui.Initialize (this);
@@ -47,7 +47,7 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 			this.AdditionalArgumentsLabel = new global::Gtk.Label ();
 			this.AdditionalArgumentsLabel.Name = "AdditionalArgumentsLabel";
 			this.AdditionalArgumentsLabel.Xalign = 0F;
-			this.AdditionalArgumentsLabel.LabelProp = global::Mono.Unix.Catalog.GetString ("Additional arguments");
+			this.AdditionalArgumentsLabel.LabelProp = "Enable compilation server (just here)";
 			this.table1.Add (this.AdditionalArgumentsLabel);
 			global::Gtk.Table.TableChild w2 = ((global::Gtk.Table.TableChild)(this.table1 [this.AdditionalArgumentsLabel]));
 			w2.XOptions = ((global::Gtk.AttachOptions)(4));
@@ -66,7 +66,7 @@ namespace MonoDevelop.HaxeBinding.Projects.Gui
 			this.frame1.Add (this.GtkAlignment);
 			this.GtkLabel1 = new global::Gtk.Label ();
 			this.GtkLabel1.Name = "GtkLabel1";
-			this.GtkLabel1.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Additional Options</b>");
+			this.GtkLabel1.LabelProp = "Port number (just mine)";
 			this.GtkLabel1.UseMarkup = true;
 			this.frame1.LabelWidget = this.GtkLabel1;
 			this.Add (this.frame1);
