@@ -27,6 +27,10 @@ http://www.monodevelop.com/download
 
 If you would like to help develop the add-in, you should clone this repository then add a symlink between the "MonoDevelop.HaxeBinding.dll" file under /HaxBinding/bin/Debug and the /LocalInstall/Addins directory.
 
+Or you can run addin directly from MonoDevelop.
+
+To open solution Addin Maker should be installed. This addon is available from MonoDevelop addins repository, but only in windows repo. So, if you are developing in non-Windows os, you should add http://addins.monodevelop.com/Stable/Windows/4.0.12/root.mrep to your repos.
+
 On Linux this is located at "~/.local/share/MonoDevelop-4.0/LocalInstall/Addins". Create the directory if it does not exist.
 
 On Mac it is located at "~/Library/Application Support/MonoDevelop-4.0/LocalInstall/Addins" and on Windows it is "C:\Users\(your user name)\AppData\Local\XamarinStudio-4.0\LocalInstall\Addins" 
