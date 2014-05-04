@@ -1,13 +1,12 @@
 using System;
 using System.Xml;
 using MonoDevelop.Ide.CodeCompletion;
-using ICSharpCode.NRefactory.Completion;
 
 
 namespace MonoDevelop.HaxeBinding.Languages.Gui
 {
 
-	public class HaxeParameterDataProvider : IParameterDataProvider
+	public class HaxeParameterDataProvider : ParameterDataProvider
 	{
 		
 		/*public int OverloadCount { get { return 1; } }
@@ -21,9 +20,9 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		private string signature;
 
 		
-		public HaxeParameterDataProvider ()
+		public HaxeParameterDataProvider () : base (0)
 		{
-			
+
 		}
 		
 		
@@ -285,6 +284,12 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 			//return "desc";
 			return "";
 		}
+
+		public override string GetParameterName (int overload, int paramIndex)
+		{
+			//TODO
+			return "";
+		}
 		
 		public string GetParameterDescription (int overload, int paramIndex)
 		{
@@ -298,7 +303,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 			return parameters [paramIndex];
 		}
 
-		public int GetParameterCount (int overload)
+		public override int GetParameterCount (int overload)
 		{
 			/*if (overload >= Count)
 				return -1;
@@ -308,7 +313,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 			return parameters.Length - 1;
 		}
 
-		public bool AllowParameterList (int overload)
+		public override bool AllowParameterList (int overload)
 		{
 			/*if (overload >= Count)
 				return false;
@@ -318,7 +323,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 			return true;
 		}
 		
-		public int Count {
+		public override int Count {
 			get {
 				//return indexers != null ? indexers.Count : 0;
 				//return 0;

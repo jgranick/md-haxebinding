@@ -420,7 +420,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		}
 		
 		
-		public override IParameterDataProvider HandleParameterCompletion (CodeCompletionContext completionContext, char completionChar)
+		public override ParameterDataProvider HandleParameterCompletion (CodeCompletionContext completionContext, char completionChar)
 		{
 			if (mCanRunCompletion)
 			{
