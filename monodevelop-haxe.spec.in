@@ -1,0 +1,63 @@
+#
+# spec file for package monodevelop-haxe
+#
+# Copyright (c) 2011 SUSE LINUX Products GmbH, Nuernberg, Germany.
+#
+# All modifications and additions to the file contributed by third parties
+# remain the property of their copyright owners, unless otherwise agreed
+# upon. The license for this file, and modifications and additions to the
+# file, is the same license as for the pristine package itself (unless the
+# license for the pristine package is not an Open Source License, in which
+# case the license is the MIT License). An "Open Source License" is a
+# license that conforms to the Open Source Definition (Version 1.9)
+# published by the Open Source Initiative.
+
+# Please submit bugfixes or comments via http://bugs.opensuse.org/
+#
+
+
+
+Name:           monodevelop-haxe
+Version:        @VERSION@
+Release:        6
+License:        GPLv2+
+BuildRoot:      %{_tmppath}/%{name}-%{version}-build
+AutoReqProv:    on
+BuildArch:      noarch
+Url:            http://www.monodevelop.com
+Source0:        %{name}-%{version}.tar.bz2
+BuildRequires:  mono-devel monodevelop >= %{version}
+Summary:        Monodevelop Haxe Addin
+Group:          Development/Languages/Mono
+
+%description
+Haxe language integration with MonoDevelop.
+
+%files -f %{name}.lang
+%defattr(-, root, root)
+%{_datadir}/pkgconfig/monodevelop-haxe.pc
+%{_prefix}/lib/monodevelop/AddIns/HaxeBinding/HaxeBinding.dll*
+%dir %{_prefix}/lib/monodevelop/AddIns/HaxeBinding
+%dir %{_prefix}/lib/monodevelop/AddIns/HaxeBinding/locale
+%dir %{_prefix}/lib/monodevelop/AddIns/HaxeBinding/locale/*
+%dir %{_prefix}/lib/monodevelop/AddIns/HaxeBinding/locale/*/*
+
+%prep
+%setup -q
+
+%build
+%{?env_options}
+./configure --prefix=%{_prefix}
+make
+
+%install
+%{?env_options}
+make install DESTDIR=%{buildroot}
+mkdir -p %{buildroot}%{_datadir}/pkgconfig
+mv %{buildroot}%{_prefix}/lib/pkgconfig/*.pc %{buildroot}%{_datadir}/pkgconfig
+%find_lang %{name}
+
+%clean
+rm -rf %{buildroot}
+
+%changelog

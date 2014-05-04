@@ -1,0 +1,6 @@
+Name: HaxeBinding
+Description: HaxeBinding
+Version: 
+
+Requires: 
+Libs: -r:@expanded_libdir@/@PACKAGE@/HaxeBinding.dll

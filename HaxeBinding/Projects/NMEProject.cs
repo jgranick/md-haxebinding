@@ -148,6 +148,14 @@ namespace MonoDevelop.HaxeBinding.Projects
 		}
 		
 		
+		public override IEnumerable<string> GetProjectTypes ()
+		{
+			yield return "NME";
+			//foreach (var t in base.GetProjectTypes ())
+				//yield return t;
+		}
+		
+		
 		public override bool IsCompileable (string fileName)
 		{
 			return true;

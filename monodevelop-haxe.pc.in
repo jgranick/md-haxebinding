@@ -1,0 +1,8 @@
+Name: HaxeBinding
+Description: HaxeBinding
+Version: 0.1
+
+libdir=@prefix@/lib/monodevelop
+
+Requires: 
+Libs: -r:${libdir}/AddIns/HaxeBinding.dll
