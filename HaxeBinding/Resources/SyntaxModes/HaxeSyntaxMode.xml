@@ -1,17 +1,10 @@
 <SyntaxMode name="Haxe" mimeTypes="text/x-haxe">
 	
+	<!-- <Property name="LineComment">//</Property> -->
 	<Property name="BlockCommentStart">/*</Property>
 	<Property name="BlockCommentEnd">*/</Property>
-	
-	<Span color = "String" stopateol = "true" escape='\"'>
-		<Begin>"</Begin>
-		<End>"</End>
-	</Span>
-	
-	<Span color = "String" stopateol = "true" escape="\'">
-		<Begin>'</Begin>
-		<End>'</End>
-	</Span>
+	<Property name="StringQuote">"</Property>
+	<Property name="StringQuote">'</Property>
 	
 	
 	<EolSpan color = "Comment(Line)" rule="Comment" tagColor="comment.tag.line">//</EolSpan>
@@ -31,8 +24,48 @@
 		<End>#end</End>
 	</Span>
 	
+	<Span color = "String" rule="String" stopateol = "true" escape='\"'>
+		<Begin>"</Begin>
+		<End>"</End>
+	</Span>
+
+	<Span color = "String" rule="String" stopateol = "true" escape="\'">
+		<Begin>&apos;</Begin>
+		<End>&apos;</End>
+	</Span>
 	
-	<Match color = "Constant(Digit)">CSharpNumber</Match>
+	
+	<Match color = "Number">CSharpNumber</Match>
+	
+	<Keywords color = "Punctuation">
+		<Word>+</Word>
+		<Word>-</Word>
+		<Word>*</Word>
+		<Word>/</Word>
+		<Word>%</Word>
+		<Word>^</Word>
+		
+		<Word>?</Word>
+		<Word>:</Word>
+		
+		<Word>&amp;</Word>
+		
+		<Word>=</Word>
+		<Word>;</Word>
+		<Word>,</Word>
+		<Word>.</Word>
+	</Keywords>
+	
+	<Keywords color = "Punctuation(Brackets)">
+		<Word>(</Word>
+		<Word>)</Word>
+		<Word>&lt;</Word>
+		<Word>&gt;</Word>
+		<Word>{</Word>
+		<Word>}</Word>
+		<Word>[</Word>
+		<Word>]</Word>
+	</Keywords>
 	
 	<Keywords color = "Keyword(Access)">
 		<Word>this</Word>
@@ -70,7 +103,7 @@
 		<Word>catch</Word>
 	</Keywords>
 	
-	<Keywords color = "Constant(Language)">
+	<Keywords color = "Keyword(Constants)">
 		<Word>true</Word>
 		<Word>false</Word>
 		<Word>null</Word>

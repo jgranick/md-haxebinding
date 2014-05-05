@@ -16,13 +16,14 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		private string signature;*/
 		
 		private int offset;
+		private string parameterName;
 		private string[] parameters;
 		private string signature;
 
 		
-		public HaxeParameterDataProvider () : base (0)
+		public HaxeParameterDataProvider (int startOffset) : base (startOffset)
 		{
-
+			offset = startOffset;
 		}
 		
 		
@@ -32,6 +33,9 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 			offset = completionContext.TriggerOffset;
 			
 			signature = data.FirstChild.InnerText.Trim ();
+			
+			//MonoDevelop.Ide.MessageService.ShowError (signature);
+			
 			signature = signature.Replace (" ", "");
 			signature = signature.Replace ("<", "&lt;");
 			signature = signature.Replace (">", "&gt;");
@@ -59,13 +63,29 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 
 			}
 			
+			//string[] splitByColon = signature.Split (':');
+			
+			//if (splitByColon.Length > 1) {
+				
+				//parameterName = splitByColon[0];
+				//signature = splitByColon[1];
+				
+			//}
+			
+			//MonoDevelop.Ide.MessageService.ShowError (parameterName);
+			//MonoDevelop.Ide.MessageService.ShowError (signature);
+			
 			parameters = signature.Split (new string[] { "-&gt;" }, StringSplitOptions.None);
 
 			for (int i = 0; i < parameters.Length; i++) {
 
 				parameters[i] = parameters[i].Replace ("->", " -&gt; ");
+				//MonoDevelop.Ide.MessageService.ShowError (parameters[i]);
 
 			}
+			
+			//MonoDevelop.Ide.MessageService.ShowError (parameters.Length.ToString ());
+			//MonoDevelop.Ide.MessageService.ShowError (parameters.ToString ());
 		}
 		
 		
@@ -158,6 +178,15 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 			
 			parameters = signature.Split (new string[] { "-&gt;" }, StringSplitOptions.None);
 		}*/
+		public override TooltipInformation CreateTooltipInformation (int overload, int currentParameter, bool smartWrap)
+		{
+			//MonoDevelop.Ide.MessageService.ShowError ("CreateTooltipInformation");
+			var tooltipInfo = new TooltipInformation ();
+			tooltipInfo.SignatureMarkup = GetHeading (overload, null, currentParameter);
+			//tooltipInfo.SignatureMarkup = "lskdfjlsdfj";
+			//tooltipInfo.AddCategory ("Parameter", "sdfskdf");
+			return tooltipInfo;
+		}
 		
 		
 		public int StartOffset {
@@ -210,6 +239,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		
 		public string GetHeading (int overload, string[] parameterDescription, int currentParameter)
 		{
+			//MonoDevelop.Ide.MessageService.ShowError ("GetHeading");
 			/*StringBuilder result = new StringBuilder ();
 //			int curLen = 0;
 			result.Append (ambience.GetString (indexers [overload].ReturnType, OutputFlags.ClassBrowserEntries));
@@ -261,6 +291,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		
 		public string GetDescription (int overload, int currentParameter)
 		{
+			//MonoDevelop.Ide.MessageService.ShowError ("GetDescription");
 			/*StringBuilder result = new StringBuilder ();
 			var curParameter = currentParameter >= 0 && currentParameter < indexers [overload].Parameters.Count ? indexers [overload].Parameters [currentParameter] : null;
 			if (curParameter != null) {
@@ -287,12 +318,14 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 
 		public override string GetParameterName (int overload, int paramIndex)
 		{
-			//TODO
+			//MonoDevelop.Ide.MessageService.ShowError ("GetParameterName");
+			//return parameterName;
 			return "";
 		}
 		
 		public string GetParameterDescription (int overload, int paramIndex)
 		{
+			//MonoDevelop.Ide.MessageService.ShowError ("GetParameterDescription");
 			/*var indexer = indexers[overload];
 			
 			if (paramIndex < 0 || paramIndex >= indexer.Parameters.Count)
@@ -305,6 +338,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 
 		public override int GetParameterCount (int overload)
 		{
+			//MonoDevelop.Ide.MessageService.ShowError ((parameters.Length - 1).ToString());
 			/*if (overload >= Count)
 				return -1;
 			var indexer = indexers[overload];
@@ -315,6 +349,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 
 		public override bool AllowParameterList (int overload)
 		{
+			//MonoDevelop.Ide.MessageService.ShowError ("AllowParameterList");
 			/*if (overload >= Count)
 				return false;
 			var lastParam = indexers[overload].Parameters.LastOrDefault ();

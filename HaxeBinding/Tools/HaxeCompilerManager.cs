@@ -316,7 +316,7 @@ namespace MonoDevelop.HaxeBinding.Tools
 		                return String.Join ("\n", lines);
 					}
 	            }
-	            catch(Exception)
+	            catch(Exception ex)
 	            {
 					//MonoDevelop.Ide.MessageService.ShowError (ex.ToString ());
 	                //TraceManager.AddAsync(ex.Message);
@@ -341,6 +341,8 @@ namespace MonoDevelop.HaxeBinding.Tools
 			
 			string result = process.StandardError.ReadToEnd ();
 			process.WaitForExit ();
+			
+			//MonoDevelop.Ide.MessageService.ShowError (result);
 			
 			return result;
 		}

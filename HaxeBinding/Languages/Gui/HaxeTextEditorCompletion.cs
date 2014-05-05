@@ -45,6 +45,31 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		}
 		
 		
+		public override string CompletionLanguage {
+			get {
+				return "Haxe";
+			}
+		}
+		
+		
+		public override ICompletionDataList CodeCompletionCommand (CodeCompletionContext completionContext)
+		{
+			//MonoDevelop.Ide.MessageService.ShowError ("CodeCompletionCommand");
+			// This default implementation of CodeCompletionCommand calls HandleCodeCompletion providing
+			// the char at the cursor position. If it returns a provider, just return it.
+			
+			int pos = completionContext.TriggerOffset;
+			if (pos > 0) {
+				char ch = Editor.GetCharAt (pos - 1);
+				int triggerWordLength = completionContext.TriggerWordLength;
+				ICompletionDataList completionList = HandleCodeCompletion (completionContext, ch, ref triggerWordLength);
+				if (completionList != null)
+					return completionList;
+			}
+			return null;
+		}
+		
+		
 		public override void Dispose ()
 		{
 			try
@@ -422,6 +447,7 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 		
 		public override ParameterDataProvider HandleParameterCompletion (CodeCompletionContext completionContext, char completionChar)
 		{
+			//MonoDevelop.Ide.MessageService.ShowError ("HandleParameterCompletion");
 			if (mCanRunCompletion)
 			{
 				if (mCacheIsObject || completionContext.TriggerOffset < mCacheTriggerOffset || completionContext.TriggerLine != mCacheTriggerLine)
@@ -454,7 +480,8 @@ namespace MonoDevelop.HaxeBinding.Languages.Gui
 					{
 						if (parameterDataProvider == null)
 						{
-							parameterDataProvider = new HaxeParameterDataProvider ();
+							//MonoDevelop.Ide.MessageService.ShowError ("Create Data Provider");
+							parameterDataProvider = new HaxeParameterDataProvider (completionContext.TriggerOffset);
 							parameterDataProvider.Update (completionContext, mCacheXML);
 							return parameterDataProvider;
 						}

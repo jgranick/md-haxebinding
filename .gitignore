@@ -1,3 +1,8 @@
 .DS_Store
 HaxeBinding/bin
 *.userprefs
+config.log
+config.make
+monodevelop-haxe.spec
+monodevelop-haxebinding.pc
+build/
