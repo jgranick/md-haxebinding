@@ -164,18 +164,27 @@ namespace MonoDevelop.HaxeBinding.Tools
 			error = Path.GetTempFileName ();
 			StreamWriter errwr = new StreamWriter (error);
 
-			ProcessStartInfo pinfo = new ProcessStartInfo (cmd, args);
-			pinfo.UseShellExecute = false;
-			pinfo.RedirectStandardOutput = true;
-			pinfo.RedirectStandardError = true;
-			pinfo.WorkingDirectory = wd;
-
-			using (MonoDevelop.Core.Execution.ProcessWrapper pw = Runtime.ProcessService.StartProcess(pinfo, monitor.Log, errwr, null))
+			try
 			{
+				ProcessStartInfo pinfo = new ProcessStartInfo (cmd, args);
+				pinfo.UseShellExecute = false;
+				pinfo.RedirectStandardOutput = true;
+				pinfo.RedirectStandardError = true;
+				pinfo.WorkingDirectory = wd;
+
+				MonoDevelop.Core.Execution.ProcessWrapper pw = Runtime.ProcessService.StartProcess (pinfo, monitor.Log, errwr, null);
 				pw.WaitForOutput ();
 				exitcode = pw.ExitCode;
+
+				errwr.Close ();
 			}
-			errwr.Close ();
+			finally
+			{
+				if (errwr != null)
+				{
+					errwr.Dispose ();
+				}
+			}
 
 			return exitcode;
 		}
